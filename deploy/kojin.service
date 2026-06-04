@@ -1,0 +1,18 @@
+[Unit]
+Description=kojin personal website
+After=network.target
+
+[Service]
+Type=simple
+User=kojin
+WorkingDirectory=/opt/kojin
+ExecStart=/opt/kojin/kojin
+Restart=on-failure
+RestartSec=5
+
+Environment=PORT=3000
+Environment=SITE_URL=https://yourdomain.com
+Environment=SITE_AUTHOR=Your Name
+
+[Install]
+WantedBy=multi-user.target

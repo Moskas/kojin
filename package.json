@@ -1,0 +1,25 @@
+{
+  "name": "kojin",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/server.ts",
+    "build": "bun build --compile --target=bun src/server.ts --outfile kojin",
+    "start": "bun run src/server.ts"
+  },
+  "dependencies": {
+    "exifr": "^7",
+    "gray-matter": "^4",
+    "hono": "^4",
+    "rehype-highlight": "^7",
+    "rehype-stringify": "^10",
+    "remark-parse": "^11",
+    "remark-rehype": "^11",
+    "sharp": "^0.33",
+    "unified": "^11",
+    "unist-util-visit": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
