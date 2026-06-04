@@ -11,7 +11,7 @@ import { buildIndexes } from './content/index'
 
 const app = new Hono()
 
-app.use('/static/*', serveStatic({ root: './' }))
+app.use('/static/*', serveStatic({ root: './src' }))
 
 app.route('/', homeRoute)
 app.route('/blog', blogRoutes)
