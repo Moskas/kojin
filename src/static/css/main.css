@@ -1,21 +1,50 @@
-/* ── font ───────────────────────────────────────────────────────
-   Self-host Terminess in src/static/fonts/ for visitors who
-   don't have it installed:
+/* ── font ───────────────────────────────────────────────────── */
 
-   @font-face {
-     font-family: 'Terminess Nerd Font Mono';
-     src: url('/static/fonts/TerminessNerdFontMono-Regular.ttf');
-     font-weight: 400;
-   }
-   @font-face {
-     font-family: 'Terminess Nerd Font Mono';
-     src: url('/static/fonts/TerminessNerdFontMono-Bold.ttf');
-     font-weight: 700;
-   }
-──────────────────────────────────────────────────────────── */
+/* local() checks for the system-installed font first (which has embedded
+   bitmap glyphs and renders pixel-perfect with -webkit-font-smoothing: none).
+   The url() fallback serves visitors who don't have Terminess installed. */
+@font-face {
+  font-family: 'Terminess';
+  src: local('Terminess Nerd Font Mono'),
+       local('TerminessNFM'),
+       url('/static/fonts/TerminessNerdFontMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Terminess';
+  src: local('Terminess Nerd Font Mono Bold'),
+       local('TerminessNFM-Bold'),
+       url('/static/fonts/TerminessNerdFontMono-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Terminess';
+  src: local('Terminess Nerd Font Mono Italic'),
+       local('TerminessNFM-Italic'),
+       url('/static/fonts/TerminessNerdFontMono-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Terminess';
+  src: local('Terminess Nerd Font Mono Bold Italic'),
+       local('TerminessNFM-BoldItalic'),
+       url('/static/fonts/TerminessNerdFontMono-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: block;
+}
 
 :root {
-  --font: 'Terminess Nerd Font Mono', 'Terminess Nerd Font', Terminus,
+  --font: 'Terminess', 'Terminess Nerd Font Mono', Terminus,
           'Lucida Console', 'Courier New', monospace;
   --col: 72ch;
 
@@ -51,9 +80,19 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* Disable antialiasing — works correctly when the browser uses the
+     system-installed Terminess (embedded bitmap glyphs). Visitors without
+     the font installed will receive the TTF fallback via @font-face and
+     may see aliased outlines; antialiased rendering for that case would
+     require serving a different font stack. */
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: unset;
   font-smooth: never;
+  /* Firefox Linux: the above are ignored; subpixel AA is controlled by
+     system fontconfig. To fix chromatic aberration on dark backgrounds,
+     add to NixOS configuration:
+       fonts.fontconfig.subpixel.rgba = "none"; */
+  text-rendering: optimizeSpeed;
 }
 
 /* ── column layout ──────────────────────────────────────────── */
