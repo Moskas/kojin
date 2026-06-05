@@ -21,6 +21,13 @@ export const BlogList: FC<Props> = ({ posts, activeTag }) => (
       <h1>blog</h1>
     </section>
 
+    {activeTag && (
+      <p class="tag-filter-info">
+        posts tagged with <span class="tag active">{activeTag}</span> [{posts.length}]{' '}
+        <a href="/blog">clear</a>
+      </p>
+    )}
+
     {posts.length === 0 ? (
       <p class="empty">no posts yet</p>
     ) : (
