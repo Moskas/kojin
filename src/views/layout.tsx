@@ -3,9 +3,10 @@ import type { FC, PropsWithChildren } from 'hono/jsx'
 type Props = PropsWithChildren<{
   title: string
   description?: string
+  mainClass?: string
 }>
 
-export const Layout: FC<Props> = ({ title, description, children }) => (
+export const Layout: FC<Props> = ({ title, description, mainClass, children }) => (
   <html lang="en">
     <head>
       <meta charSet="UTF-8" />
@@ -30,7 +31,7 @@ export const Layout: FC<Props> = ({ title, description, children }) => (
           </form>
         </nav>
       </header>
-      <main>{children}</main>
+      <main class={mainClass}>{children}</main>
       <footer>
         <a href="/feed.xml">rss</a>
       </footer>

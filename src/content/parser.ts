@@ -5,6 +5,8 @@ import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 import rehypeHighlight from 'rehype-highlight'
+import rehypeSlug from 'rehype-slug'
+import { visit } from 'unist-util-visit'
 
 export interface Frontmatter {
   title: string
@@ -14,17 +16,38 @@ export interface Frontmatter {
   description?: string
 }
 
+export type TocItem = { depth: number; id: string; text: string }
+
 export interface ParsedContent {
   frontmatter: Frontmatter
   html: string
   slug: string
   filename: string
+  headings: TocItem[]
+}
+
+function collectHeadings() {
+  return (tree: any, file: any) => {
+    const headings: TocItem[] = []
+    visit(tree, 'element', (node: any) => {
+      if (/^h[1-4]$/.test(node.tagName) && node.properties?.id) {
+        const text = (node.children as any[])
+          .filter((c) => c.type === 'text')
+          .map((c) => c.value)
+          .join('')
+        headings.push({ depth: parseInt(node.tagName[1]), id: node.properties.id, text })
+      }
+    })
+    file.data.headings = headings
+  }
 }
 
 const processor = unified()
   .use(remarkParse)
   .use(remarkRehype)
   .use(rehypeHighlight)
+  .use(rehypeSlug)
+  .use(collectHeadings)
   .use(rehypeStringify)
 
 function fileToSlug(filename: string): string {
@@ -42,6 +65,7 @@ async function parseFile(filePath: string): Promise<ParsedContent> {
     html: String(result),
     slug: fileToSlug(filename),
     filename,
+    headings: (result.data.headings as TocItem[]) ?? [],
   }
 }
 

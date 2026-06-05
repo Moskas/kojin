@@ -727,6 +727,96 @@ h3 { font-size: 1rem; }
 
 .empty { color: var(--fg-dim); }
 
+/* ── tag filter indicator ───────────────────────────────────── */
+
+.tag-filter-info {
+  margin: -1rem 0 1.5rem;
+  font-size: 0.875rem;
+  color: var(--fg-dim);
+}
+
+.tag-filter-info a { color: var(--fg-dim); }
+.tag-filter-info a:hover { color: var(--fg); }
+
+.tag.active {
+  color: var(--fg);
+}
+
+/* ── table of contents ──────────────────────────────────────── */
+
+.toc-sidebar,
+.toc-mobile nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.toc-sidebar a,
+.toc-mobile a {
+  color: var(--fg-dim);
+  text-decoration: none;
+  line-height: 1.4;
+  font-size: 0.8rem;
+}
+
+.toc-sidebar a:hover,
+.toc-mobile a:hover { color: var(--fg); }
+
+.toc-sidebar a.active,
+.toc-mobile a.active { color: var(--fg); }
+
+.toc-sidebar a[data-depth="2"],
+.toc-mobile a[data-depth="2"] { padding-left: 1ch; }
+
+.toc-sidebar a[data-depth="3"],
+.toc-mobile a[data-depth="3"] { padding-left: 2ch; }
+
+.toc-sidebar a[data-depth="4"],
+.toc-mobile a[data-depth="4"] { padding-left: 3ch; }
+
+.toc-mobile {
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+}
+
+.toc-mobile summary {
+  cursor: pointer;
+  color: var(--fg-dim);
+  font-size: 0.8rem;
+  user-select: none;
+  list-style: none;
+}
+
+.toc-mobile summary::before { content: '+ '; }
+.toc-mobile[open] summary::before { content: '- '; }
+
+.toc-mobile nav {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ── wide post layout (blog post with ToC sidebar) ──────────── */
+
+@media (min-width: 960px) {
+  .toc-sidebar {
+    position: fixed;
+    top: 3.5rem;
+    /* anchor to the right edge of the centered var(--col) column */
+    left: calc(50vw + var(--col) / 2 + 2rem);
+    width: min(18ch, calc(50vw - var(--col) / 2 - 3rem));
+    max-height: calc(100vh - 4.5rem);
+    overflow-y: auto;
+  }
+
+  .toc-mobile { display: none; }
+}
+
+@media (max-width: 959px) {
+  .toc-sidebar { display: none; }
+}
+
 /* ── responsive ─────────────────────────────────────────────── */
 
 @media (max-width: 600px) {

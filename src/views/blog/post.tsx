@@ -1,6 +1,6 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
-import type { ParsedContent } from '../../content/parser'
+import type { ParsedContent, TocItem } from '../../content/parser'
 
 type Props = {
   post: ParsedContent
@@ -16,9 +16,29 @@ function formatDate(iso: string): string {
   })
 }
 
+const TocLinks: FC<{ items: TocItem[] }> = ({ items }) => (
+  <>
+    {items.map((item) => (
+      <a key={item.id} href={`#${item.id}`} data-depth={item.depth}>
+        {item.text}
+      </a>
+    ))}
+  </>
+)
+
 export const BlogPost: FC<Props> = ({ post, prev, next }) => (
-  <Layout title={post.frontmatter.title} description={post.frontmatter.description}>
+  <Layout
+    title={post.frontmatter.title}
+    description={post.frontmatter.description}
+    mainClass="post-with-toc"
+  >
     <article class="blog-post">
+      <details class="toc-mobile">
+        <summary>contents</summary>
+        <nav>
+          <TocLinks items={post.headings} />
+        </nav>
+      </details>
       <header class="post-header">
         <h1>{post.frontmatter.title}</h1>
         <time dateTime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
@@ -46,5 +66,9 @@ export const BlogPost: FC<Props> = ({ post, prev, next }) => (
         )}
       </nav>
     </article>
+    <nav class="toc-sidebar">
+      <TocLinks items={post.headings} />
+    </nav>
+    <script src="/static/js/toc.js" defer></script>
   </Layout>
 )
