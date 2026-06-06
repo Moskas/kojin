@@ -955,6 +955,144 @@ h3 { font-size: 1rem; }
   background: none;
 }
 
+/* ── now ────────────────────────────────────────────────────── */
+
+.now-section {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.now-section-title {
+  font-size: 0.875rem;
+  font-weight: normal;
+  color: var(--fg-dim);
+  margin: 0 0 1rem;
+}
+
+.now-section-title::before { content: '# '; }
+
+.now-playing {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+}
+
+.now-playing-badge {
+  color: var(--fg-dim);
+  font-size: 0.8rem;
+}
+
+.now-track-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.now-track {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: baseline;
+  gap: 1ch;
+  flex-wrap: wrap;
+}
+
+.now-track .now-timestamp {
+  margin-left: auto;
+}
+
+.now-track-meta {
+  color: var(--fg-dim);
+  font-size: 0.85rem;
+}
+
+.now-anilist-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.now-media-label {
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: var(--fg-dim);
+  margin: 0 0 0.75rem;
+}
+
+.now-media-label::before { content: '## '; }
+
+.now-media-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.now-media-item {
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+.now-media-cover {
+  width: 48px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  align-self: stretch;
+  height: auto;
+}
+
+.now-media-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.875rem;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.now-media-info a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  max-width: 100%;
+}
+
+.now-media-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin: 0.35rem 0 0;
+  padding: 0;
+}
+
+.now-media-stat {
+  display: grid;
+  grid-template-columns: 9ch 1fr;
+  align-items: baseline;
+  gap: 0 1ch;
+  font-size: 0.8rem;
+}
+
+.now-media-stat dt {
+  color: var(--fg-dim);
+}
+
+.now-media-stat dd {
+  margin: 0;
+}
+
+.now-timestamp {
+  color: var(--fg-dim);
+  font-size: 0.8rem;
+}
+
 /* ── responsive ─────────────────────────────────────────────── */
 
 @media (max-width: 600px) {
@@ -963,4 +1101,6 @@ h3 { font-size: 1rem; }
   .post-list--compact .post-item {
     grid-template-columns: 1fr;
   }
+
+
 }

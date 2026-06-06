@@ -83,6 +83,9 @@ All views use Hono JSX (`jsxImportSource: "hono/jsx"` in `tsconfig.json`). HTML 
 | `DB_PATH` | `kojin.db` | SQLite file path |
 | `SITE_URL` | `http://localhost:3000` | Used in Atom feed |
 | `SITE_AUTHOR` | `kojin` | Used in Atom feed |
+| `LASTFM_API_KEY` | — | Last.fm API key (now page) |
+| `LASTFM_USERNAME` | — | Last.fm username (now page) |
+| `ANILIST_USER_ID` | — | AniList numeric user ID (now page) |
 
 ## Deployment
 

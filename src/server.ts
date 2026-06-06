@@ -8,6 +8,7 @@ import { usesRoute } from './routes/uses'
 import { searchRoutes } from './routes/search'
 import { feedRoute } from './routes/feed'
 import { homeRoute } from './routes/home'
+import { nowRoute } from './routes/now'
 import { buildIndexes } from './content/index'
 
 const app = new Hono()
@@ -15,6 +16,7 @@ const app = new Hono()
 app.use('/static/*', serveStatic({ root: './src' }))
 
 app.route('/', homeRoute)
+app.route('/now', nowRoute)
 app.route('/blog', blogRoutes)
 app.route('/garden', gardenRoutes)
 app.route('/photos', photosRoutes)

@@ -21,6 +21,7 @@ export const Layout: FC<Props> = ({ title, description, mainClass, children }) =
         <nav>
           <a href="/" class="site-title">kojin</a>
           <div class="nav-links">
+            <a href="/now">now</a>
             <a href="/blog">blog</a>
             <a href="/garden">garden</a>
             <a href="/photos">photos</a>

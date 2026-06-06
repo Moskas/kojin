@@ -4,3 +4,4 @@ kojin.db
 kojin
 cache/
 .env
+.envrc
