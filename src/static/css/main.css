@@ -153,6 +153,56 @@ nav {
   gap: 2ch;
 }
 
+.nav-end {
+  display: flex;
+  align-items: baseline;
+  gap: 2ch;
+}
+
+.nav-mobile { display: none; }
+
+.nav-group {
+  position: relative;
+}
+
+.nav-group-label {
+  color: var(--fg-dim);
+  font-size: 0.9rem;
+  cursor: default;
+  user-select: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.nav-group:hover .nav-group-label { color: var(--fg); }
+
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: -0.5ch;
+  flex-direction: column;
+  gap: 0.3rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.8rem;
+  padding-top: 0.6rem;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+/* invisible bridge fills the gap between label and border so hover isn't lost */
+.nav-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -0.6rem;
+  left: 0;
+  right: 0;
+  height: 0.6rem;
+}
+
+.nav-group:hover .nav-dropdown { display: flex; }
+
 nav a {
   color: var(--fg-dim);
   text-decoration: none;
@@ -1096,7 +1146,48 @@ h3 { font-size: 1rem; }
 /* ── responsive ─────────────────────────────────────────────── */
 
 @media (max-width: 600px) {
-  .nav-search { display: none; }
+  .nav-links { display: none; }
+  .nav-mobile {
+    display: block;
+    position: relative;
+  }
+
+  .nav-hamburger {
+    color: var(--fg-dim);
+    font-size: 0.9rem;
+    cursor: pointer;
+    list-style: none;
+  }
+  .nav-hamburger::-webkit-details-marker { display: none; }
+  .nav-hamburger::before { content: '+ '; }
+  .nav-mobile[open] .nav-hamburger::before { content: '- '; }
+
+  .nav-mobile-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.8rem;
+    z-index: 10;
+    white-space: nowrap;
+  }
+
+  .nav-mobile-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .nav-mobile-group-label {
+    color: var(--fg-dim);
+    font-size: 0.8rem;
+  }
+
+  .nav-mobile-group a { padding-left: 1ch; }
 
   .post-list--compact .post-item {
     grid-template-columns: 1fr;
