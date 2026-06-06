@@ -15,7 +15,9 @@ export const Layout: FC<Props> = ({ title, description, mainClass, children }) =
       {description && <meta name="description" content={description} />}
       <link rel="stylesheet" href="/static/css/main.css" />
       <link rel="alternate" type="application/atom+xml" href="/feed.xml" title="kojin" />
+      <script dangerouslySetInnerHTML={{ __html: `(function(){var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();` }} />
       <script src="/static/js/nav.js" defer></script>
+      <script src="/static/js/theme.js" defer></script>
     </head>
     <body>
       <header>
@@ -44,6 +46,7 @@ export const Layout: FC<Props> = ({ title, description, mainClass, children }) =
             <form action="/search" class="nav-search" role="search">
               <input type="search" name="q" placeholder="search" aria-label="search site" />
             </form>
+            <button id="theme-toggle" class="theme-toggle" aria-label="auto mode"></button>
             <details class="nav-mobile">
               <summary class="nav-hamburger">menu</summary>
               <div class="nav-mobile-links">

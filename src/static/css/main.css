@@ -53,7 +53,7 @@
     --font:
         "Terminess", "Terminess Nerd Font Mono", Terminus, "Lucida Console",
         "Courier New", monospace;
-    --col: 72ch;
+    --col: 80ch;
 
     /* dark (default) */
     --bg: #000000;
@@ -69,6 +69,20 @@
         --fg-dim: #777777;
         --border: #cccccc;
     }
+}
+
+[data-theme="dark"] {
+    --bg: #000000;
+    --fg: #eeeeee;
+    --fg-dim: #666666;
+    --border: #2a2a2a;
+}
+
+[data-theme="light"] {
+    --bg: #ffffff;
+    --fg: #111111;
+    --fg-dim: #777777;
+    --border: #cccccc;
 }
 
 /* ── reset ──────────────────────────────────────────────────── */
@@ -288,6 +302,27 @@ nav a:hover {
     color: var(--fg-dim);
 }
 
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--fg-dim);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.875rem;
+    padding: 0;
+    line-height: 1;
+}
+
+.theme-toggle:hover {
+    color: var(--fg);
+}
+
+.theme-toggle svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+}
+
 /* ── links ──────────────────────────────────────────────────── */
 
 a {
@@ -372,6 +407,7 @@ h3 {
     text-decoration: none;
 }
 
+
 /* ── blog list ──────────────────────────────────────────────── */
 
 .post-list {
@@ -408,6 +444,14 @@ h3 {
     grid-template-columns: 11ch 1fr;
     align-items: baseline;
     gap: 0 1ch;
+}
+
+.post-item-body {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1ch;
+    min-width: 0;
 }
 
 .post-list--compact .post-item time {
@@ -534,8 +578,6 @@ h3 {
 
 .about {
     margin-bottom: 2.5rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--border);
 }
 
 .about .prose p:last-child {
@@ -1360,6 +1402,11 @@ h3 {
     .nav-links {
         display: none;
     }
+
+    .theme-toggle {
+        order: -1;
+    }
+
     .nav-mobile {
         display: block;
         position: relative;

@@ -25,6 +25,7 @@ export interface PhotoExif {
 export interface Photo {
   filename: string
   base: string
+  date?: string
   thumb: string
   medium: string
   exif?: PhotoExif
@@ -155,7 +156,7 @@ export async function getRecentPhotos(count: number): Promise<Photo[]> {
     const files = await listImageFiles(`${PHOTOS_DIR}/${date}`)
     for (const file of files.slice(0, count - results.length)) {
       const base = path.basename(file, path.extname(file))
-      results.push({ filename: file, base, thumb: `/photos/img/${date}/thumb-${base}.webp`, medium: `/photos/img/${date}/medium-${base}.webp` })
+      results.push({ filename: file, base, date, thumb: `/photos/img/${date}/thumb-${base}.webp`, medium: `/photos/img/${date}/medium-${base}.webp` })
     }
   }
   return results

@@ -36,7 +36,16 @@ export const Home: FC<Props> = ({ recentPosts, aboutHtml, recentPhotos }) => (
             {recentPosts.map((post) => (
               <li key={post.slug} class="post-item">
                 <time dateTime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
-                <a href={`/blog/${post.slug}`}>{post.frontmatter.title}</a>
+                <span class="post-item-body">
+                  <a href={`/blog/${post.slug}`}>{post.frontmatter.title}</a>
+                  {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
+                    <span class="tags">
+                      {post.frontmatter.tags.map((tag) => (
+                        <a key={tag} href={`/blog?tag=${tag}`} class="tag">{tag}</a>
+                      ))}
+                    </span>
+                  )}
+                </span>
               </li>
             ))}
           </ul>
@@ -53,7 +62,7 @@ export const Home: FC<Props> = ({ recentPosts, aboutHtml, recentPhotos }) => (
         ) : (
           <div class="home-photo-strip">
             {recentPhotos.map((photo) => (
-              <a key={photo.base} href="/photos" class="home-photo">
+              <a key={photo.base} href={`/photos#${photo.date}`} class="home-photo">
                 <img src={photo.thumb} alt={photo.base} loading="lazy" decoding="async" />
               </a>
             ))}

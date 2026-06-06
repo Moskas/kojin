@@ -41,7 +41,7 @@ export const PhotoRoll: FC<Props> = ({ days }) => (
     ) : (
       <div class="photo-roll">
         {days.map((day) => (
-          <div key={day.date} class="roll-day">
+          <div key={day.date} id={day.date} class="roll-day">
             <div class="roll-day-header">
               <time dateTime={day.date}>{formatDate(day.date)}</time>
             </div>
