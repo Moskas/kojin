@@ -1,0 +1,12 @@
+---
+name: Noshiro - ThinkPad T480 
+---
+
+My mobile workhorse.
+
+| spec    | value         |
+|---------|---------------|
+| CPU     | Intel i5 8500 |
+| RAM     | 16GB DDR4     |
+| Storage | 256GB NVMe SSD|
+| OS      | NixOS         |

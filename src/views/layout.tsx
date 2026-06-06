@@ -25,6 +25,7 @@ export const Layout: FC<Props> = ({ title, description, mainClass, children }) =
             <a href="/garden">garden</a>
             <a href="/photos">photos</a>
             <a href="/projects">projects</a>
+            <a href="/uses">uses</a>
           </div>
           <form action="/search" class="nav-search" role="search">
             <input type="search" name="q" placeholder="search" aria-label="search site" />

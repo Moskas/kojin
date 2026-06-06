@@ -4,6 +4,7 @@ import { blogRoutes } from './routes/blog'
 import { gardenRoutes } from './routes/garden'
 import { photosRoutes } from './routes/photos'
 import { projectsRoutes } from './routes/projects'
+import { usesRoute } from './routes/uses'
 import { searchRoutes } from './routes/search'
 import { feedRoute } from './routes/feed'
 import { homeRoute } from './routes/home'
@@ -18,6 +19,7 @@ app.route('/blog', blogRoutes)
 app.route('/garden', gardenRoutes)
 app.route('/photos', photosRoutes)
 app.route('/projects', projectsRoutes)
+app.route('/uses', usesRoute)
 app.route('/search', searchRoutes)
 app.route('/feed.xml', feedRoute)
 
