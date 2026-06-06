@@ -33,6 +33,7 @@ export const Layout: FC<Props> = ({ title, description, mainClass, children }) =
             <div class="nav-group">
               <span class="nav-group-label">me</span>
               <div class="nav-dropdown">
+                <a href="/about">about</a>
                 <a href="/now">now</a>
                 <a href="/projects">projects</a>
                 <a href="/uses">uses</a>
@@ -54,6 +55,7 @@ export const Layout: FC<Props> = ({ title, description, mainClass, children }) =
                 </div>
                 <div class="nav-mobile-group">
                   <span class="nav-mobile-group-label">me</span>
+                  <a href="/about">about</a>
                   <a href="/now">now</a>
                   <a href="/projects">projects</a>
                   <a href="/uses">uses</a>

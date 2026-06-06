@@ -4,7 +4,7 @@ import { getRecentPhotos } from '../content/photos'
 import { Home } from '../views/home'
 
 const BLOG_DIR = `${process.cwd()}/content/blog`
-const ABOUT_FILE = `${process.cwd()}/content/about.md`
+const ABOUT_FILE = `${process.cwd()}/content/landing.md`
 
 export const homeRoute = new Hono()
 
