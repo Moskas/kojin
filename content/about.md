@@ -1,4 +1,4 @@
-Hi, I'm **[your name]** — a [your role] based in [your location].
+Hi, I'm **Moskas** — a [your role] based in [your location].
 
 I'm interested in [your interests]. This site is where I write, take notes, and share things I find worth keeping.
 
