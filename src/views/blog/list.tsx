@@ -5,6 +5,11 @@ import type { ParsedContent } from '../../content/parser'
 type Props = {
   posts: ParsedContent[]
   activeTag?: string
+  activeYear?: string
+  allTags: string[]
+  allYears: string[]
+  tagCounts: Record<string, number>
+  yearCounts: Record<string, number>
 }
 
 function formatDate(iso: string): string {
@@ -15,16 +20,57 @@ function formatDate(iso: string): string {
   })
 }
 
-export const BlogList: FC<Props> = ({ posts, activeTag }) => (
+export const BlogList: FC<Props> = ({
+  posts,
+  activeTag,
+  activeYear,
+  allTags,
+  allYears,
+  tagCounts,
+  yearCounts,
+}) => (
   <Layout title="Blog">
     <section class="page-header">
       <h1>blog</h1>
     </section>
 
-    {activeTag && (
+    <div class="blog-filters">
+      <div class="blog-filters-tags">
+        <span class="blog-filters-label">Filter posts by tag:</span>
+        {allTags.map((tag) => (
+          <a
+            key={tag}
+            href={`/blog?tag=${tag}`}
+            class={`tag${activeTag === tag ? ' active' : ''}`}
+          >
+            {tag}({tagCounts[tag]})
+          </a>
+        ))}
+      </div>
+      <div class="blog-filters-years">
+        <span class="blog-filters-label">Filter posts by year:</span>
+        {allYears.map((y) => (
+          <a
+            key={y}
+            href={`/blog?year=${y}`}
+            class={`tag${activeYear === y ? ' active' : ''}`}
+          >
+            {y} ({yearCounts[y]})
+          </a>
+        ))}
+      </div>
+    </div>
+
+    {(activeTag || activeYear) && (
       <p class="tag-filter-info">
-        posts tagged with <span class="tag active">{activeTag}</span> [{posts.length}]{' '}
-        <a href="/blog">clear</a>
+        {activeTag && (
+          <>
+            tagged <span class="tag active">{activeTag}</span>
+          </>
+        )}
+        {activeTag && activeYear && ' · '}
+        {activeYear && <span>{activeYear}</span>}
+        {' '}[{posts.length}] <a href="/blog">clear</a>
       </p>
     )}
 
@@ -36,10 +82,17 @@ export const BlogList: FC<Props> = ({ posts, activeTag }) => (
           <li key={post.slug} class="post-item">
             <time dateTime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
             <a href={`/blog/${post.slug}`}>{post.frontmatter.title}</a>
+            {post.frontmatter.description && (
+              <p class="post-description">{post.frontmatter.description}</p>
+            )}
             {post.frontmatter.tags && (
               <div class="tags">
                 {post.frontmatter.tags.map((tag) => (
-                  <a key={tag} href={`/blog?tag=${tag}`} class={`tag${activeTag === tag ? ' active' : ''}`}>
+                  <a
+                    key={tag}
+                    href={`/blog?tag=${tag}`}
+                    class={`tag${activeTag === tag ? ' active' : ''}`}
+                  >
                     {tag}
                   </a>
                 ))}

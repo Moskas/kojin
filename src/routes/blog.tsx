@@ -9,13 +9,43 @@ export const blogRoutes = new Hono()
 
 blogRoutes.get('/', async (c) => {
   const tag = c.req.query('tag')
-  let posts = await listPosts(BLOG_DIR)
+  const year = c.req.query('year')
+  const allPosts = await listPosts(BLOG_DIR)
 
-  if (tag) {
-    posts = posts.filter((p) => p.frontmatter.tags?.includes(tag))
+  const getYear = (date: unknown): string => {
+    if (!date) return ''
+    if (date instanceof Date) return date.getFullYear().toString()
+    return String(date).trim().slice(0, 4)
   }
 
-  return c.html(<BlogList posts={posts} activeTag={tag} />)
+  const allTags = [...new Set(allPosts.flatMap((p) => p.frontmatter.tags ?? []))].sort()
+  const allYears = [...new Set(allPosts.map((p) => getYear(p.frontmatter.date)))]
+    .filter(Boolean)
+    .sort()
+    .reverse()
+
+  const tagCounts = Object.fromEntries(
+    allTags.map((t) => [t, allPosts.filter((p) => p.frontmatter.tags?.includes(t)).length]),
+  )
+  const yearCounts = Object.fromEntries(
+    allYears.map((y) => [y, allPosts.filter((p) => getYear(p.frontmatter.date) === y).length]),
+  )
+
+  let posts = allPosts
+  if (tag) posts = posts.filter((p) => p.frontmatter.tags?.includes(tag))
+  if (year) posts = posts.filter((p) => getYear(p.frontmatter.date) === year)
+
+  return c.html(
+    <BlogList
+      posts={posts}
+      activeTag={tag}
+      activeYear={year}
+      allTags={allTags}
+      allYears={allYears}
+      tagCounts={tagCounts}
+      yearCounts={yearCounts}
+    />,
+  )
 })
 
 blogRoutes.get('/:slug', async (c) => {
