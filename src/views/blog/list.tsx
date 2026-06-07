@@ -77,7 +77,7 @@ export const BlogList: FC<Props> = ({
     {posts.length === 0 ? (
       <p class="empty">no posts yet</p>
     ) : (
-      <ul class="post-list">
+      <ul class="post-list post-list--separated">
         {posts.map((post) => (
           <li key={post.slug} class="post-item">
             <time dateTime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>

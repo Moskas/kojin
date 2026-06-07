@@ -332,7 +332,8 @@ a {
 }
 
 a:hover {
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-style: dashed;
 }
 
 /* ── headings ───────────────────────────────────────────────── */
@@ -422,11 +423,14 @@ h3 {
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
+}
+
+.post-list--separated .post-item {
     padding: 1rem 0;
     border-bottom: 1px solid var(--border);
 }
 
-.post-item:first-child {
+.post-list--separated .post-item:first-child {
     border-top: 1px solid var(--border);
 }
 
