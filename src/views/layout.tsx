@@ -19,6 +19,7 @@ export const Layout: FC<Props> = ({
       <title>{title} — kojin</title>
       {description && <meta name="description" content={description} />}
       <link rel="stylesheet" href="/static/css/main.css" />
+      <link rel="icon" href="/static/favicon.ico" />
       <link
         rel="alternate"
         type="application/atom+xml"
