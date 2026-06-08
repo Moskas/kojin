@@ -1,15 +1,16 @@
 /* ── font ───────────────────────────────────────────────────── */
 
-/* local() checks for the system-installed font first (which has embedded
-   bitmap glyphs and renders pixel-perfect with -webkit-font-smoothing: none).
-   The url() fallback serves visitors who don't have Terminess installed. */
+/* local() checks for the system-installed font first.
+   The url() fallback serves visitors who don't have Terminus installed. */
 @font-face {
     font-family: "Terminess";
     src:
+        local("Terminus (TTF)"),
+        local("TerminusTTF"),
         local("Terminess Nerd Font Mono"),
         local("TerminessNFM"),
-        url("/static/fonts/TerminessNerdFontMono-Regular.ttf")
-            format("truetype");
+        url("/static/fonts/TerminessNerdFontMono-Regular.woff2")
+            format("woff2");
     font-weight: 400;
     font-style: normal;
     font-display: block;
@@ -18,9 +19,11 @@
 @font-face {
     font-family: "Terminess";
     src:
+        local("Terminus (TTF) Bold"),
+        local("TerminusTTF-Bold"),
         local("Terminess Nerd Font Mono Bold"),
         local("TerminessNFM-Bold"),
-        url("/static/fonts/TerminessNerdFontMono-Bold.ttf") format("truetype");
+        url("/static/fonts/TerminessNerdFontMono-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
     font-display: block;
@@ -29,9 +32,11 @@
 @font-face {
     font-family: "Terminess";
     src:
+        local("Terminus (TTF) Italic"),
+        local("TerminusTTF-Italic"),
         local("Terminess Nerd Font Mono Italic"),
         local("TerminessNFM-Italic"),
-        url("/static/fonts/TerminessNerdFontMono-Italic.ttf") format("truetype");
+        url("/static/fonts/TerminessNerdFontMono-Italic.woff2") format("woff2");
     font-weight: 400;
     font-style: italic;
     font-display: block;
@@ -40,10 +45,12 @@
 @font-face {
     font-family: "Terminess";
     src:
+        local("Terminus (TTF) Bold-Italic"),
+        local("TerminusTTF-Bold-Italic"),
         local("Terminess Nerd Font Mono Bold Italic"),
         local("TerminessNFM-BoldItalic"),
-        url("/static/fonts/TerminessNerdFontMono-BoldItalic.ttf")
-            format("truetype");
+        url("/static/fonts/TerminessNerdFontMono-BoldItalic.woff2")
+            format("woff2");
     font-weight: 700;
     font-style: italic;
     font-display: block;
@@ -1063,7 +1070,6 @@ h3 {
     gap: 0 0.75ch;
     align-items: flex-start;
 }
-
 
 /* ── table of contents ──────────────────────────────────────── */
 
