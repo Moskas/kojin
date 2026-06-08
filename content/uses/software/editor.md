@@ -1,6 +1,7 @@
 ---
 name: Editor - Emacs 
 url: https://www.gnu.org/software/emacs/
+order: 2
 ---
 
 ![Doom Emacs dashboard](/static/uses/doomdashboard.png)

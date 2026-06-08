@@ -5,7 +5,7 @@ tags: [meta]
 description: The first post on kojin.
 ---
 
-This is the first post on kojin — my personal site built with Bun and Hono.
+This is the first post with kojin — my personal site built with Bun and Hono.
 
 ## What this site is
 
