@@ -13,6 +13,7 @@ export type BookStatus = 'reading' | 'finished' | 'hold'
 export interface BookshelfEntry {
   id: string
   title: string
+  altTitle?: string
   author: string
   cover?: string
   link?: string
@@ -59,6 +60,7 @@ async function parseEntry(filePath: string): Promise<BookshelfEntry> {
   return {
     id: slugify(data.title ?? ''),
     title: data.title ?? '',
+    altTitle: data['alt-title'] ?? data.altTitle,
     author: data.author ?? '',
     cover: data.cover,
     link: data.link,

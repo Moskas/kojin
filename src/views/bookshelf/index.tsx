@@ -24,22 +24,9 @@ function buildUrl(base: BookshelfQuery, overrides: Partial<BookshelfQuery>): str
   return `/bookshelf${qs ? '?' + qs : ''}`
 }
 
-const RatingBar: FC<{ value: number }> = ({ value }) => {
-  const filled = Math.round(value)
-  const empty = 10 - filled
-  return (
-    <span class="bookshelf-rating" aria-label={`rating ${value} out of 10`}>
-      <span class="bookshelf-rating-bracket">[</span>
-      <span class="bookshelf-rating-fill">{'█'.repeat(filled)}</span>
-      <span class="bookshelf-rating-empty">{'░'.repeat(empty)}</span>
-      <span class="bookshelf-rating-bracket">]</span>
-      <span class="bookshelf-rating-num">{value}/10</span>
-    </span>
-  )
-}
 
 const EntryRow: FC<{ entry: BookshelfEntry }> = ({ entry }) => (
-  <div class="bookshelf-row">
+  <div id={entry.id} class="bookshelf-row">
     <div class="bookshelf-cover-col">
       <div class="bookshelf-cover">
         {entry.cover ? (
@@ -57,13 +44,13 @@ const EntryRow: FC<{ entry: BookshelfEntry }> = ({ entry }) => (
         </span>
         <span class="bookshelf-stat">
           <span class="bookshelf-stat-key">rating</span>
-          <RatingBar value={entry.rating} />
+          <span>{entry.rating}/10</span>
         </span>
       </div>
     </div>
     <div class="bookshelf-entry">
       <div class="bookshelf-titleline">
-        <h3 class="bookshelf-entry-title">
+        <h3 class="bookshelf-entry-title" title={entry.altTitle}>
           {entry.link ? (
             <a href={entry.link} target="_blank" rel="noopener noreferrer">{entry.title}</a>
           ) : (
@@ -81,7 +68,7 @@ const EntryRow: FC<{ entry: BookshelfEntry }> = ({ entry }) => (
 )
 
 const SectionBlock: FC<{ section: BookshelfSection }> = ({ section }) => (
-  <section class="bookshelf-section">
+  <section id={section.id} class="bookshelf-section">
     <div class="bookshelf-section-head">
       <span class="hash">#</span>
       <h2>{section.title}</h2>
@@ -137,12 +124,33 @@ export const BookshelfPage: FC<Props> = ({ sections, query }) => {
         </form>
       </div>
 
+      {query.q && (
+        <p class="tag-filter-info">
+          search: "{query.q.trim()}" [{total}] <a href={buildUrl(query, { q: '' })}>clear</a>
+        </p>
+      )}
+
       {total === 0 ? (
         <p class="bookshelf-empty">
           {query.q ? `no entries match "${query.q.trim()}"` : 'nothing here for this filter'}
         </p>
       ) : (
-        sections.map((section) => <SectionBlock key={section.id} section={section} />)
+        <>
+          <details class="bookshelf-toc">
+            <summary class="bookshelf-toc-toggle">contents</summary>
+            <nav class="uses-toc" aria-label="bookshelf contents">
+              {sections.filter((s) => s.entries.length > 0).map((section) => (
+                <div key={section.id} class="uses-toc-section">
+                  <a class="uses-toc-label" href={`#${section.id}`}>{section.title}</a>
+                  {section.entries.map((entry) => (
+                    <a key={entry.id} href={`#${entry.id}`}>{entry.title}</a>
+                  ))}
+                </div>
+              ))}
+            </nav>
+          </details>
+          {sections.map((section) => <SectionBlock key={section.id} section={section} />)}
+        </>
       )}
     </Layout>
   )
