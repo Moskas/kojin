@@ -55,6 +55,7 @@ export const Layout: FC<Props> = ({
                 <a href="/about">about</a>
                 <a href="/projects">projects</a>
                 <a href="/uses">uses</a>
+                <a href="/bookshelf">bookshelf</a>
                 <a href="/now">now</a>
               </div>
             </div>
@@ -88,6 +89,7 @@ export const Layout: FC<Props> = ({
                   <a href="/now">now</a>
                   <a href="/projects">projects</a>
                   <a href="/uses">uses</a>
+                  <a href="/bookshelf">bookshelf</a>
                 </div>
               </div>
             </details>
