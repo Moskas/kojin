@@ -662,11 +662,13 @@ h3 {
     object-fit: cover;
     display: block;
     opacity: 0.85;
-    transition: opacity 0.1s;
+    transition: all 1s ease;
+    filter: saturate(0);
 }
 
 .home-photo:hover img {
     opacity: 1;
+    filter: saturate(1);
 }
 
 /* ── garden ─────────────────────────────────────────────────── */

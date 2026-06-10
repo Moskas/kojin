@@ -87,9 +87,9 @@ export const Layout: FC<Props> = ({
                 <div class="nav-mobile-group">
                   <span class="nav-mobile-group-label">me</span>
                   <a href="/about">about</a>
-                  <a href="/now">now</a>
                   <a href="/projects">projects</a>
                   <a href="/uses">uses</a>
+                  <a href="/now">now</a>
                 </div>
               </div>
             </details>
