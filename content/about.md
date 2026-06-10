@@ -1,6 +1,6 @@
 Hi, I'm **Moskas** — a software developer and Linux enthusiast based in Poland.
 
-I spend most of my time writing code, tinkering with system configuration, and consuming too much anime. I'm drawn to functional programming, Nix/NixOS, and building tools that stay out of the way.
+I spend most of my time writing code, tinkering with system configuration, and consuming too much manga. 
 
 This site is where I write longer thoughts, keep a digital garden of notes, and archive photos from wherever I happen to be.
 
@@ -14,7 +14,11 @@ This site is where I write longer thoughts, keep a digital garden of notes, and 
 
 ## contact
 
-The best way to reach me is by email: [minemoskas@gmail.com](mailto:minemoskas@gmail.com)
+- Email: moskas 'at' gmail '.' com 
+- Discord: moskas (legacy: Moskas#5626)
+- Matrix: @Moskas:matrix.org
+- osu!/Etterna/quaver: Moskas  
+
 
 ## links
 

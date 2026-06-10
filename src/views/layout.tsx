@@ -16,7 +16,7 @@ export const Layout: FC<Props> = ({
     <head>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>{title} — kojin</title>
+      <title>Moskas' Space — {title}</title>
       {description && <meta name="description" content={description} />}
       <link rel="stylesheet" href="/static/css/main.css" />
       <link rel="icon" href="/static/favicon.ico" />
@@ -24,7 +24,7 @@ export const Layout: FC<Props> = ({
         rel="alternate"
         type="application/atom+xml"
         href="/feed.xml"
-        title="kojin"
+        title="Moskas' Space"
       />
       <script
         dangerouslySetInnerHTML={{
@@ -38,7 +38,7 @@ export const Layout: FC<Props> = ({
       <header>
         <nav>
           <a href="/" class="site-title">
-            kojin
+            Moskas' Space
           </a>
           <div class="nav-links">
             <div class="nav-group">
