@@ -45,6 +45,7 @@ export const Layout: FC<Props> = ({
               <span class="nav-group-label">content</span>
               <div class="nav-dropdown">
                 <a href="/blog">blog</a>
+                <a href="/bookshelf">bookshelf</a>
                 <a href="/garden">garden</a>
                 <a href="/photos">photos</a>
               </div>
@@ -55,7 +56,6 @@ export const Layout: FC<Props> = ({
                 <a href="/about">about</a>
                 <a href="/projects">projects</a>
                 <a href="/uses">uses</a>
-                <a href="/bookshelf">bookshelf</a>
                 <a href="/now">now</a>
               </div>
             </div>
@@ -80,6 +80,7 @@ export const Layout: FC<Props> = ({
                 <div class="nav-mobile-group">
                   <span class="nav-mobile-group-label">content</span>
                   <a href="/blog">blog</a>
+                  <a href="/bookshelf">bookshelf</a>
                   <a href="/garden">garden</a>
                   <a href="/photos">photos</a>
                 </div>
@@ -89,7 +90,6 @@ export const Layout: FC<Props> = ({
                   <a href="/now">now</a>
                   <a href="/projects">projects</a>
                   <a href="/uses">uses</a>
-                  <a href="/bookshelf">bookshelf</a>
                 </div>
               </div>
             </details>
