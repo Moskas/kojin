@@ -2,6 +2,8 @@ import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { ParsedContent } from '../../content/parser'
 
+const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
+
 type Props = {
   posts: ParsedContent[]
   activeTag?: string
@@ -29,7 +31,12 @@ export const BlogList: FC<Props> = ({
   tagCounts,
   yearCounts,
 }) => (
-  <Layout title="Blog">
+  <Layout
+    title="Blog"
+    description="Writing on software, tools, and things I find interesting."
+    ogType="website"
+    canonicalUrl={`${SITE_URL}/blog`}
+  >
     <section class="page-header">
       <h1>blog</h1>
     </section>

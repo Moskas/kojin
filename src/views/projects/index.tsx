@@ -2,6 +2,8 @@ import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { Project } from '../../routes/projects'
 
+const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
+
 type Props = { projects: Project[] }
 
 const STATUS_LABEL: Record<string, string> = {
@@ -11,7 +13,12 @@ const STATUS_LABEL: Record<string, string> = {
 }
 
 export const ProjectsIndex: FC<Props> = ({ projects }) => (
-  <Layout title="Projects">
+  <Layout
+    title="Projects"
+    description="Software and experiments I've built."
+    ogType="website"
+    canonicalUrl={`${SITE_URL}/projects`}
+  >
     <section class="page-header">
       <h1>projects</h1>
     </section>

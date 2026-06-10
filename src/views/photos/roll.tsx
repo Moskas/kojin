@@ -2,6 +2,8 @@ import type { FC } from "hono/jsx";
 import { Layout } from "../layout";
 import type { DayEntry, PhotoExif } from "../../content/photos";
 
+const SITE_URL = process.env.SITE_URL ?? "http://localhost:3000";
+
 type Props = { days: DayEntry[] };
 
 function formatDate(iso: string): string {
@@ -31,7 +33,13 @@ function exifString(exif: PhotoExif): string {
 }
 
 export const PhotoRoll: FC<Props> = ({ days }) => (
-  <Layout title="Photos">
+  <Layout
+    title="Photos"
+    description="A photo journal."
+    ogType="website"
+    canonicalUrl={`${SITE_URL}/photos`}
+    ogImage={days[0]?.photos[0] ? `${SITE_URL}${days[0].photos[0].medium}` : undefined}
+  >
     <section class="page-header">
       <h1>photos</h1>
     </section>

@@ -1,23 +1,43 @@
 import type { FC, PropsWithChildren } from "hono/jsx";
 
+const SITE_URL = process.env.SITE_URL ?? "http://localhost:3000";
+
 type Props = PropsWithChildren<{
   title: string;
   description?: string;
   mainClass?: string;
+  ogImage?: string;
+  ogType?: "website" | "article";
+  canonicalUrl?: string;
 }>;
 
 export const Layout: FC<Props> = ({
   title,
   description,
   mainClass,
+  ogImage,
+  ogType,
+  canonicalUrl,
   children,
-}) => (
+}) => {
+  const resolvedImage = ogImage ?? `${SITE_URL}/static/og-default.png`;
+  return (
   <html lang="en">
     <head>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Moskas' Space — {title}</title>
       {description && <meta name="description" content={description} />}
+      <meta property="og:site_name" content="Moskas' Space" />
+      <meta property="og:title" content={title} />
+      {description && <meta property="og:description" content={description} />}
+      <meta property="og:type" content={ogType ?? "website"} />
+      {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+      <meta property="og:image" content={resolvedImage} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      {description && <meta name="twitter:description" content={description} />}
+      <meta name="twitter:image" content={resolvedImage} />
       <link rel="stylesheet" href="/static/css/main.css" />
       <link rel="icon" href="/static/favicon.ico" />
       <link
@@ -167,4 +187,5 @@ export const Layout: FC<Props> = ({
       </footer>
     </body>
   </html>
-);
+  );
+};

@@ -3,6 +3,8 @@ import { Layout } from './layout'
 import type { ParsedContent } from '../content/parser'
 import type { Photo } from '../content/photos'
 
+const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
+
 type Props = {
   recentPosts: ParsedContent[]
   aboutHtml: string
@@ -18,7 +20,12 @@ function formatDate(iso: string): string {
 }
 
 export const Home: FC<Props> = ({ recentPosts, aboutHtml, recentPhotos }) => (
-  <Layout title="kojin">
+  <Layout
+    title="kojin"
+    description="Moskas' personal site — writing, notes, projects, and photos."
+    ogType="website"
+    canonicalUrl={SITE_URL}
+  >
     <section class="about">
       <div class="prose" dangerouslySetInnerHTML={{ __html: aboutHtml }} />
     </section>

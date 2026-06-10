@@ -1,6 +1,6 @@
 ---
 title: Hello World
-date: 2026-01-01
+date: 2026-06-08
 tags: [meta]
 description: The first post on kojin.
 ---

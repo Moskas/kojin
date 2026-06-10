@@ -2,6 +2,8 @@ import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { ParsedContent, TocItem } from '../../content/parser'
 
+const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
+
 type Props = {
   post: ParsedContent
   prev?: { slug: string; title: string }
@@ -31,6 +33,8 @@ export const BlogPost: FC<Props> = ({ post, prev, next }) => (
     title={post.frontmatter.title}
     description={post.frontmatter.description}
     mainClass="post-with-toc"
+    ogType="article"
+    canonicalUrl={`${SITE_URL}/blog/${post.slug}`}
   >
     <article class="blog-post">
       <details class="toc-mobile">

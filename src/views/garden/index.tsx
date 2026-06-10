@@ -2,12 +2,19 @@ import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { Note } from '../../content/garden'
 
+const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
+
 type Props = {
   notes: Note[]
 }
 
 export const GardenIndex: FC<Props> = ({ notes }) => (
-  <Layout title="Garden">
+  <Layout
+    title="Garden"
+    description="Notes in various states of development. Lightly tended, frequently incomplete."
+    ogType="website"
+    canonicalUrl={`${SITE_URL}/garden`}
+  >
     <section class="page-header">
       <h1>garden</h1>
       <p class="page-description">

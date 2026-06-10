@@ -2,13 +2,19 @@ import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { Note, BacklinkEntry } from '../../content/garden'
 
+const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
+
 type Props = {
   note: Note
   backlinks: BacklinkEntry[]
 }
 
 export const GardenNote: FC<Props> = ({ note, backlinks }) => (
-  <Layout title={note.frontmatter.title ?? note.slug}>
+  <Layout
+    title={note.frontmatter.title ?? note.slug}
+    ogType="article"
+    canonicalUrl={`${SITE_URL}/garden/${note.slug}`}
+  >
     <article class="garden-note">
       <header class="note-header">
         <h1>{note.frontmatter.title ?? note.slug}</h1>
