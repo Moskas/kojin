@@ -9,6 +9,7 @@ type Props = PropsWithChildren<{
   ogImage?: string;
   ogType?: "website" | "article";
   canonicalUrl?: string;
+  feedUrl?: string;
 }>;
 
 export const Layout: FC<Props> = ({
@@ -18,6 +19,7 @@ export const Layout: FC<Props> = ({
   ogImage,
   ogType,
   canonicalUrl,
+  feedUrl,
   children,
 }) => {
   const resolvedImage = ogImage ?? `${SITE_URL}/static/og-default.png`;
@@ -46,6 +48,14 @@ export const Layout: FC<Props> = ({
         href="/feed.xml"
         title="Moskas' Space"
       />
+      {feedUrl && (
+        <link
+          rel="alternate"
+          type="application/atom+xml"
+          href={feedUrl}
+          title="Photos — Moskas' Space"
+        />
+      )}
       <script
         dangerouslySetInnerHTML={{
           __html: `(function(){var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();`,

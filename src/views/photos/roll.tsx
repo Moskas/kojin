@@ -39,9 +39,12 @@ export const PhotoRoll: FC<Props> = ({ days }) => (
     ogType="website"
     canonicalUrl={`${SITE_URL}/photos`}
     ogImage={days[0]?.photos[0] ? `${SITE_URL}${days[0].photos[0].medium}` : undefined}
+    feedUrl="/photos/feed.xml"
   >
     <section class="page-header">
       <h1>photos</h1>
+      <p> Photo feed:  
+      <a href="/photos/feed.xml" class="feed-link" aria-label="Photos Atom feed">link</a></p>
     </section>
 
     {days.length === 0 ? (
@@ -89,9 +92,9 @@ export const PhotoRoll: FC<Props> = ({ days }) => (
     <div class="lightbox" id="lightbox" aria-hidden="true">
       <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
       <div class="lightbox-content">
-        <button class="lightbox-close" id="lightbox-close" aria-label="close">
-          ✕
-        </button>
+        <button class="lightbox-close" id="lightbox-close" aria-label="close">✕</button>
+        <button class="lightbox-prev" id="lightbox-prev" aria-label="previous photo">‹</button>
+        <button class="lightbox-next" id="lightbox-next" aria-label="next photo">›</button>
         <img class="lightbox-img" id="lightbox-img" src="" alt="" />
         <p class="lightbox-exif" id="lightbox-exif"></p>
       </div>

@@ -819,7 +819,7 @@ h3 {
 .lightbox-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(0, 0, 0, 0.85);
 }
 
 .lightbox-content {
@@ -838,15 +838,40 @@ h3 {
     position: absolute;
     top: -2rem;
     right: 0;
-    color: var(--fg-dim);
+    z-index: 2;
+    color: rgba(255, 255, 255, 0.65);
     cursor: pointer;
-    font-family: var(--font);
-    font-size: 0.875rem;
+    font-size: 1.75rem;
+    line-height: 1;
 }
 
 .lightbox-close:hover {
-    color: var(--fg);
+    color: #fff;
 }
+
+.lightbox-prev,
+.lightbox-next {
+    all: unset;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    color: rgba(255, 255, 255, 0.65);
+    cursor: pointer;
+    font-size: 2.5rem;
+    padding: 1rem 0.75rem;
+    line-height: 1;
+    user-select: none;
+}
+
+.lightbox-prev { left: -3rem; }
+.lightbox-next { right: -3rem; }
+
+.lightbox-prev:hover,
+.lightbox-next:hover { color: #fff; }
+
+.lightbox-prev[hidden],
+.lightbox-next[hidden] { display: none; }
 
 .lightbox-img {
     max-width: 100%;

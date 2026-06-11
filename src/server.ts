@@ -8,6 +8,7 @@ import { usesRoute } from './routes/uses'
 import { bookshelfRoute } from './routes/bookshelf'
 import { searchRoutes } from './routes/search'
 import { feedRoute } from './routes/feed'
+import { photosFeedRoute } from './routes/photos-feed'
 import { homeRoute } from './routes/home'
 import { nowRoute } from './routes/now'
 import { aboutRoute } from './routes/about'
@@ -23,6 +24,7 @@ app.route('/now', nowRoute)
 app.route('/about', aboutRoute)
 app.route('/blog', blogRoutes)
 app.route('/garden', gardenRoutes)
+app.route('/photos/feed.xml', photosFeedRoute)
 app.route('/photos', photosRoutes)
 app.route('/projects', projectsRoutes)
 app.route('/uses', usesRoute)

@@ -54,7 +54,10 @@ sitemapRoute.get('/', async (c) => {
     {
       id: 'photos',
       title: 'photos',
-      links: [{ url: '/photos', label: 'photos' }],
+      links: [
+        { url: '/photos', label: 'photos' },
+        { url: '/photos/feed.xml', label: 'photos atom feed' },
+      ],
     },
     {
       id: 'projects',
