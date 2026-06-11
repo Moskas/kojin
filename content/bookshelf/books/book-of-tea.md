@@ -1,7 +1,7 @@
 ---
 title: "The Book of Tea"
 author: "Kakuzō Okakura"
-cover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1492192349i/904538.jpg"
+isbn: "1590300831"
 link: "https://www.goodreads.com/book/show/904538.The_Book_of_Tea"
 status: finished
 rating: 8

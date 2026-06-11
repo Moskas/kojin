@@ -1,7 +1,6 @@
 ---
 title: "Ubunchu! 「うぶんちゅ！」"
 author: "Hiroshi Seo"
-cover: "https://s4.anilist.co/file/anilistcdn/media/manga/cover/large/bx43578-EfMWsQYcIj5S.jpg"
 link: "https://anilist.co/manga/43578"
 status: finished 
 rating: 10

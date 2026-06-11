@@ -2,7 +2,6 @@
 title: Fukakai na Boku no Subete wo 
 alt-title: 不可解なぼくのすべてを
 author: Ei Tozaki
-cover: "https://s4.anilist.co/file/anilistcdn/media/manga/cover/large/bx104140-ELvT0r7pOsBS.jpg"
 link: "https://anilist.co/manga/104140"
 status: finished
 rating: 10
