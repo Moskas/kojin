@@ -11,6 +11,7 @@ import { feedRoute } from './routes/feed'
 import { homeRoute } from './routes/home'
 import { nowRoute } from './routes/now'
 import { aboutRoute } from './routes/about'
+import { sitemapRoute } from './routes/sitemap'
 import { buildIndexes } from './content/index'
 
 const app = new Hono()
@@ -28,6 +29,7 @@ app.route('/uses', usesRoute)
 app.route('/bookshelf', bookshelfRoute)
 app.route('/search', searchRoutes)
 app.route('/feed.xml', feedRoute)
+app.route('/sitemap', sitemapRoute)
 
 const port = parseInt(process.env.PORT ?? '3000')
 

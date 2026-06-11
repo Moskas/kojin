@@ -1850,3 +1850,55 @@ h3 {
         width: 100%;
     }
 }
+
+/* Sitemap */
+.sitemap {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.sitemap-section h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 0 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--fg);
+}
+
+.sitemap-section h2 .hash {
+    color: var(--fg-dim);
+}
+
+.sitemap-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sitemap-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.sitemap-list a {
+    color: var(--fg);
+    flex-shrink: 0;
+}
+
+.sitemap-list a:hover {
+    color: var(--accent);
+}
+
+.sitemap-url {
+    font-size: 0.8rem;
+    color: var(--fg-dim);
+    font-family: monospace;
+}
