@@ -285,6 +285,29 @@ nav a:hover {
     color: var(--fg);
 }
 
+nav a.nav-active {
+    color: var(--fg);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.nav-feed-row {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+}
+
+.nav-feed-icon {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.nav-feed-icon svg {
+    width: 0.7em;
+    height: 0.7em;
+}
+
 .nav-search input {
     background: transparent;
     border: 1px solid var(--border);

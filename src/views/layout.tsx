@@ -74,10 +74,20 @@ export const Layout: FC<Props> = ({
             <div class="nav-group">
               <span class="nav-group-label">content</span>
               <div class="nav-dropdown">
-                <a href="/blog">blog</a>
+                <div class="nav-feed-row">
+                  <a href="/blog">blog</a>
+                  <a href="/feed.xml" class="nav-feed-icon" title="Blog Atom feed" aria-label="Blog Atom feed">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg>
+                  </a>
+                </div>
                 <a href="/bookshelf">bookshelf</a>
                 <a href="/garden">garden</a>
-                <a href="/photos">photos</a>
+                <div class="nav-feed-row">
+                  <a href="/photos">photos</a>
+                  <a href="/photos/feed.xml" class="nav-feed-icon" title="Photos Atom feed" aria-label="Photos Atom feed">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg>
+                  </a>
+                </div>
               </div>
             </div>
             <div class="nav-group">
@@ -109,10 +119,20 @@ export const Layout: FC<Props> = ({
               <div class="nav-mobile-links">
                 <div class="nav-mobile-group">
                   <span class="nav-mobile-group-label">content</span>
-                  <a href="/blog">blog</a>
+                  <div class="nav-feed-row">
+                    <a href="/blog">blog</a>
+                    <a href="/feed.xml" class="nav-feed-icon" title="Blog Atom feed" aria-label="Blog Atom feed">
+                      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg>
+                    </a>
+                  </div>
                   <a href="/bookshelf">bookshelf</a>
                   <a href="/garden">garden</a>
-                  <a href="/photos">photos</a>
+                  <div class="nav-feed-row">
+                    <a href="/photos">photos</a>
+                    <a href="/photos/feed.xml" class="nav-feed-icon" title="Photos Atom feed" aria-label="Photos Atom feed">
+                      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.199 24C19.199 13.467 10.533 4.8 0 4.8V0c13.165 0 24 10.835 24 24h-4.801zM3.291 17.415c1.814 0 3.293 1.479 3.293 3.295 0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526 0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727 0 15.909 7.184 15.909 15.91z"/></svg>
+                    </a>
+                  </div>
                 </div>
                 <div class="nav-mobile-group">
                   <span class="nav-mobile-group-label">me</span>
