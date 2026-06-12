@@ -81,6 +81,7 @@ export async function processImage(dateSlug: string, base: string, originalPath:
 
   if (!(await Bun.file(thumbPath).exists())) {
     await sharp(originalPath)
+      .rotate()
       .resize(null, 600, { withoutEnlargement: true })
       .webp({ quality: 80 })
       .toFile(thumbPath)
@@ -88,6 +89,7 @@ export async function processImage(dateSlug: string, base: string, originalPath:
 
   if (!(await Bun.file(mediumPath).exists())) {
     await sharp(originalPath)
+      .rotate()
       .resize(1600, null, { withoutEnlargement: true })
       .webp({ quality: 87 })
       .toFile(mediumPath)

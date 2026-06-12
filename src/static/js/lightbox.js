@@ -37,7 +37,7 @@ function close() {
 
 document.querySelectorAll('.roll-photo').forEach((btn) => {
   btn.addEventListener('click', () => {
-    open(btn.closest('.roll-strip'), btn)
+    open(btn.closest('.roll-strip, .travel-preview-strip, .travel-detail-strip'), btn)
   })
 })
 
