@@ -6,6 +6,7 @@ import { photosRoutes } from './routes/photos'
 import { projectsRoutes } from './routes/projects'
 import { usesRoute } from './routes/uses'
 import { bookshelfRoute } from './routes/bookshelf'
+import { watchlistRoute } from './routes/watchlist'
 import { searchRoutes } from './routes/search'
 import { feedRoute } from './routes/feed'
 import { photosFeedRoute } from './routes/photos-feed'
@@ -30,6 +31,7 @@ app.route('/photos', photosRoutes)
 app.route('/projects', projectsRoutes)
 app.route('/uses', usesRoute)
 app.route('/bookshelf', bookshelfRoute)
+app.route('/watchlist', watchlistRoute)
 app.route('/search', searchRoutes)
 app.route('/feed.xml', feedRoute)
 app.route('/sitemap', sitemapRoute)

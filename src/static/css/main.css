@@ -1808,6 +1808,319 @@ h3 {
     color: var(--border);
 }
 
+/* ── watchlist ───────────────────────────────────────────────── */
+
+.watchlist-toc-toggle {
+    color: var(--fg-dim);
+    font-size: 0.875rem;
+    cursor: pointer;
+    list-style: none;
+    margin-bottom: 1rem;
+}
+
+.watchlist-toc-toggle::-webkit-details-marker {
+    display: none;
+}
+
+.watchlist-toc-toggle::before {
+    content: "+ ";
+}
+
+.watchlist-toc[open] .watchlist-toc-toggle::before {
+    content: "- ";
+}
+
+.watchlist-toc-toggle:hover {
+    color: var(--fg);
+}
+
+:root {
+    --watchlist-watching: oklch(0.75 0.1 270);
+    --watchlist-finished: oklch(0.87 0.07 150);
+    --watchlist-plan: oklch(0.6 0.02 0);
+    --watchlist-dropped: oklch(0.75 0.1 20);
+    --watchlist-stripe1: #141413;
+    --watchlist-stripe2: #0d0d0c;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --watchlist-watching: oklch(0.36 0.1 270);
+        --watchlist-finished: oklch(0.38 0.08 150);
+        --watchlist-plan: oklch(0.45 0.02 0);
+        --watchlist-dropped: oklch(0.38 0.1 20);
+        --watchlist-stripe1: #e5e3df;
+        --watchlist-stripe2: #dbd9d4;
+    }
+}
+
+[data-theme="dark"] {
+    --watchlist-watching: oklch(0.75 0.1 270);
+    --watchlist-finished: oklch(0.87 0.07 150);
+    --watchlist-plan: oklch(0.6 0.02 0);
+    --watchlist-dropped: oklch(0.75 0.1 20);
+    --watchlist-stripe1: #141413;
+    --watchlist-stripe2: #0d0d0c;
+}
+
+[data-theme="light"] {
+    --watchlist-watching: oklch(0.36 0.1 270);
+    --watchlist-finished: oklch(0.38 0.08 150);
+    --watchlist-plan: oklch(0.45 0.02 0);
+    --watchlist-dropped: oklch(0.38 0.1 20);
+    --watchlist-stripe1: #e5e3df;
+    --watchlist-stripe2: #dbd9d4;
+}
+
+.watchlist-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 2rem;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+}
+
+.watchlist-ctl {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.watchlist-lab {
+    color: var(--fg-dim);
+}
+
+.watchlist-lab::before {
+    content: "$ ";
+    color: var(--fg-dim);
+}
+
+.watchlist-chip {
+    color: var(--fg-dim);
+    text-decoration: none;
+    font-size: 0.875rem;
+    padding: 0 0.1rem;
+}
+
+.watchlist-chip:hover {
+    color: var(--fg);
+    text-decoration: none;
+}
+
+.watchlist-chip--active {
+    text-decoration: underline;
+    color: var(--fg);
+}
+
+.watchlist-search {
+    display: flex;
+    align-items: center;
+    margin: 0 0 0 auto;
+}
+
+.watchlist-search input {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 0.875rem;
+    padding: 0.1rem 0.4rem;
+    width: 14ch;
+    outline: none;
+    transition:
+        width 0.15s,
+        border-color 0.1s;
+}
+
+.watchlist-search input:focus {
+    border-color: var(--fg-dim);
+    width: 22ch;
+}
+
+.watchlist-search input::placeholder {
+    color: var(--fg-dim);
+}
+
+.watchlist-section {
+    margin-bottom: 3rem;
+}
+
+.watchlist-section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1.5rem;
+}
+
+.watchlist-section-head .hash {
+    color: var(--fg-dim);
+}
+
+.watchlist-section-head h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: normal;
+    color: var(--fg);
+}
+
+.watchlist-count {
+    margin-left: auto;
+    font-size: 0.875rem;
+    color: var(--fg-dim);
+}
+
+.watchlist-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.watchlist-row:last-child {
+    border-bottom: none;
+}
+
+.watchlist-cover-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.watchlist-cover {
+    width: 100px;
+    aspect-ratio: 2 / 3;
+    position: relative;
+    background: repeating-linear-gradient(
+        135deg,
+        var(--watchlist-stripe1) 0 4px,
+        var(--watchlist-stripe2) 4px 8px
+    );
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.watchlist-cover img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.watchlist-cover-ph {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0.4rem;
+    font-size: 0.7rem;
+    color: var(--fg-dim);
+}
+
+.watchlist-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.875rem;
+}
+
+.watchlist-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.watchlist-stat-key {
+    color: var(--fg-dim);
+}
+
+.watchlist-stat-key::after {
+    content: ":";
+}
+
+.watchlist-status::before {
+    content: "[";
+    color: var(--border);
+}
+.watchlist-status::after {
+    content: "]";
+    color: var(--border);
+}
+
+.watchlist-status--watching {
+    color: var(--watchlist-watching);
+}
+.watchlist-status--finished {
+    color: var(--watchlist-finished);
+}
+.watchlist-status--plan {
+    color: var(--watchlist-plan);
+}
+.watchlist-status--dropped {
+    color: var(--watchlist-dropped);
+}
+
+.watchlist-entry {
+    min-width: 0;
+}
+
+.watchlist-titleline {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.watchlist-entry-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.watchlist-entry-title a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.watchlist-credit {
+    color: var(--fg-dim);
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.watchlist-writeup {
+    font-size: 0.875rem;
+    color: var(--fg);
+    margin: 0;
+}
+
+.watchlist-writeup p {
+    margin: 0;
+}
+
+.watchlist-writeup em {
+    color: var(--fg-dim);
+}
+
+.watchlist-empty {
+    color: var(--fg-dim);
+    padding: 1rem 0;
+}
+
+.watchlist-empty::before {
+    content: "— ";
+    color: var(--border);
+}
+
 /* ── responsive ─────────────────────────────────────────────── */
 
 @media (max-width: 600px) {

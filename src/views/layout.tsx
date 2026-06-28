@@ -81,6 +81,7 @@ export const Layout: FC<Props> = ({
                   </a>
                 </div>
                 <a href="/bookshelf">bookshelf</a>
+                <a href="/watchlist">watchlist</a>
                 <a href="/garden">garden</a>
                 <div class="nav-feed-row">
                   <a href="/photos">photos</a>
@@ -127,6 +128,7 @@ export const Layout: FC<Props> = ({
                     </a>
                   </div>
                   <a href="/bookshelf">bookshelf</a>
+                  <a href="/watchlist">watchlist</a>
                   <a href="/garden">garden</a>
                   <div class="nav-feed-row">
                     <a href="/photos">photos</a>
