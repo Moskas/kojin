@@ -34,8 +34,6 @@ export interface WatchSection {
 
 export interface WatchQuery {
   filter: WatchStatus | 'all'
-  sort: 'rating' | 'title' | 'year'
-  q: string
 }
 
 function slugify(name: string): string {
@@ -114,25 +112,11 @@ export async function loadWatchlist(query: WatchQuery): Promise<WatchSection[]> 
     return a.id.localeCompare(b.id)
   })
 
-  const needle = query.q.trim().toLowerCase()
-
   return sections.map((section) => {
     let entries = section.entries.filter((e) => {
       if (query.filter !== 'all' && e.status !== query.filter) return false
-      if (needle) {
-        const hay = [e.title, e.director, e.creator].filter(Boolean).join(' ').toLowerCase()
-        return hay.includes(needle)
-      }
       return true
     })
-
-    if (query.sort === 'title') {
-      entries = [...entries].sort((a, b) => a.title.localeCompare(b.title))
-    } else if (query.sort === 'year') {
-      entries = [...entries].sort((a, b) => (b.year ?? 0) - (a.year ?? 0))
-    } else {
-      entries = [...entries].sort((a, b) => b.rating - a.rating)
-    }
 
     return { ...section, entries }
   })
