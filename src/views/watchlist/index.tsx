@@ -110,7 +110,7 @@ const SectionBlock: FC<{ section: WatchSection }> = ({ section }) => (
       </span>
     </div>
     {section.entries.length === 0 ? (
-      <p class="watchlist-empty">nothing here for this filter</p>
+      <p class="watchlist-empty">nothing here</p>
     ) : (
       section.entries.map((entry) => <EntryRow key={entry.id} entry={entry} />)
     )}
@@ -145,7 +145,7 @@ export const WatchlistPage: FC<Props> = ({ sections, query }) => {
       </div>
 
       {total === 0 ? (
-        <p class="watchlist-empty">nothing here for this filter</p>
+        <p class="watchlist-empty">nothing here</p>
       ) : (
         <>
           <details class="watchlist-toc">

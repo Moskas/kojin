@@ -50,7 +50,7 @@ export const BlogList: FC<Props> = ({
             href={`/blog?tag=${tag}`}
             class={`tag${activeTag === tag ? ' active' : ''}`}
           >
-            {tag}({tagCounts[tag]})
+            {tag} ({tagCounts[tag]})
           </a>
         ))}
       </div>
@@ -100,7 +100,7 @@ export const BlogList: FC<Props> = ({
                     href={`/blog?tag=${tag}`}
                     class={`tag${activeTag === tag ? ' active' : ''}`}
                   >
-                    {tag}
+                    #{tag}
                   </a>
                 ))}
               </div>

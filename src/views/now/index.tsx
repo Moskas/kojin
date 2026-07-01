@@ -29,18 +29,29 @@ const TrackItem: FC<{ track: Track }> = ({ track }) => (
   </li>
 )
 
-const MediaItem: FC<{ entry: MediaEntry }> = ({ entry }) => {
+function statusLabel(status: string, type: 'anime' | 'manga'): string {
+  switch (status) {
+    case 'CURRENT': return type === 'anime' ? 'watching' : 'reading'
+    case 'REPEATING': return type === 'anime' ? 'rewatching' : 'rereading'
+    case 'COMPLETED': return 'completed'
+    case 'PAUSED': return 'on hold'
+    case 'DROPPED': return 'dropped'
+    case 'PLANNING': return type === 'anime' ? 'plan to watch' : 'plan to read'
+    default: return status.toLowerCase()
+  }
+}
+
+const showProgress = (status: string) =>
+  status === 'CURRENT' || status === 'REPEATING' || status === 'COMPLETED'
+
+const MediaItem: FC<{ entry: MediaEntry; type: 'anime' | 'manga' }> = ({ entry, type }) => {
   const progressStr = entry.total ? `${entry.progress} / ${entry.total}` : `${entry.progress}`
   return (
     <li class="now-media-item">
       {entry.coverImage && (
-        <img
-          src={entry.coverImage}
-          alt=""
-          class="now-media-cover"
-          width="48"
-          loading="lazy"
-        />
+        <div class="now-media-cover">
+          <img src={entry.coverImage} alt="" loading="lazy" />
+        </div>
       )}
       <div class="now-media-info">
         <a href={entry.siteUrl} target="_blank" rel="noopener noreferrer">
@@ -48,9 +59,15 @@ const MediaItem: FC<{ entry: MediaEntry }> = ({ entry }) => {
         </a>
         <dl class="now-media-stats">
           <div class="now-media-stat">
-            <dt>progress</dt>
-            <dd>{progressStr}</dd>
+            <dt>status</dt>
+            <dd>{statusLabel(entry.status, type)}</dd>
           </div>
+          {showProgress(entry.status) && (
+            <div class="now-media-stat">
+              <dt>progress</dt>
+              <dd>{progressStr}</dd>
+            </div>
+          )}
           {entry.score && (
             <div class="now-media-stat">
               <dt>score</dt>
@@ -112,7 +129,7 @@ export const NowPage: FC<Props> = ({ nowHtml, updated, lastfm, anilist }) => (
               <h3 class="now-media-label">anime</h3>
               <ul class="now-media-list">
                 {anilist.anime.map((e, i) => (
-                  <MediaItem key={i} entry={e} />
+                  <MediaItem key={i} entry={e} type="anime" />
                 ))}
               </ul>
             </div>
@@ -123,7 +140,7 @@ export const NowPage: FC<Props> = ({ nowHtml, updated, lastfm, anilist }) => (
               <h3 class="now-media-label">manga</h3>
               <ul class="now-media-list">
                 {anilist.manga.map((e, i) => (
-                  <MediaItem key={i} entry={e} />
+                  <MediaItem key={i} entry={e} type="manga" />
                 ))}
               </ul>
             </div>
