@@ -235,9 +235,13 @@ nav {
     user-select: none;
     text-decoration: underline;
     text-underline-offset: 2px;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
 }
 
-.nav-group:hover .nav-group-label {
+.nav-group.is-open .nav-group-label {
     color: var(--fg);
 }
 
@@ -266,7 +270,7 @@ nav {
     height: 0.6rem;
 }
 
-.nav-group:hover .nav-dropdown {
+.nav-group.is-open .nav-dropdown {
     display: flex;
 }
 
@@ -802,6 +806,7 @@ h3 {
     cursor: zoom-in;
     display: block;
     overflow: hidden;
+    aspect-ratio: 4/3;
 }
 
 .roll-photo img {
@@ -1233,6 +1238,7 @@ h3 {
     font-size: 0.875rem;
     color: var(--fg-dim);
     text-decoration: none;
+    padding-left: 2ch;
 }
 
 .uses-toc a:hover {

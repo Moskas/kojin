@@ -72,7 +72,7 @@ export const Layout: FC<Props> = ({
           </a>
           <div class="nav-links">
             <div class="nav-group">
-              <span class="nav-group-label">content</span>
+              <button class="nav-group-label" aria-haspopup="true">content</button>
               <div class="nav-dropdown">
                 <div class="nav-feed-row">
                   <a href="/blog">blog</a>
@@ -93,7 +93,7 @@ export const Layout: FC<Props> = ({
               </div>
             </div>
             <div class="nav-group">
-              <span class="nav-group-label">me</span>
+              <button class="nav-group-label" aria-haspopup="true">me</button>
               <div class="nav-dropdown">
                 <a href="/about">about</a>
                 <a href="/projects">projects</a>
