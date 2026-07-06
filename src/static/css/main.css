@@ -374,10 +374,10 @@ h4 {
 }
 
 h1 {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
 }
 h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 h3 {
     font-size: 1rem;
@@ -411,19 +411,22 @@ h3 {
 .tags {
     display: inline-flex;
     flex-wrap: wrap;
-    gap: 0 0.5ch;
+    gap: 0 1ch;
 }
 
 .tag {
     color: var(--fg-dim);
     font-size: 0.875em;
-    text-decoration: none;
+    text-decoration: underline;
     white-space: nowrap;
+}
+
+.tag::before {
+    content: "#";
 }
 
 .tag:hover {
     color: var(--fg);
-    text-decoration: none;
 }
 
 /* ── blog list ──────────────────────────────────────────────── */
@@ -500,7 +503,7 @@ h3 {
 }
 
 .post-header h1 {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     margin-bottom: 0.5rem;
 }
 
@@ -518,8 +521,13 @@ h3 {
 }
 
 .prose p {
-    margin: 0 0 1rem;
+    margin: 0 1rem 1rem;
 }
+
+.prose h1 {
+    border-bottom: 1px solid var(--border);
+}
+
 .prose h2 {
     margin: 2rem 0 0.75rem;
 }
