@@ -10,7 +10,8 @@ import { visit } from 'unist-util-visit'
 
 export interface Frontmatter {
   title: string
-  date: string
+  date: string | Date
+  updated?: string | Date
   tags?: string[]
   draft?: boolean
   description?: string

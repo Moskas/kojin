@@ -8,9 +8,17 @@ const SITE_AUTHOR = process.env.SITE_AUTHOR ?? 'kojin'
 
 export const feedRoute = new Hono()
 
+function toRFC3339(date: string | Date): string {
+  if (date instanceof Date) return date.toISOString()
+  return date.includes('T') ? date : `${date}T00:00:00Z`
+}
+
 feedRoute.get('/', async (c) => {
   const posts = (await listPosts(BLOG_DIR)).slice(0, 20)
-  const updated = posts[0]?.frontmatter.date ?? new Date().toISOString()
+  const firstPost = posts[0]
+  const updated = firstPost
+    ? toRFC3339(firstPost.frontmatter.updated ?? firstPost.frontmatter.date)
+    : new Date().toISOString()
 
   const items = posts
     .map(
@@ -19,7 +27,8 @@ feedRoute.get('/', async (c) => {
       <id>${SITE_URL}/blog/${p.slug}</id>
       <title>${escape(p.frontmatter.title)}</title>
       <link href="${SITE_URL}/blog/${p.slug}" />
-      <updated>${p.frontmatter.date}</updated>
+      <published>${toRFC3339(p.frontmatter.date)}</published>
+      <updated>${toRFC3339(p.frontmatter.updated ?? p.frontmatter.date)}</updated>
       ${(p.frontmatter.tags ?? []).map((t) => `<category term="${escape(t)}" />`).join('')}
       <content type="html"><![CDATA[${p.html}]]></content>
     </entry>`
