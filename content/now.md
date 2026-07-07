@@ -1,16 +1,18 @@
 ---
 title: now
-updated: 2026-06-06
+updated: 2026-07-07
 ---
 
 ## doing
 
-Working on personal projects and learning new things.
+Working on Old Computer Challenge project.
 
 ## projects
 
-- Kojin — this site, a personal knowledge hub built with Hono and Bun
+- Kojin - this site
+- Shinbun - terminal RSS reader
 
 ## reading
 
-Currently reading through technical blogs and documentation.
+- No bears, None
+- Koibumi to 13-sai no Actress
