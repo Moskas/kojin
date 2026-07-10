@@ -525,28 +525,20 @@ h3 {
 }
 
 .prose p {
-    margin: 1rem;
 }
 
 .prose h1 {
     border-bottom: 1px solid var(--border);
+    font-size: 1.1rem;
 }
 
 .prose h2 {
     margin: 2rem 0 0.75rem;
 }
-.prose h2::before {
-    content: "## ";
-    color: var(--fg-dim);
-}
+
 .prose h3 {
     margin: 1.5rem 0 0.5rem;
 }
-.prose h3::before {
-    content: "### ";
-    color: var(--fg-dim);
-}
-
 .prose ul,
 .prose ol {
     padding-left: 2ch;
