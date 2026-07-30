@@ -3,7 +3,7 @@ import { listPosts } from '../content/parser'
 
 const BLOG_DIR = `${process.cwd()}/content/blog`
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
-const SITE_TITLE = 'kojin'
+const SITE_TITLE = 'Moskas\' Space'
 const SITE_AUTHOR = process.env.SITE_AUTHOR ?? 'kojin'
 
 export const feedRoute = new Hono()
