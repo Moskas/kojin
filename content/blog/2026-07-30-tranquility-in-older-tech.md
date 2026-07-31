@@ -11,9 +11,8 @@ This year I've been spending more time using older computers. Mainly two laptops
 
 Neither of them is fast by today's standards, but they have something that resonates with me. Something that's surprisingly difficult to describe.  
 
-Especially the smaller X60. It's capable of running a modern Linux distribution with the latest kernel despite being almost 20 years old. It can even browse the modern web.  
+Especially the smaller X60. It's capable of running a modern Linux distribution with the latest kernel despite being almost 20 years old. It can even browse the modern web.[^1]  
 
-> Somewhat. YouTube and other media-heavy sites are out of the question.
 
 I genuinely enjoy reading blogs, news sites, and browsing code forges on it.  
 
@@ -35,9 +34,8 @@ Switching contexts becomes more demanding from the hardware. Opening another bro
 
 That makes it easier to stay with the task that's already in front of me. Since switching contexts is now both tasking for the device and me.  
 
-There's a trend online that romanticizes intentional living and minimalism. Dedicated devices for every task, carefully curated desks, digital detoxes. You've probably seen it before as it thrown at you everywhere, books, videos, social media posts etc.  
+There's a trend online that romanticizes intentional living and minimalism. Dedicated devices for every task, carefully curated desks, digital detoxes. You've probably seen it before as it thrown at you everywhere, books, videos, social media posts etc.[^2]  
 
->I'm not really interested in that discussion.  
 
 I'm only writing from my own perspective as someone on the autism spectrum and with a fairly high chance of having ADHD. I sometimes unconciensely jump between tasks, games, articles, and videos.  
 
@@ -65,9 +63,7 @@ Modern ThinkPads aren't bad laptops per se, but they feel much closer to every o
 
 Some of my ThinkPads were bought incomplete. I added the RAM, storage, batteries, and other missing parts myself.  
 
-That process gave me a connection to these machines that I rarely feel with new hardware. That sentiment was sitting within me for some time but a recently I have watched a video from [This Does Not Compute](https://www.youtube.com/@ThisDoesNotCompute) that pinpointed that thought and it struct me that was what I felt all that time.  
-
->Apart from building your own desktop computer but it's something a little bit different.
+That process gave me a connection to these machines that I rarely feel with new hardware[^3]. That sentiment was sitting within me for some time but a recently I have watched a video from [This Does Not Compute](https://www.youtube.com/@ThisDoesNotCompute) that pinpointed that thought and it struct me that was what I felt all that time.  
 
 They're no longer just tools I happened to buy. They're computers I've rebuilt, maintained, and continue to use every day. I have similar sentiment when it comes to my operating system that I bascialy handcraft for myself.  
 
@@ -78,3 +74,7 @@ The X60 isn't my fastest computer. It isn't even my primary laptop.
 But when I want to think, write, organize my thoughts, or simply enjoy using a computer, it's usually the machine I reach for first.  
 
 *Not because it can do everything but because it can't.*
+
+[^1]: Somewhat. YouTube and other media-heavy sites are out of the question.
+[^2]: I'm not really interested in that discussion.  
+[^3]: Apart from building your own desktop computer but it's something a little bit different.
