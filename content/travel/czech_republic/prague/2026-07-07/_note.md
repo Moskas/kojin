@@ -1,3 +1,10 @@
 ---
 description: A couple of days outing to pickup my girlfriend from airport and relax.
+preview:
+- PXL_20260716_135729951.RAW-01.MP.COVER.jpg
+- PXL_20260714_183144727.RAW-01.MP.COVER.jpg
+- PXL_20260715_122600696.RAW-01.MP.COVER.jpg
+- PXL_20260714_182856292.RAW-01.MP.COVER.jpg
+- PXL_20260715_120612585.RAW-01.MP.COVER.jpg
+- PXL_20260716_113624801.RAW-01.MP.COVER.jpg
 ---
