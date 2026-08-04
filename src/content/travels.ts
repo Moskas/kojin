@@ -33,11 +33,13 @@ export interface TravelEntry {
 export interface TravelCity {
   city: string
   entries: TravelEntry[]
+  noteHtml?: string
 }
 
 export interface TravelCountry {
   country: string
   cities: TravelCity[]
+  noteHtml?: string
 }
 
 async function listImageFiles(dir: string): Promise<string[]> {
@@ -134,7 +136,10 @@ export async function loadTravels(): Promise<TravelCountry[]> {
   const countries = await Promise.all(
     countryDirs.map(async (country) => {
       const countryPath = `${TRAVELS_DIR}/${country}`
-      const cityEntries = await fs.readdir(countryPath, { withFileTypes: true }).catch(() => [])
+      const [cityEntries, countryNote] = await Promise.all([
+        fs.readdir(countryPath, { withFileTypes: true }).catch(() => []),
+        readNote(countryPath),
+      ])
       const cityDirs = cityEntries
         .filter((e) => e.isDirectory() && !e.name.startsWith('_'))
         .map((e) => e.name)
@@ -143,7 +148,10 @@ export async function loadTravels(): Promise<TravelCountry[]> {
       const cities = await Promise.all(
         cityDirs.map(async (city) => {
           const cityPath = `${countryPath}/${city}`
-          const dateEntries = await fs.readdir(cityPath, { withFileTypes: true }).catch(() => [])
+          const [dateEntries, cityNote] = await Promise.all([
+            fs.readdir(cityPath, { withFileTypes: true }).catch(() => []),
+            readNote(cityPath),
+          ])
           const dateDirs = dateEntries
             .filter((e) => e.isDirectory() && /^\d{4}-\d{2}-\d{2}$/.test(e.name))
             .map((e) => e.name)
@@ -168,11 +176,15 @@ export async function loadTravels(): Promise<TravelCountry[]> {
             })
           )
 
-          return { city, entries } satisfies TravelCity
+          return { city, entries, noteHtml: cityNote.html } satisfies TravelCity
         })
       )
 
-      return { country, cities: cities.filter((c) => c.entries.length > 0) } satisfies TravelCountry
+      return {
+        country,
+        cities: cities.filter((c) => c.entries.length > 0),
+        noteHtml: countryNote.html,
+      } satisfies TravelCountry
     })
   )
 

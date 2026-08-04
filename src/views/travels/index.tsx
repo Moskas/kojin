@@ -1,26 +1,26 @@
-import type { FC } from 'hono/jsx'
-import { Layout } from '../layout'
-import type { TravelCountry } from '../../content/travels'
+import type { FC } from "hono/jsx";
+import { Layout } from "../layout";
+import type { TravelCountry } from "../../content/travels";
 
-const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
+const SITE_URL = process.env.SITE_URL ?? "http://localhost:3000";
 
-type Props = { countries: TravelCountry[] }
+type Props = { countries: TravelCountry[] };
 
 function countCities(countries: TravelCountry[]): number {
-  return countries.reduce((acc, c) => acc + c.cities.length, 0)
+  return countries.reduce((acc, c) => acc + c.cities.length, 0);
 }
 
 function formatDate(iso: string): string {
-  const [year, month, day] = iso.split('-').map(Number)
-  return new Date(year, month - 1, day).toLocaleDateString('en-US', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
+  const [year, month, day] = iso.split("-").map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 }
 
 export const TravelsIndex: FC<Props> = ({ countries }) => {
-  const cityCount = countCities(countries)
+  const cityCount = countCities(countries);
 
   return (
     <Layout
@@ -34,8 +34,9 @@ export const TravelsIndex: FC<Props> = ({ countries }) => {
       </section>
 
       <div class="travels-stats">
-        <span>{countries.length}</span> {countries.length === 1 ? 'country' : 'countries'} &middot;{' '}
-        <span>{cityCount}</span> {cityCount === 1 ? 'city' : 'cities'}
+        <span>{countries.length}</span>{" "}
+        {countries.length === 1 ? "country" : "countries"} &middot;{" "}
+        <span>{cityCount}</span> {cityCount === 1 ? "city" : "cities"}
       </div>
 
       {countries.length === 0 ? (
@@ -48,12 +49,29 @@ export const TravelsIndex: FC<Props> = ({ countries }) => {
                 <h2>{country.country}</h2>
               </div>
 
+              {country.noteHtml && (
+                <div
+                  class="prose"
+                  dangerouslySetInnerHTML={{ __html: country.noteHtml }}
+                />
+              )}
+
               {country.cities.map((cityData) => (
                 <div key={cityData.city} class="travel-city-group">
+                  <div class="city-header">
+                    <h3>{cityData.city}</h3>
+                  </div>
+
+                  {cityData.noteHtml && (
+                    <div
+                      class="prose"
+                      dangerouslySetInnerHTML={{ __html: cityData.noteHtml }}
+                    />
+                  )}
+
                   {cityData.entries.map((entry) => (
                     <div key={entry.date} class="travel-city">
                       <div class="city-header">
-                        <h3>{cityData.city}</h3>
                         <span class="city-year">{formatDate(entry.date)}</span>
                       </div>
 
@@ -101,9 +119,23 @@ export const TravelsIndex: FC<Props> = ({ countries }) => {
       <div class="lightbox" id="lightbox" aria-hidden="true">
         <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
         <div class="lightbox-content">
-          <button class="lightbox-close" id="lightbox-close" aria-label="close">✕</button>
-          <button class="lightbox-prev" id="lightbox-prev" aria-label="previous photo">‹</button>
-          <button class="lightbox-next" id="lightbox-next" aria-label="next photo">›</button>
+          <button class="lightbox-close" id="lightbox-close" aria-label="close">
+            ✕
+          </button>
+          <button
+            class="lightbox-prev"
+            id="lightbox-prev"
+            aria-label="previous photo"
+          >
+            ‹
+          </button>
+          <button
+            class="lightbox-next"
+            id="lightbox-next"
+            aria-label="next photo"
+          >
+            ›
+          </button>
           <img class="lightbox-img" id="lightbox-img" src="" alt="" />
           <p class="lightbox-exif" id="lightbox-exif"></p>
         </div>
@@ -111,5 +143,5 @@ export const TravelsIndex: FC<Props> = ({ countries }) => {
 
       <script src="/static/js/lightbox.js"></script>
     </Layout>
-  )
-}
+  );
+};
