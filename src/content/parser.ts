@@ -11,11 +11,15 @@ import { visit } from 'unist-util-visit'
 
 export interface Frontmatter {
   title: string
-  date: string | Date
-  updated?: string | Date
+  date: string
+  updated?: string
   tags?: string[]
   draft?: boolean
   description?: string
+}
+
+function toDateString(value: string | Date): string {
+  return value instanceof Date ? value.toISOString().slice(0, 10) : value
 }
 
 export type TocItem = { depth: number; id: string; text: string }
@@ -62,9 +66,12 @@ async function parseFile(filePath: string): Promise<ParsedContent> {
   const { data, content } = matter(source)
   const result = await processor.process(content)
   const filename = path.basename(filePath)
+  const frontmatter = data as Frontmatter
+  if (frontmatter.date) frontmatter.date = toDateString(frontmatter.date as unknown as string | Date)
+  if (frontmatter.updated) frontmatter.updated = toDateString(frontmatter.updated as unknown as string | Date)
 
   return {
-    frontmatter: data as Frontmatter,
+    frontmatter,
     html: String(result),
     slug: fileToSlug(filename),
     filename,

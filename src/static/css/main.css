@@ -2417,3 +2417,22 @@ h3 {
 .travel-detail-note a {
     color: var(--fg);
 }
+
+.not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 50vh;
+}
+
+.not-found-content h1 {
+    font-size: 4rem;
+    margin: 0;
+}
+
+.not-found-content p {
+    color: var(--fg-dim);
+    margin: 0.5rem 0 1.5rem;
+}

@@ -17,6 +17,7 @@ import { sitemapRoute } from './routes/sitemap'
 import { travelsRoutes } from './routes/travels'
 import { buildIndexes } from './content/index'
 import { logger } from './logger'
+import { NotFound } from './views/not-found'
 
 const app = new Hono()
 
@@ -44,6 +45,8 @@ app.route('/search', searchRoutes)
 app.route('/feed.xml', feedRoute)
 app.route('/sitemap', sitemapRoute)
 app.route('/travels', travelsRoutes)
+
+app.notFound((c) => c.html(<NotFound />, 404))
 
 const port = parseInt(process.env.PORT ?? '3000')
 
