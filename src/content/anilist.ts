@@ -1,3 +1,5 @@
+import { logger } from '../logger'
+
 export interface MediaEntry {
   title: string
   progress: number
@@ -48,7 +50,11 @@ async function fetchMediaList(userId: number, type: 'ANIME' | 'MANGA'): Promise<
     body: JSON.stringify({ query: QUERY, variables: { userId, type } }),
   })
 
-  if (!res.ok) return []
+  if (!res.ok) {
+    const body = (await res.text()).slice(0, 500)
+    logger.error('anilist', 'request failed', { status: res.status, type, body })
+    return []
+  }
 
   const json = await res.json()
   const lists: any[] = json.data?.MediaListCollection?.lists ?? []
@@ -83,7 +89,8 @@ export async function getAnilistData(): Promise<AnilistData> {
     const data: AnilistData = { anime, manga }
     cache = { data, ts: Date.now() }
     return data
-  } catch {
+  } catch (err) {
+    logger.error('anilist', 'request failed', { error: String(err) })
     return { anime: [], manga: [] }
   }
 }

@@ -1,3 +1,5 @@
+import { logger } from '../logger'
+
 export interface Track {
   artist: string
   title: string
@@ -34,12 +36,19 @@ export async function getLastfmData(): Promise<LastfmData> {
   const username = process.env.LASTFM_USERNAME ?? ''
   const apiKey = process.env.LASTFM_API_KEY ?? ''
 
-  if (!username || !apiKey) return { nowPlaying: null, recent: [] }
+  if (!username || !apiKey) {
+    logger.warn('lastfm', 'missing LASTFM_USERNAME or LASTFM_API_KEY, skipping request')
+    return { nowPlaying: null, recent: [] }
+  }
 
   try {
     const url = `${LASTFM_API}?method=user.getRecentTracks&user=${encodeURIComponent(username)}&api_key=${apiKey}&format=json&limit=6`
     const res = await fetch(url)
-    if (!res.ok) return { nowPlaying: null, recent: [] }
+    if (!res.ok) {
+      const body = (await res.text()).slice(0, 500)
+      logger.error('lastfm', 'request failed', { status: res.status, body })
+      return { nowPlaying: null, recent: [] }
+    }
 
     const json = await res.json()
     const tracks: any[] = json.recenttracks?.track ?? []
@@ -51,7 +60,8 @@ export async function getLastfmData(): Promise<LastfmData> {
     const data: LastfmData = { nowPlaying, recent }
     cache = { data, ts: Date.now() }
     return data
-  } catch {
+  } catch (err) {
+    logger.error('lastfm', 'request failed', { error: String(err) })
     return { nowPlaying: null, recent: [] }
   }
 }

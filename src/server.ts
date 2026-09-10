@@ -16,8 +16,16 @@ import { aboutRoute } from './routes/about'
 import { sitemapRoute } from './routes/sitemap'
 import { travelsRoutes } from './routes/travels'
 import { buildIndexes } from './content/index'
+import { logger } from './logger'
 
 const app = new Hono()
+
+app.use('*', async (c, next) => {
+  const start = Date.now()
+  await next()
+  const ms = Date.now() - start
+  logger.info('http', `${c.req.method} ${c.req.path}`, { status: c.res.status, ms })
+})
 
 app.use('/static/*', serveStatic({ root: './src' }))
 
@@ -39,8 +47,13 @@ app.route('/travels', travelsRoutes)
 
 const port = parseInt(process.env.PORT ?? '3000')
 
-await buildIndexes()
-console.log(`kojin running at http://localhost:${port}`)
+try {
+  await buildIndexes()
+} catch (err) {
+  logger.error('server', 'buildIndexes failed', { error: String(err) })
+  throw err
+}
+logger.info('server', `kojin running at http://localhost:${port}`)
 
 export default {
   port,
