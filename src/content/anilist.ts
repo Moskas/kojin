@@ -20,6 +20,8 @@ const ANILIST_API = 'https://graphql.anilist.co'
 const TTL = 5 * 60 * 1000
 
 let cache: { data: AnilistData; ts: number } | null = null
+let pending: Promise<AnilistData> | null = null
+let rateLimitedUntil = 0
 
 const QUERY = `
   query ($userId: Int, $type: MediaType) {
@@ -50,6 +52,14 @@ async function fetchMediaList(userId: number, type: 'ANIME' | 'MANGA'): Promise<
     body: JSON.stringify({ query: QUERY, variables: { userId, type } }),
   })
 
+  if (res.status === 429) {
+    const retryAfter = parseInt(res.headers.get('Retry-After') ?? '', 10)
+    const retryAfterSeconds = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter : 60
+    rateLimitedUntil = Date.now() + retryAfterSeconds * 1000
+    logger.error('anilist', 'rate limited', { type, retryAfter: retryAfterSeconds })
+    return []
+  }
+
   if (!res.ok) {
     const body = (await res.text()).slice(0, 500)
     logger.error('anilist', 'request failed', { status: res.status, type, body })
@@ -74,12 +84,7 @@ async function fetchMediaList(userId: number, type: 'ANIME' | 'MANGA'): Promise<
   }))
 }
 
-export async function getAnilistData(): Promise<AnilistData> {
-  if (cache && Date.now() - cache.ts < TTL) return cache.data
-
-  const userId = parseInt(process.env.ANILIST_USER_ID ?? '0')
-  if (!userId) return { anime: [], manga: [] }
-
+async function doFetch(userId: number): Promise<AnilistData> {
   try {
     const [anime, manga] = await Promise.all([
       fetchMediaList(userId, 'ANIME'),
@@ -93,4 +98,20 @@ export async function getAnilistData(): Promise<AnilistData> {
     logger.error('anilist', 'request failed', { error: String(err) })
     return { anime: [], manga: [] }
   }
+}
+
+export async function getAnilistData(): Promise<AnilistData> {
+  if (cache && Date.now() - cache.ts < TTL) return cache.data
+
+  const userId = parseInt(process.env.ANILIST_USER_ID ?? '0')
+  if (!userId) return { anime: [], manga: [] }
+
+  if (Date.now() < rateLimitedUntil) return cache?.data ?? { anime: [], manga: [] }
+
+  if (pending) return pending
+
+  pending = doFetch(userId).finally(() => {
+    pending = null
+  })
+  return pending
 }

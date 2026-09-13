@@ -5,11 +5,14 @@ import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
+import { logger } from '../logger'
 
 const BOOKSHELF_DIR = `${process.cwd()}/content/bookshelf`
 
 const ANILIST_API = 'https://graphql.anilist.co'
-const anilistCoverCache = new Map<number, string>()
+const COVER_TTL = 24 * 60 * 60 * 1000
+const anilistCoverCache = new Map<number, { url: string; ts: number }>()
+let inFlight: Promise<void> | null = null
 
 const MANGA_COVER_QUERY = `
   query ($ids: [Int]) {
@@ -28,24 +31,34 @@ function extractAnilistId(link: string | undefined): number | null {
   return m ? parseInt(m[1], 10) : null
 }
 
-async function fetchAnilistCovers(ids: number[]): Promise<void> {
-  if (ids.length === 0) return
+async function fetchAnilistCoverChunk(ids: number[]): Promise<void> {
   try {
     const res = await fetch(ANILIST_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query: MANGA_COVER_QUERY, variables: { ids } }),
     })
-    if (!res.ok) return
+    if (!res.ok) {
+      logger.error('bookshelf', 'anilist cover request failed', { status: res.status, ids })
+      return
+    }
     const json = await res.json() as any
+    const now = Date.now()
     for (const item of json.data?.Page?.media ?? []) {
       if (item.id && item.coverImage?.large) {
-        anilistCoverCache.set(item.id, item.coverImage.large)
+        anilistCoverCache.set(item.id, { url: item.coverImage.large, ts: now })
       }
     }
-  } catch {
-    // on failure entries stay cover-less; placeholder renders
+  } catch (err) {
+    logger.error('bookshelf', 'anilist cover request failed', { error: String(err) })
   }
+}
+
+async function fetchAnilistCovers(ids: number[]): Promise<void> {
+  if (ids.length === 0) return
+  const chunks: number[][] = []
+  for (let i = 0; i < ids.length; i += 50) chunks.push(ids.slice(i, i + 50))
+  await Promise.all(chunks.map(fetchAnilistCoverChunk))
 }
 
 export type BookStatus = 'reading' | 'finished' | 'hold'
@@ -155,27 +168,46 @@ export async function loadBookshelf(query: BookshelfQuery): Promise<BookshelfSec
     return a.id.localeCompare(b.id)
   })
 
-  const needsFetch: { entry: BookshelfEntry; id: number }[] = []
-  for (const section of sections) {
-    for (const entry of section.entries) {
-      if (!entry.cover) {
-        const id = extractAnilistId(entry.link)
-        if (id !== null) {
-          if (anilistCoverCache.has(id)) {
-            entry.cover = anilistCoverCache.get(id)
-          } else {
-            needsFetch.push({ entry, id })
+  const isFresh = (id: number) => {
+    const cached = anilistCoverCache.get(id)
+    return cached !== undefined && Date.now() - cached.ts < COVER_TTL
+  }
+
+  const collectNeedsFetch = () => {
+    const needsFetch: { entry: BookshelfEntry; id: number }[] = []
+    for (const section of sections) {
+      for (const entry of section.entries) {
+        if (!entry.cover) {
+          const id = extractAnilistId(entry.link)
+          if (id !== null) {
+            if (isFresh(id)) {
+              entry.cover = anilistCoverCache.get(id)!.url
+            } else {
+              needsFetch.push({ entry, id })
+            }
           }
         }
       }
     }
+    return needsFetch
   }
+
+  let needsFetch = collectNeedsFetch()
   if (needsFetch.length > 0) {
-    const uniqueIds = [...new Set(needsFetch.map((x) => x.id))]
-    await fetchAnilistCovers(uniqueIds)
-    for (const { entry, id } of needsFetch) {
-      const url = anilistCoverCache.get(id)
-      if (url) entry.cover = url
+    if (inFlight) {
+      await inFlight
+      needsFetch = collectNeedsFetch()
+    }
+    if (needsFetch.length > 0) {
+      const uniqueIds = [...new Set(needsFetch.map((x) => x.id))]
+      inFlight = fetchAnilistCovers(uniqueIds).finally(() => {
+        inFlight = null
+      })
+      await inFlight
+      for (const { entry, id } of needsFetch) {
+        const cached = anilistCoverCache.get(id)
+        if (cached) entry.cover = cached.url
+      }
     }
   }
 
