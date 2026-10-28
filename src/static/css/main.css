@@ -205,6 +205,7 @@ nav {
 
 .site-title {
     color: var(--fg);
+    font-size: 18px;
     font-weight: bold;
     margin-right: auto;
 }
@@ -922,89 +923,141 @@ h3 {
 }
 
 .project-card {
-    padding: 2rem;
     border: 1px solid var(--border);
+    display: grid;
 }
 
 .project-card--image {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+}
+
+.project-media {
+    min-height: 12rem;
+    border-right: 1px solid var(--border);
+    background: repeating-linear-gradient(
+        135deg,
+        var(--bookshelf-stripe1) 0 4px,
+        var(--bookshelf-stripe2) 4px 8px
+    );
+    overflow: hidden;
+}
+
+.project-media img {
     display: grid;
-    grid-template-columns: 150px 1fr;
-    min-height: 150px;
-    padding: 0;
-}
-
-.project-card--image .project-body {
-    padding: 2rem;
-    border-left: 1px solid var(--border);
-}
-
-.project-body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    min-width: 0;
-}
-
-/*
-.project-card:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-*/
-
-.project-image {
-    display: block;
     width: 100%;
     height: 100%;
     object-fit: none;
     object-position: top left;
 }
 
+.project-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.project-main {
+    padding: 1.25rem 1rem 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+}
+
 .project-header {
     display: flex;
-    align-items: baseline;
-    gap: 1ch;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
 }
 
 .project-header h2 {
-    font-size: 16px;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: bold;
+    letter-spacing: 0.01em;
+    min-width: 0;
+}
+
+.project-header h2 a {
+    text-decoration: none;
+}
+
+.project-header h2 a:hover {
+    text-decoration: underline;
+}
+
+.project-meta {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 2ch;
+    flex-shrink: 0;
+}
+
+.project-year {
+    color: var(--fg-dim);
+    font-size: 14px;
 }
 
 .status {
+    display: inline-block;
+    padding: 4px 4px 3px 4px;
     font-size: 14px;
-    color: var(--fg-dim);
+    line-height: 1.4;
+    color: var(--bg);
+    background: var(--fg-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .status--active {
-    color: var(--bookshelf-reading);
+    background: var(--bookshelf-reading);
+}
+
+.status--wip {
+    background: var(--bookshelf-hold);
 }
 
 .status--inactive {
-    color: var(--watchlist-dropped);
+    background: var(--watchlist-dropped);
 }
 
 .project-description {
     font-size: 14px;
     color: var(--fg-dim);
     margin: 0;
-    line-height: 1.5;
+    line-height: 1.6;
+    text-wrap: pretty;
+}
+
+.project-description a {
+    color: var(--fg);
 }
 
 .project-footer {
+    border-top: 1px solid var(--border);
+    padding: 0.5rem 1rem 0.5rem 1.5rem;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 1ch;
-    margin-top: 0.25rem;
+    font-size: 14px;
+    color: var(--fg-dim);
+}
+
+.project-footer .tags {
+    gap: 0 1.25ch;
+}
+
+.project-footer .tag {
+    text-decoration: none;
 }
 
 .project-links {
     display: flex;
     align-items: baseline;
     gap: 2ch;
-    font-size: 14px;
-    color: var(--fg-dim);
     flex-shrink: 0;
 }
 
@@ -1012,9 +1065,10 @@ h3 {
     color: var(--fg-dim);
 }
 
-.project-description a {
-    color: var(--fg);
+.project-link::after {
+    content: " \2197";
 }
+
 .project-link:hover {
     color: var(--fg);
 }
@@ -2188,24 +2242,28 @@ h3 {
         grid-template-columns: 1fr;
     }
 
-    .project-card {
-        padding: 1rem;
-    }
-
     .project-card--image {
         grid-template-columns: 1fr;
+    }
+
+    .project-media {
+        aspect-ratio: 16 / 5;
         min-height: 0;
-        padding: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
     }
 
-    .project-card--image .project-body {
+    .project-header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .project-main {
         padding: 1rem;
-        border-left: none;
-        border-top: 1px solid var(--border);
     }
 
-    .project-image {
-        height: 100px;
+    .project-footer {
+        padding: 0.5rem 1rem;
     }
 
     .post-list--compact .post-item-body {

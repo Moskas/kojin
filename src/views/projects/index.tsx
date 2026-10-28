@@ -30,27 +30,31 @@ export const ProjectsIndex: FC<Props> = ({ projects }) => (
         {projects.map((p) => (
           <li key={p.slug} class={p.meta.image ? 'project-card project-card--image' : 'project-card'}>
             {p.meta.image && (
-              <img
-                src={p.meta.image}
-                alt={p.meta.alt ?? p.meta.title}
-                class="project-image"
-                loading="lazy"
-              />
+              <div class="project-media">
+                <img src={p.meta.image} alt={p.meta.alt ?? p.meta.title} loading="lazy" />
+              </div>
             )}
             <div class="project-body">
-              <div class="project-header">
-                <h2>
-                  {p.meta.url ? (
-                    <a href={p.meta.url} target="_blank" rel="noopener noreferrer">
-                      {p.meta.title}
-                    </a>
-                  ) : (
-                    p.meta.title
-                  )}
-                </h2>
-                <span class={`status status--${p.meta.status}`}>{STATUS_LABEL[p.meta.status] ?? p.meta.status}</span>
+              <div class="project-main">
+                <div class="project-header">
+                  <h2>
+                    {p.meta.url ? (
+                      <a href={p.meta.url} target="_blank" rel="noopener noreferrer">
+                        {p.meta.title}
+                      </a>
+                    ) : (
+                      p.meta.title
+                    )}
+                  </h2>
+                  <div class="project-meta">
+                    {p.meta.year && <span class="project-year">{p.meta.year}</span>}
+                    <span class={`status status--${p.meta.status}`}>
+                      {STATUS_LABEL[p.meta.status] ?? p.meta.status}
+                    </span>
+                  </div>
+                </div>
+                <p class="project-description" dangerouslySetInnerHTML={{ __html: p.descriptionHtml }} />
               </div>
-              <p class="project-description" dangerouslySetInnerHTML={{ __html: p.descriptionHtml }} />
               <div class="project-footer">
                 <div class="tags">
                   {(p.meta.tech ?? []).map((t) => (
@@ -74,7 +78,6 @@ export const ProjectsIndex: FC<Props> = ({ projects }) => (
                       {link.label}
                     </a>
                   ))}
-                  <span class="project-year">{p.meta.year}</span>
                 </div>
               </div>
             </div>
