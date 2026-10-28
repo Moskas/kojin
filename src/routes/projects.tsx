@@ -1,8 +1,18 @@
 import { Hono } from 'hono'
 import matter from 'gray-matter'
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkGfm from 'remark-gfm'
+import remarkRehype from 'remark-rehype'
+import rehypeStringify from 'rehype-stringify'
 import { ProjectsIndex } from '../views/projects/index'
 
 const PROJECTS_DIR = `${process.cwd()}/content/projects`
+
+export interface ProjectLink {
+  label: string
+  href: string
+}
 
 export interface ProjectMeta {
   title: string
@@ -10,6 +20,9 @@ export interface ProjectMeta {
   tech: string[]
   url?: string
   source?: string
+  links?: ProjectLink[]
+  image?: string
+  alt?: string
   status: 'active' | 'archived' | 'wip'
   year: number
 }
@@ -17,6 +30,15 @@ export interface ProjectMeta {
 export interface Project {
   slug: string
   meta: ProjectMeta
+  descriptionHtml: string
+}
+
+const processor = unified().use(remarkParse).use(remarkGfm).use(remarkRehype).use(rehypeStringify)
+
+// renders inline markdown, dropping the wrapping paragraph
+async function renderInline(markdown: string): Promise<string> {
+  const html = String(await processor.process(markdown))
+  return html.trim().replace(/^<p>([\s\S]*)<\/p>$/, '$1')
 }
 
 async function listProjects(): Promise<Project[]> {
@@ -27,7 +49,12 @@ async function listProjects(): Promise<Project[]> {
     files.map(async (filename) => {
       const source = await Bun.file(`${PROJECTS_DIR}/${filename}`).text()
       const { data } = matter(source)
-      return { slug: filename.replace(/\.md$/, ''), meta: data as ProjectMeta }
+      const meta = data as ProjectMeta
+      return {
+        slug: filename.replace(/\.md$/, ''),
+        meta,
+        descriptionHtml: await renderInline(meta.description ?? ''),
+      }
     })
   )
 }

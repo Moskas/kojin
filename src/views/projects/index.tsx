@@ -28,33 +28,54 @@ export const ProjectsIndex: FC<Props> = ({ projects }) => (
     ) : (
       <ul class="project-list">
         {projects.map((p) => (
-          <li key={p.slug} class="project-card">
-            <div class="project-header">
-              <h2>
-                {p.meta.url ? (
-                  <a href={p.meta.url} target="_blank" rel="noopener noreferrer">
-                    {p.meta.title}
-                  </a>
-                ) : (
-                  p.meta.title
-                )}
-              </h2>
-              <span class={`status status--${p.meta.status}`}>{STATUS_LABEL[p.meta.status] ?? p.meta.status}</span>
-            </div>
-            <p class="project-description">{p.meta.description}</p>
-            <div class="project-footer">
-              <div class="tags">
-                {(p.meta.tech ?? []).map((t) => (
-                  <span key={t} class="tag">{t}</span>
-                ))}
+          <li key={p.slug} class={p.meta.image ? 'project-card project-card--image' : 'project-card'}>
+            {p.meta.image && (
+              <img
+                src={p.meta.image}
+                alt={p.meta.alt ?? p.meta.title}
+                class="project-image"
+                loading="lazy"
+              />
+            )}
+            <div class="project-body">
+              <div class="project-header">
+                <h2>
+                  {p.meta.url ? (
+                    <a href={p.meta.url} target="_blank" rel="noopener noreferrer">
+                      {p.meta.title}
+                    </a>
+                  ) : (
+                    p.meta.title
+                  )}
+                </h2>
+                <span class={`status status--${p.meta.status}`}>{STATUS_LABEL[p.meta.status] ?? p.meta.status}</span>
               </div>
-              <div class="project-links">
-                {p.meta.source && (
-                  <a href={p.meta.source} target="_blank" rel="noopener noreferrer" class="project-link">
-                    source
-                  </a>
-                )}
-                <span class="project-year">{p.meta.year}</span>
+              <p class="project-description" dangerouslySetInnerHTML={{ __html: p.descriptionHtml }} />
+              <div class="project-footer">
+                <div class="tags">
+                  {(p.meta.tech ?? []).map((t) => (
+                    <span key={t} class="tag">{t}</span>
+                  ))}
+                </div>
+                <div class="project-links">
+                  {p.meta.source && (
+                    <a href={p.meta.source} target="_blank" rel="noopener noreferrer" class="project-link">
+                      source
+                    </a>
+                  )}
+                  {(p.meta.links ?? []).map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="project-link"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                  <span class="project-year">{p.meta.year}</span>
+                </div>
               </div>
             </div>
           </li>
