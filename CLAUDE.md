@@ -11,7 +11,11 @@ nix develop        # enter the shell (direnv does this automatically via .envrc)
 bun run dev        # start server with file watching on http://localhost:3000
 bun run build      # compile to a single binary: ./kojin
 bun run start      # run without watch
+bun run lint       # typecheck
+nix fmt            # format (same as `bun run format`)
 ```
+
+Formatting is driven by `treefmt.toml`: prettier (`.prettierrc.json`: 2 spaces, single quotes, no semicolons, 100 cols) for ts/tsx/js/css/json, nixfmt for `.nix`. `content/` is excluded.
 
 The server must be started from the project root because content paths are resolved with `process.cwd()`.
 

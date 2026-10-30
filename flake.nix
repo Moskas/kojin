@@ -17,6 +17,19 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
 
+        # Tools treefmt.toml dispatches to
+        fmtInputs = with pkgs; [
+          treefmt
+          prettier
+          nixfmt
+        ];
+
+        formatter = pkgs.writeShellApplication {
+          name = "kojin-fmt";
+          runtimeInputs = fmtInputs;
+          text = ''treefmt "$@"'';
+        };
+
         kojin-deps = pkgs.stdenv.mkDerivation {
           pname = "kojin-deps";
           version = "0.1.0";
@@ -90,15 +103,19 @@
       {
         packages.default = kojin;
 
+        inherit formatter;
+
         devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            bun
-            vips
-            pkg-config
-            exiftool
-            prettier
-            nodejs
-          ];
+          packages =
+            with pkgs;
+            [
+              bun
+              vips
+              pkg-config
+              exiftool
+              nodejs
+            ]
+            ++ fmtInputs;
 
           shellHook = ''
             export PKG_CONFIG_PATH="${pkgs.vips}/lib/pkgconfig:''${PKG_CONFIG_PATH:-}"

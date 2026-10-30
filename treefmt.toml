@@ -1,0 +1,11 @@
+# Run via `nix fmt` or `bun run format`
+excludes = ["content/**", "*.lock", "src/static/fonts/**", "src/static/img/**"]
+
+[formatter.prettier]
+command = "prettier"
+options = ["--write"]
+includes = ["*.ts", "*.tsx", "*.js", "*.css", "*.json"]
+
+[formatter.nixfmt]
+command = "nixfmt"
+includes = ["*.nix"]
