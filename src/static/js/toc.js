@@ -1,4 +1,4 @@
-(function () {
+;(function () {
   const headings = Array.from(
     document.querySelectorAll('.prose h1, .prose h2, .prose h3, .prose h4')
   )

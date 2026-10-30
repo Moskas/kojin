@@ -10,10 +10,7 @@ const GARDEN_DIR = `${process.cwd()}/content/garden`
 export const sitemapRoute = new Hono()
 
 sitemapRoute.get('/', async (c) => {
-  const [posts, notes] = await Promise.all([
-    listPosts(BLOG_DIR),
-    listNotes(GARDEN_DIR),
-  ])
+  const [posts, notes] = await Promise.all([listPosts(BLOG_DIR), listNotes(GARDEN_DIR)])
 
   const sections: SitemapSection[] = [
     {

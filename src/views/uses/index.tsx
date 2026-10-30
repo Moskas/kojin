@@ -8,7 +8,9 @@ const UsesCard: FC<{ item: UsesItem; sectionId: string }> = ({ item, sectionId }
   <article id={item.id} class={`uses-item uses-item--${sectionId}`}>
     <h3 class="uses-item-name">
       {item.url ? (
-        <a href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a>
+        <a href={item.url} target="_blank" rel="noopener noreferrer">
+          {item.name}
+        </a>
       ) : (
         <a href={`#${item.id}`}>{item.name}</a>
       )}
@@ -50,9 +52,13 @@ export const UsesPage: FC<Props> = ({ uses }) => (
       <nav class="uses-toc" aria-label="uses contents">
         {uses.map((section) => (
           <div key={section.id} class="uses-toc-section">
-            <a class="uses-toc-label" href={`#${section.id}`}>{section.title}</a>
+            <a class="uses-toc-label" href={`#${section.id}`}>
+              {section.title}
+            </a>
             {section.items.map((item) => (
-              <a key={item.id} href={`#${item.id}`}>{item.name}</a>
+              <a key={item.id} href={`#${item.id}`}>
+                {item.name}
+              </a>
             ))}
           </div>
         ))}

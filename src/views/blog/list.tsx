@@ -45,11 +45,7 @@ export const BlogList: FC<Props> = ({
       <div class="blog-filters-tags">
         <span class="blog-filters-label">Filter posts by tag:</span>
         {allTags.map((tag) => (
-          <a
-            key={tag}
-            href={`/blog?tag=${tag}`}
-            class={`tag${activeTag === tag ? ' active' : ''}`}
-          >
+          <a key={tag} href={`/blog?tag=${tag}`} class={`tag${activeTag === tag ? ' active' : ''}`}>
             {tag} ({tagCounts[tag]})
           </a>
         ))}
@@ -57,11 +53,7 @@ export const BlogList: FC<Props> = ({
       <div class="blog-filters-years">
         <span class="blog-filters-label">Filter posts by year:</span>
         {allYears.map((y) => (
-          <a
-            key={y}
-            href={`/blog?year=${y}`}
-            class={`tag${activeYear === y ? ' active' : ''}`}
-          >
+          <a key={y} href={`/blog?year=${y}`} class={`tag${activeYear === y ? ' active' : ''}`}>
             {y} ({yearCounts[y]})
           </a>
         ))}
@@ -76,8 +68,7 @@ export const BlogList: FC<Props> = ({
           </>
         )}
         {activeTag && activeYear && ' · '}
-        {activeYear && <span>{activeYear}</span>}
-        {' '}[{posts.length}] <a href="/blog">clear</a>
+        {activeYear && <span>{activeYear}</span>} [{posts.length}] <a href="/blog">clear</a>
       </p>
     )}
 

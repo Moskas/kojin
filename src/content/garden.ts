@@ -94,7 +94,7 @@ const wikiLinksPlugin: Plugin<[{ sourceSlug: string; dir: string }], Root> = ({
       const text = node.value
       let match
       let lastIndex = 0
-      const newNodes: typeof node[] = []
+      const newNodes: (typeof node)[] = []
 
       while ((match = WIKI_LINK.exec(text)) !== null) {
         if (match.index > lastIndex) {

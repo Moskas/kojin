@@ -12,7 +12,11 @@ const PHOTOS_DIR = `${process.cwd()}/content/photos`
 const CACHE_DIR = `${process.cwd()}/cache/photos`
 const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp'])
 
-const noteProcessor = unified().use(remarkParse).use(remarkAlerts).use(remarkRehype).use(rehypeStringify)
+const noteProcessor = unified()
+  .use(remarkParse)
+  .use(remarkAlerts)
+  .use(remarkRehype)
+  .use(rehypeStringify)
 
 export interface PhotoExif {
   camera?: string
@@ -41,7 +45,10 @@ export interface DayEntry {
 async function listImageFiles(dir: string): Promise<string[]> {
   const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => [])
   return entries
-    .filter((e) => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()) && !e.name.startsWith('_'))
+    .filter(
+      (e) =>
+        e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()) && !e.name.startsWith('_')
+    )
     .map((e) => e.name)
     .sort()
 }
@@ -73,7 +80,11 @@ async function readExif(filePath: string): Promise<PhotoExif | undefined> {
   }
 }
 
-export async function processImage(dateSlug: string, base: string, originalPath: string): Promise<void> {
+export async function processImage(
+  dateSlug: string,
+  base: string,
+  originalPath: string
+): Promise<void> {
   const cacheDir = `${CACHE_DIR}/${dateSlug}`
   await fs.mkdir(cacheDir, { recursive: true })
 
@@ -105,7 +116,10 @@ async function findOriginal(dayDir: string, base: string): Promise<string | null
   return null
 }
 
-export async function generateCachedImage(dateSlug: string, filename: string): Promise<string | null> {
+export async function generateCachedImage(
+  dateSlug: string,
+  filename: string
+): Promise<string | null> {
   const match = filename.match(/^(thumb|medium)-(.+)\.webp$/)
   if (!match) return null
   const base = match[2]
@@ -159,7 +173,13 @@ export async function getRecentPhotos(count: number): Promise<Photo[]> {
     const files = await listImageFiles(`${PHOTOS_DIR}/${date}`)
     for (const file of files.slice(0, count - results.length)) {
       const base = path.basename(file, path.extname(file))
-      results.push({ filename: file, base, date, thumb: `/photos/img/${date}/thumb-${base}.webp`, medium: `/photos/img/${date}/medium-${base}.webp` })
+      results.push({
+        filename: file,
+        base,
+        date,
+        thumb: `/photos/img/${date}/thumb-${base}.webp`,
+        medium: `/photos/img/${date}/medium-${base}.webp`,
+      })
     }
   }
   return results

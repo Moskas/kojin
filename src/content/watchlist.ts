@@ -38,7 +38,10 @@ export interface WatchQuery {
 }
 
 function slugify(name: string): string {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
 }
 
 function parseMetaYaml(src: string): { title?: string; order?: number } {
@@ -50,7 +53,12 @@ function parseMetaYaml(src: string): { title?: string; order?: number } {
   }
 }
 
-const processor = unified().use(remarkParse).use(remarkGfm).use(remarkAlerts).use(remarkRehype).use(rehypeStringify)
+const processor = unified()
+  .use(remarkParse)
+  .use(remarkGfm)
+  .use(remarkAlerts)
+  .use(remarkRehype)
+  .use(rehypeStringify)
 
 async function parseEntry(filePath: string): Promise<WatchEntry> {
   const source = await Bun.file(filePath).text()

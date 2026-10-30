@@ -28,7 +28,10 @@ export interface UsesSection {
 export type UsesData = UsesSection[]
 
 function slugify(name: string): string {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
 }
 
 function parseMetaYaml(src: string): { title?: string; order?: number; layout?: 'list' | 'grid' } {
@@ -41,7 +44,12 @@ function parseMetaYaml(src: string): { title?: string; order?: number; layout?: 
   }
 }
 
-const processor = unified().use(remarkParse).use(remarkGfm).use(remarkAlerts).use(remarkRehype).use(rehypeStringify)
+const processor = unified()
+  .use(remarkParse)
+  .use(remarkGfm)
+  .use(remarkAlerts)
+  .use(remarkRehype)
+  .use(rehypeStringify)
 
 async function parseItem(filePath: string): Promise<UsesItem> {
   const source = await Bun.file(filePath).text()

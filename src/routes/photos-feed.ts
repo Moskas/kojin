@@ -19,7 +19,10 @@ photosFeedRoute.get('/', async (c) => {
   const items = days
     .map((day) => {
       const imgs = day.photos
-        .map((p) => `<img src="${SITE_URL}${p.medium}" alt="${escape(p.base)}" style="max-width:100%;display:block;margin-bottom:0.5rem" />`)
+        .map(
+          (p) =>
+            `<img src="${SITE_URL}${p.medium}" alt="${escape(p.base)}" style="max-width:100%;display:block;margin-bottom:0.5rem" />`
+        )
         .join('')
       const content = imgs + (day.noteHtml ?? '')
       return `
@@ -50,5 +53,9 @@ photosFeedRoute.get('/', async (c) => {
 })
 
 function escape(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
 }

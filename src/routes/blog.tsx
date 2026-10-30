@@ -25,10 +25,10 @@ blogRoutes.get('/', async (c) => {
     .reverse()
 
   const tagCounts = Object.fromEntries(
-    allTags.map((t) => [t, allPosts.filter((p) => p.frontmatter.tags?.includes(t)).length]),
+    allTags.map((t) => [t, allPosts.filter((p) => p.frontmatter.tags?.includes(t)).length])
   )
   const yearCounts = Object.fromEntries(
-    allYears.map((y) => [y, allPosts.filter((p) => getYear(p.frontmatter.date) === y).length]),
+    allYears.map((y) => [y, allPosts.filter((p) => getYear(p.frontmatter.date) === y).length])
   )
 
   let posts = allPosts
@@ -44,7 +44,7 @@ blogRoutes.get('/', async (c) => {
       allYears={allYears}
       tagCounts={tagCounts}
       yearCounts={yearCounts}
-    />,
+    />
   )
 })
 

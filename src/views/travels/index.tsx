@@ -1,42 +1,37 @@
-import type { FC } from "hono/jsx";
-import { Layout } from "../layout";
-import type { TravelCountry } from "../../content/travels";
+import type { FC } from 'hono/jsx'
+import { Layout } from '../layout'
+import type { TravelCountry } from '../../content/travels'
 
-const SITE_URL = process.env.SITE_URL ?? "http://localhost:3000";
+const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
 
-type Props = { countries: TravelCountry[] };
+type Props = { countries: TravelCountry[] }
 
 function countCities(countries: TravelCountry[]): number {
-  return countries.reduce((acc, c) => acc + c.cities.length, 0);
+  return countries.reduce((acc, c) => acc + c.cities.length, 0)
 }
 
 function formatDate(iso: string): string {
-  const [year, month, day] = iso.split("-").map(Number);
-  return new Date(year, month - 1, day).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const [year, month, day] = iso.split('-').map(Number)
+  return new Date(year, month - 1, day).toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  })
 }
 
 export const TravelsIndex: FC<Props> = ({ countries }) => {
-  const cityCount = countCities(countries);
+  const cityCount = countCities(countries)
 
   return (
-    <Layout
-      title="travels"
-      description="places i've been to."
-      canonicalUrl={`${SITE_URL}/travels`}
-    >
+    <Layout title="travels" description="places i've been to." canonicalUrl={`${SITE_URL}/travels`}>
       <section class="page-header">
         <h1>travels</h1>
         <p class="page-description">places i've been to.</p>
       </section>
 
       <div class="travels-stats">
-        <span>{countries.length}</span>{" "}
-        {countries.length === 1 ? "country" : "countries"} &middot;{" "}
-        <span>{cityCount}</span> {cityCount === 1 ? "city" : "cities"}
+        <span>{countries.length}</span> {countries.length === 1 ? 'country' : 'countries'} &middot;{' '}
+        <span>{cityCount}</span> {cityCount === 1 ? 'city' : 'cities'}
       </div>
 
       {countries.length === 0 ? (
@@ -50,10 +45,7 @@ export const TravelsIndex: FC<Props> = ({ countries }) => {
               </div>
 
               {country.noteHtml && (
-                <div
-                  class="prose"
-                  dangerouslySetInnerHTML={{ __html: country.noteHtml }}
-                />
+                <div class="prose" dangerouslySetInnerHTML={{ __html: country.noteHtml }} />
               )}
 
               {country.cities.map((cityData) => (
@@ -63,10 +55,7 @@ export const TravelsIndex: FC<Props> = ({ countries }) => {
                   </div>
 
                   {cityData.noteHtml && (
-                    <div
-                      class="prose"
-                      dangerouslySetInnerHTML={{ __html: cityData.noteHtml }}
-                    />
+                    <div class="prose" dangerouslySetInnerHTML={{ __html: cityData.noteHtml }} />
                   )}
 
                   {cityData.entries.map((entry) => (
@@ -75,9 +64,7 @@ export const TravelsIndex: FC<Props> = ({ countries }) => {
                         <span class="city-year">{formatDate(entry.date)}</span>
                       </div>
 
-                      {entry.description && (
-                        <p class="city-note">{entry.description}</p>
-                      )}
+                      {entry.description && <p class="city-note">{entry.description}</p>}
 
                       {entry.photos.length > 0 && (
                         <div class="travel-preview-strip">
@@ -122,18 +109,10 @@ export const TravelsIndex: FC<Props> = ({ countries }) => {
           <button class="lightbox-close" id="lightbox-close" aria-label="close">
             ✕
           </button>
-          <button
-            class="lightbox-prev"
-            id="lightbox-prev"
-            aria-label="previous photo"
-          >
+          <button class="lightbox-prev" id="lightbox-prev" aria-label="previous photo">
             ‹
           </button>
-          <button
-            class="lightbox-next"
-            id="lightbox-next"
-            aria-label="next photo"
-          >
+          <button class="lightbox-next" id="lightbox-next" aria-label="next photo">
             ›
           </button>
           <img class="lightbox-img" id="lightbox-img" src="" alt="" />
@@ -143,5 +122,5 @@ export const TravelsIndex: FC<Props> = ({ countries }) => {
 
       <script src="/static/js/lightbox.js"></script>
     </Layout>
-  );
-};
+  )
+}

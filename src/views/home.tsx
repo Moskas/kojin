@@ -34,7 +34,9 @@ export const Home: FC<Props> = ({ recentPosts, aboutHtml, recentPhotos }) => (
       <section class="home-section">
         <header class="section-header">
           <h2>recent posts</h2>
-          <a href="/blog" class="section-more">all posts →</a>
+          <a href="/blog" class="section-more">
+            all posts →
+          </a>
         </header>
         {recentPosts.length === 0 ? (
           <p class="empty">no posts yet</p>
@@ -48,7 +50,9 @@ export const Home: FC<Props> = ({ recentPosts, aboutHtml, recentPhotos }) => (
                   {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
                     <span class="tags">
                       {post.frontmatter.tags.map((tag) => (
-                        <a key={tag} href={`/blog?tag=${tag}`} class="tag">{tag}</a>
+                        <a key={tag} href={`/blog?tag=${tag}`} class="tag">
+                          {tag}
+                        </a>
                       ))}
                     </span>
                   )}
@@ -62,7 +66,9 @@ export const Home: FC<Props> = ({ recentPosts, aboutHtml, recentPhotos }) => (
       <section class="home-section">
         <header class="section-header">
           <h2>recent photos</h2>
-          <a href="/photos" class="section-more">all photos →</a>
+          <a href="/photos" class="section-more">
+            all photos →
+          </a>
         </header>
         {recentPhotos.length === 0 ? (
           <p class="empty">no photos yet</p>

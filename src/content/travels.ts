@@ -12,7 +12,11 @@ const TRAVELS_DIR = `${process.cwd()}/content/travel`
 const CACHE_DIR = `${process.cwd()}/cache/travels`
 const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp'])
 
-const noteProcessor = unified().use(remarkParse).use(remarkAlerts).use(remarkRehype).use(rehypeStringify)
+const noteProcessor = unified()
+  .use(remarkParse)
+  .use(remarkAlerts)
+  .use(remarkRehype)
+  .use(rehypeStringify)
 
 export interface TravelPhoto {
   filename: string
@@ -46,12 +50,17 @@ export interface TravelCountry {
 async function listImageFiles(dir: string): Promise<string[]> {
   const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => [])
   return entries
-    .filter((e) => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()) && !e.name.startsWith('_'))
+    .filter(
+      (e) =>
+        e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()) && !e.name.startsWith('_')
+    )
     .map((e) => e.name)
     .sort()
 }
 
-async function readNote(dir: string): Promise<{ html?: string; description?: string; preview?: string[] }> {
+async function readNote(
+  dir: string
+): Promise<{ html?: string; description?: string; preview?: string[] }> {
   const file = Bun.file(`${dir}/_note.md`)
   if (!(await file.exists())) return {}
   const raw = await file.text()
@@ -114,7 +123,13 @@ export async function generateCachedImage(
   return (await Bun.file(cachePath).exists()) ? cachePath : null
 }
 
-function makePhotos(files: string[], country: string, city: string, date: string, limit?: number): TravelPhoto[] {
+function makePhotos(
+  files: string[],
+  country: string,
+  city: string,
+  date: string,
+  limit?: number
+): TravelPhoto[] {
   const subset = limit ? files.slice(0, limit) : files
   return subset.map((filename) => {
     const base = path.basename(filename, path.extname(filename))
@@ -162,7 +177,10 @@ export async function loadTravels(): Promise<TravelCountry[]> {
           const entries = await Promise.all(
             dateDirs.map(async (date) => {
               const entryDir = `${cityPath}/${date}`
-              const [files, note] = await Promise.all([listImageFiles(entryDir), readNote(entryDir)])
+              const [files, note] = await Promise.all([
+                listImageFiles(entryDir),
+                readNote(entryDir),
+              ])
               const previewFiles = note.preview
                 ? note.preview.filter((f) => files.includes(f))
                 : files.slice(0, 6)
@@ -192,7 +210,11 @@ export async function loadTravels(): Promise<TravelCountry[]> {
   return countries.filter((c) => c.cities.length > 0)
 }
 
-export async function loadEntry(country: string, city: string, date: string): Promise<TravelEntry | null> {
+export async function loadEntry(
+  country: string,
+  city: string,
+  date: string
+): Promise<TravelEntry | null> {
   const entryDir = `${TRAVELS_DIR}/${country}/${city}/${date}`
   const [files, note] = await Promise.all([listImageFiles(entryDir), readNote(entryDir)])
   if (files.length === 0 && !note.html) return null

@@ -28,7 +28,9 @@ export const SearchPage: FC<Props> = ({ query, results }) => (
         autofocus
         class="search-input"
       />
-      <button type="submit" class="search-submit">search</button>
+      <button type="submit" class="search-submit">
+        search
+      </button>
     </form>
 
     {query.length >= 2 && (

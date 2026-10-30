@@ -31,13 +31,20 @@ const TrackItem: FC<{ track: Track }> = ({ track }) => (
 
 function statusLabel(status: string, type: 'anime' | 'manga'): string {
   switch (status) {
-    case 'CURRENT': return type === 'anime' ? 'watching' : 'reading'
-    case 'REPEATING': return type === 'anime' ? 'rewatching' : 'rereading'
-    case 'COMPLETED': return 'completed'
-    case 'PAUSED': return 'on hold'
-    case 'DROPPED': return 'dropped'
-    case 'PLANNING': return type === 'anime' ? 'plan to watch' : 'plan to read'
-    default: return status.toLowerCase()
+    case 'CURRENT':
+      return type === 'anime' ? 'watching' : 'reading'
+    case 'REPEATING':
+      return type === 'anime' ? 'rewatching' : 'rereading'
+    case 'COMPLETED':
+      return 'completed'
+    case 'PAUSED':
+      return 'on hold'
+    case 'DROPPED':
+      return 'dropped'
+    case 'PLANNING':
+      return type === 'anime' ? 'plan to watch' : 'plan to read'
+    default:
+      return status.toLowerCase()
   }
 }
 
@@ -95,11 +102,17 @@ export const NowPage: FC<Props> = ({ nowHtml, updated, lastfm, anilist }) => (
 
     <div class="prose" dangerouslySetInnerHTML={{ __html: nowHtml }} />
 
-
     {(lastfm.nowPlaying || lastfm.recent.length > 0) && (
       <section class="now-section">
         <h2 class="now-section-title">last.fm</h2>
-        <a href="https://libre.fm/user/Moskas/"><img src="https://libre.fm/user/Moskas/now" alt="" loading="lazy" style="width: 100%; max-width: 480px; height: auto; padding-bottom: 1rem;"></img></a>
+        <a href="https://libre.fm/user/Moskas/">
+          <img
+            src="https://libre.fm/user/Moskas/now"
+            alt=""
+            loading="lazy"
+            style="width: 100%; max-width: 480px; height: auto; padding-bottom: 1rem;"
+          ></img>
+        </a>
         {lastfm.nowPlaying && (
           <p class="now-playing">
             <span class="now-playing-badge">[live]</span>{' '}

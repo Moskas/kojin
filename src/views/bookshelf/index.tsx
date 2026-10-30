@@ -1,6 +1,11 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
-import type { BookshelfEntry, BookshelfSection, BookshelfQuery, BookStatus } from '../../content/bookshelf'
+import type {
+  BookshelfEntry,
+  BookshelfSection,
+  BookshelfQuery,
+  BookStatus,
+} from '../../content/bookshelf'
 
 type Props = {
   sections: BookshelfSection[]
@@ -23,7 +28,6 @@ function buildUrl(base: BookshelfQuery, overrides: Partial<BookshelfQuery>): str
   const qs = params.toString()
   return `/bookshelf${qs ? '?' + qs : ''}`
 }
-
 
 const EntryRow: FC<{ entry: BookshelfEntry }> = ({ entry }) => (
   <div id={entry.id} class="bookshelf-row">
@@ -52,17 +56,16 @@ const EntryRow: FC<{ entry: BookshelfEntry }> = ({ entry }) => (
       <div class="bookshelf-titleline">
         <h3 class="bookshelf-entry-title" title={entry.altTitle}>
           {entry.link ? (
-            <a href={entry.link} target="_blank" rel="noopener noreferrer">{entry.title}</a>
+            <a href={entry.link} target="_blank" rel="noopener noreferrer">
+              {entry.title}
+            </a>
           ) : (
             entry.title
           )}
         </h3>
         <span class="bookshelf-author">{entry.author}</span>
       </div>
-      <div
-        class="bookshelf-writeup"
-        dangerouslySetInnerHTML={{ __html: entry.writeupHtml }}
-      />
+      <div class="bookshelf-writeup" dangerouslySetInnerHTML={{ __html: entry.writeupHtml }} />
     </div>
   </div>
 )
@@ -93,9 +96,18 @@ export const BookshelfPage: FC<Props> = ({ sections, query }) => {
         <h1>bookshelf</h1>
         <p class="page-description">
           books and manga I've read or am reading. also on{' '}
-          <a href="https://www.goodreads.com/user/show/179471334-moskas" target="_blank" rel="noopener noreferrer">goodreads</a>
-          {' '}and{' '}
-          <a href="https://anilist.co/user/Moskas" target="_blank" rel="noopener noreferrer">anilist</a>.
+          <a
+            href="https://www.goodreads.com/user/show/179471334-moskas"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            goodreads
+          </a>{' '}
+          and{' '}
+          <a href="https://anilist.co/user/Moskas" target="_blank" rel="noopener noreferrer">
+            anilist
+          </a>
+          .
         </p>
       </section>
 
@@ -139,17 +151,25 @@ export const BookshelfPage: FC<Props> = ({ sections, query }) => {
           <details class="page-toc">
             <summary class="page-toc-toggle">contents</summary>
             <nav class="uses-toc" aria-label="bookshelf contents">
-              {sections.filter((s) => s.entries.length > 0).map((section) => (
-                <div key={section.id} class="uses-toc-section">
-                  <a class="uses-toc-label" href={`#${section.id}`}>{section.title}</a>
-                  {section.entries.map((entry) => (
-                    <a key={entry.id} href={`#${entry.id}`}>{entry.title}</a>
-                  ))}
-                </div>
-              ))}
+              {sections
+                .filter((s) => s.entries.length > 0)
+                .map((section) => (
+                  <div key={section.id} class="uses-toc-section">
+                    <a class="uses-toc-label" href={`#${section.id}`}>
+                      {section.title}
+                    </a>
+                    {section.entries.map((entry) => (
+                      <a key={entry.id} href={`#${entry.id}`}>
+                        {entry.title}
+                      </a>
+                    ))}
+                  </div>
+                ))}
             </nav>
           </details>
-          {sections.map((section) => <SectionBlock key={section.id} section={section} />)}
+          {sections.map((section) => (
+            <SectionBlock key={section.id} section={section} />
+          ))}
         </>
       )}
     </Layout>

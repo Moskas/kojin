@@ -15,5 +15,7 @@ homeRoute.get('/', async (c) => {
     getRecentPhotos(6),
   ])
 
-  return c.html(<Home recentPosts={posts.slice(0, 3)} aboutHtml={aboutHtml} recentPhotos={recentPhotos} />)
+  return c.html(
+    <Home recentPosts={posts.slice(0, 3)} aboutHtml={aboutHtml} recentPhotos={recentPhotos} />
+  )
 })

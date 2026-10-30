@@ -25,9 +25,7 @@ async function loadNow(): Promise<{ html: string; updated: string }> {
   const { data, content } = matter(await file.text())
   const html = String(await processor.process(content))
   const raw = data.updated
-  const updated = raw instanceof Date
-    ? raw.toISOString().slice(0, 10)
-    : String(raw ?? '')
+  const updated = raw instanceof Date ? raw.toISOString().slice(0, 10) : String(raw ?? '')
   return { html, updated }
 }
 

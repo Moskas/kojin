@@ -31,13 +31,18 @@ export const ProjectsIndex: FC<Props> = ({ projects }) => (
           <summary class="page-toc-toggle">contents</summary>
           <nav class="uses-toc" aria-label="projects contents">
             {Object.keys(STATUS_LABEL)
-              .map((status) => ({ status, items: projects.filter((p) => p.meta.status === status) }))
+              .map((status) => ({
+                status,
+                items: projects.filter((p) => p.meta.status === status),
+              }))
               .filter((group) => group.items.length > 0)
               .map((group) => (
                 <div key={group.status} class="uses-toc-section">
                   <span class="uses-toc-label">{STATUS_LABEL[group.status]}</span>
                   {group.items.map((p) => (
-                    <a key={p.slug} href={`#${p.slug}`}>{p.meta.title}</a>
+                    <a key={p.slug} href={`#${p.slug}`}>
+                      {p.meta.title}
+                    </a>
                   ))}
                 </div>
               ))}
@@ -45,7 +50,11 @@ export const ProjectsIndex: FC<Props> = ({ projects }) => (
         </details>
         <ul class="project-list">
           {projects.map((p) => (
-            <li key={p.slug} id={p.slug} class={p.meta.image ? 'project-card project-card--image' : 'project-card'}>
+            <li
+              key={p.slug}
+              id={p.slug}
+              class={p.meta.image ? 'project-card project-card--image' : 'project-card'}
+            >
               {p.meta.image && (
                 <div class="project-media">
                   <img src={p.meta.image} alt={p.meta.alt ?? p.meta.title} loading="lazy" />
@@ -70,17 +79,27 @@ export const ProjectsIndex: FC<Props> = ({ projects }) => (
                       </span>
                     </div>
                   </div>
-                  <p class="project-description" dangerouslySetInnerHTML={{ __html: p.descriptionHtml }} />
+                  <p
+                    class="project-description"
+                    dangerouslySetInnerHTML={{ __html: p.descriptionHtml }}
+                  />
                 </div>
                 <div class="project-footer">
                   <div class="tags">
                     {(p.meta.tech ?? []).map((t) => (
-                      <span key={t} class="tag">{t}</span>
+                      <span key={t} class="tag">
+                        {t}
+                      </span>
                     ))}
                   </div>
                   <div class="project-links">
                     {p.meta.source && (
-                      <a href={p.meta.source} target="_blank" rel="noopener noreferrer" class="project-link">
+                      <a
+                        href={p.meta.source}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="project-link"
+                      >
                         source
                       </a>
                     )}

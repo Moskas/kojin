@@ -43,7 +43,7 @@ async function fetchAnilistCoverChunk(ids: number[]): Promise<void> {
       logger.error('bookshelf', 'anilist cover request failed', { status: res.status, ids })
       return
     }
-    const json = await res.json() as any
+    const json = (await res.json()) as any
     const now = Date.now()
     for (const item of json.data?.Page?.media ?? []) {
       if (item.id && item.coverImage?.large) {
@@ -92,7 +92,10 @@ export interface BookshelfQuery {
 }
 
 function slugify(name: string): string {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
 }
 
 function parseMetaYaml(src: string): { title?: string; order?: number } {
@@ -104,7 +107,12 @@ function parseMetaYaml(src: string): { title?: string; order?: number } {
   }
 }
 
-const processor = unified().use(remarkParse).use(remarkGfm).use(remarkAlerts).use(remarkRehype).use(rehypeStringify)
+const processor = unified()
+  .use(remarkParse)
+  .use(remarkGfm)
+  .use(remarkAlerts)
+  .use(remarkRehype)
+  .use(rehypeStringify)
 
 async function parseEntry(filePath: string): Promise<BookshelfEntry> {
   const source = await Bun.file(filePath).text()

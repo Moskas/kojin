@@ -69,8 +69,10 @@ async function parseFile(filePath: string): Promise<ParsedContent> {
   const result = await processor.process(content)
   const filename = path.basename(filePath)
   const frontmatter = data as Frontmatter
-  if (frontmatter.date) frontmatter.date = toDateString(frontmatter.date as unknown as string | Date)
-  if (frontmatter.updated) frontmatter.updated = toDateString(frontmatter.updated as unknown as string | Date)
+  if (frontmatter.date)
+    frontmatter.date = toDateString(frontmatter.date as unknown as string | Date)
+  if (frontmatter.updated)
+    frontmatter.updated = toDateString(frontmatter.updated as unknown as string | Date)
 
   return {
     frontmatter,

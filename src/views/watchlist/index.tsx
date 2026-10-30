@@ -1,53 +1,38 @@
-import type { FC } from "hono/jsx";
-import { Layout } from "../layout";
-import type {
-  WatchEntry,
-  WatchSection,
-  WatchQuery,
-  WatchStatus,
-} from "../../content/watchlist";
+import type { FC } from 'hono/jsx'
+import { Layout } from '../layout'
+import type { WatchEntry, WatchSection, WatchQuery, WatchStatus } from '../../content/watchlist'
 
 type Props = {
-  sections: WatchSection[];
-  query: WatchQuery;
-};
+  sections: WatchSection[]
+  query: WatchQuery
+}
 
-const STATUS_LABEL: Record<WatchStatus | "all", string> = {
-  all: "all",
-  watching: "watching",
-  finished: "finished",
-  plan: "plan to watch",
-  dropped: "dropped",
-};
+const STATUS_LABEL: Record<WatchStatus | 'all', string> = {
+  all: 'all',
+  watching: 'watching',
+  finished: 'finished',
+  plan: 'plan to watch',
+  dropped: 'dropped',
+}
 
-const FILTERS: Array<WatchStatus | "all"> = [
-  "all",
-  "watching",
-  "finished",
-  "plan",
-  "dropped",
-];
+const FILTERS: Array<WatchStatus | 'all'> = ['all', 'watching', 'finished', 'plan', 'dropped']
 
 function buildUrl(base: WatchQuery, overrides: Partial<WatchQuery>): string {
-  const p = { ...base, ...overrides };
-  const params = new URLSearchParams();
-  if (p.filter !== "all") params.set("filter", p.filter);
-  const qs = params.toString();
-  return `/watchlist${qs ? "?" + qs : ""}`;
+  const p = { ...base, ...overrides }
+  const params = new URLSearchParams()
+  if (p.filter !== 'all') params.set('filter', p.filter)
+  const qs = params.toString()
+  return `/watchlist${qs ? '?' + qs : ''}`
 }
 
 const EntryRow: FC<{ entry: WatchEntry }> = ({ entry }) => {
-  const credit = entry.director ?? entry.creator;
+  const credit = entry.director ?? entry.creator
   return (
     <div id={entry.id} class="watchlist-row">
       <div class="watchlist-cover-col">
         <div class="watchlist-cover">
           {entry.cover ? (
-            <img
-              src={entry.cover}
-              alt={`${entry.title} cover`}
-              loading="lazy"
-            />
+            <img src={entry.cover} alt={`${entry.title} cover`} loading="lazy" />
           ) : (
             <div class="watchlist-cover-ph">{entry.title}</div>
           )}
@@ -90,14 +75,11 @@ const EntryRow: FC<{ entry: WatchEntry }> = ({ entry }) => {
           </h3>
           {credit && <span class="watchlist-credit">{credit}</span>}
         </div>
-        <div
-          class="watchlist-writeup"
-          dangerouslySetInnerHTML={{ __html: entry.writeupHtml }}
-        />
+        <div class="watchlist-writeup" dangerouslySetInnerHTML={{ __html: entry.writeupHtml }} />
       </div>
     </div>
-  );
-};
+  )
+}
 
 const SectionBlock: FC<{ section: WatchSection }> = ({ section }) => (
   <section id={section.id} class="watchlist-section">
@@ -105,8 +87,7 @@ const SectionBlock: FC<{ section: WatchSection }> = ({ section }) => (
       <span class="hash">#</span>
       <h2>{section.title}</h2>
       <span class="watchlist-count">
-        {section.entries.length}{" "}
-        {section.entries.length === 1 ? "entry" : "entries"}
+        {section.entries.length} {section.entries.length === 1 ? 'entry' : 'entries'}
       </span>
     </div>
     {section.entries.length === 0 ? (
@@ -115,18 +96,16 @@ const SectionBlock: FC<{ section: WatchSection }> = ({ section }) => (
       section.entries.map((entry) => <EntryRow key={entry.id} entry={entry} />)
     )}
   </section>
-);
+)
 
 export const WatchlistPage: FC<Props> = ({ sections, query }) => {
-  const total = sections.reduce((n, s) => n + s.entries.length, 0);
+  const total = sections.reduce((n, s) => n + s.entries.length, 0)
 
   return (
     <Layout title="Watchlist">
       <section class="page-header">
         <h1>watchlist</h1>
-        <p class="page-description">
-          movies and series I've watched or am watching.
-        </p>
+        <p class="page-description">movies and series I've watched or am watching.</p>
       </section>
 
       <div class="watchlist-toolbar">
@@ -136,7 +115,7 @@ export const WatchlistPage: FC<Props> = ({ sections, query }) => {
             <a
               key={f}
               href={buildUrl(query, { filter: f })}
-              class={`watchlist-chip${query.filter === f ? " watchlist-chip--active" : ""}`}
+              class={`watchlist-chip${query.filter === f ? ' watchlist-chip--active' : ''}`}
             >
               {STATUS_LABEL[f]}
             </a>
@@ -173,5 +152,5 @@ export const WatchlistPage: FC<Props> = ({ sections, query }) => {
         </>
       )}
     </Layout>
-  );
-};
+  )
+}

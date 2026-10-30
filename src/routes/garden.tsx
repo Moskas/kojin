@@ -1,10 +1,5 @@
 import { Hono } from 'hono'
-import {
-  listNotes,
-  resolveBacklinks,
-  filterNotes,
-  NOTE_STATUSES,
-} from '../content/garden'
+import { listNotes, resolveBacklinks, filterNotes, NOTE_STATUSES } from '../content/garden'
 import type { GardenQuery, NoteStatus } from '../content/garden'
 import { GardenIndex } from '../views/garden/index'
 import { GardenNote } from '../views/garden/note'

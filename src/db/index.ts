@@ -36,10 +36,12 @@ export function clearBacklinks(): void {
 
 export function indexContent(slug: string, title: string, body: string, section: string): void {
   const db = getDb()
-  db.run(
-    `INSERT INTO search(slug, title, body, section) VALUES (?, ?, ?, ?)`,
-    [slug, title, body, section]
-  )
+  db.run(`INSERT INTO search(slug, title, body, section) VALUES (?, ?, ?, ?)`, [
+    slug,
+    title,
+    body,
+    section,
+  ])
 }
 
 export function searchContent(query: string) {
@@ -56,8 +58,8 @@ export function upsertBacklink(source: string, target: string): void {
 
 export function getBacklinks(target: string): string[] {
   const db = getDb()
-  const rows = db
-    .query(`SELECT source FROM backlinks WHERE target = ?`)
-    .all(target) as { source: string }[]
+  const rows = db.query(`SELECT source FROM backlinks WHERE target = ?`).all(target) as {
+    source: string
+  }[]
   return rows.map((r) => r.source)
 }
