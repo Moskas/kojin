@@ -1,6 +1,7 @@
 ---
 title: Bun
 tags: [tooling, javascript]
+status: wip
 created: 2026-01-01
 ---
 

@@ -40,7 +40,7 @@ src/content/<section>.ts   — reads/parses files from content/, returns typed s
 
 ```
 content/blog/       YYYY-MM-DD-slug.md   frontmatter: title, date, tags[], draft, description
-content/garden/     slug.md              frontmatter: title, tags[], created, updated
+content/garden/     slug.md              frontmatter: title, tags[], created, updated, status (draft|wip|complete), description
 content/photos/     YYYY-MM-DD/          one directory per day; drop JPEGs in; _note.md optional
 content/projects/   slug.md              frontmatter: title, description, tech[], url, source, status, year
 content/about.md                         rendered on the home page

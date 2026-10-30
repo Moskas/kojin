@@ -1,6 +1,7 @@
 ---
 title: Hono
 tags: [tooling, web]
+status: draft
 created: 2026-01-01
 ---
 
