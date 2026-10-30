@@ -148,8 +148,8 @@ export const WatchlistPage: FC<Props> = ({ sections, query }) => {
         <p class="watchlist-empty">nothing here</p>
       ) : (
         <>
-          <details class="watchlist-toc">
-            <summary class="watchlist-toc-toggle">contents</summary>
+          <details class="page-toc">
+            <summary class="page-toc-toggle">contents</summary>
             <nav class="uses-toc" aria-label="watchlist contents">
               {sections
                 .filter((s) => s.entries.length > 0)

@@ -136,8 +136,8 @@ export const BookshelfPage: FC<Props> = ({ sections, query }) => {
         </p>
       ) : (
         <>
-          <details class="bookshelf-toc">
-            <summary class="bookshelf-toc-toggle">contents</summary>
+          <details class="page-toc">
+            <summary class="page-toc-toggle">contents</summary>
             <nav class="uses-toc" aria-label="bookshelf contents">
               {sections.filter((s) => s.entries.length > 0).map((section) => (
                 <div key={section.id} class="uses-toc-section">

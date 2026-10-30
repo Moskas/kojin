@@ -3,6 +3,7 @@ import fs from 'fs/promises'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
+import { remarkAlerts } from './alerts'
 import rehypeStringify from 'rehype-stringify'
 import sharp from 'sharp'
 import exifr from 'exifr'
@@ -11,7 +12,7 @@ const PHOTOS_DIR = `${process.cwd()}/content/photos`
 const CACHE_DIR = `${process.cwd()}/cache/photos`
 const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp'])
 
-const noteProcessor = unified().use(remarkParse).use(remarkRehype).use(rehypeStringify)
+const noteProcessor = unified().use(remarkParse).use(remarkAlerts).use(remarkRehype).use(rehypeStringify)
 
 export interface PhotoExif {
   camera?: string

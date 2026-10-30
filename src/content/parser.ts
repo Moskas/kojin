@@ -4,6 +4,7 @@ import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
+import { remarkAlerts } from './alerts'
 import rehypeStringify from 'rehype-stringify'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
@@ -51,6 +52,7 @@ function collectHeadings() {
 const processor = unified()
   .use(remarkParse)
   .use(remarkGfm)
+  .use(remarkAlerts)
   .use(remarkRehype)
   .use(rehypeHighlight)
   .use(rehypeSlug)

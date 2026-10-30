@@ -45,16 +45,19 @@ export const UsesPage: FC<Props> = ({ uses }) => (
       <h1>uses</h1>
     </section>
 
-    <nav class="uses-toc" aria-label="page contents">
-      {uses.map((section) => (
-        <div key={section.id} class="uses-toc-section">
-          <span class="uses-toc-label">{section.title}</span>
-          {section.items.map((item) => (
-            <a key={item.id} href={`#${item.id}`}>{item.name}</a>
-          ))}
-        </div>
-      ))}
-    </nav>
+    <details class="page-toc">
+      <summary class="page-toc-toggle">contents</summary>
+      <nav class="uses-toc" aria-label="uses contents">
+        {uses.map((section) => (
+          <div key={section.id} class="uses-toc-section">
+            <a class="uses-toc-label" href={`#${section.id}`}>{section.title}</a>
+            {section.items.map((item) => (
+              <a key={item.id} href={`#${item.id}`}>{item.name}</a>
+            ))}
+          </div>
+        ))}
+      </nav>
+    </details>
 
     {uses.map((section) => (
       <section key={section.id} id={section.id} class="uses-section">

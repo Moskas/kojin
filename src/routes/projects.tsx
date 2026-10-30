@@ -4,6 +4,7 @@ import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
+import { remarkAlerts } from '../content/alerts'
 import rehypeStringify from 'rehype-stringify'
 import { ProjectsIndex } from '../views/projects/index'
 
@@ -33,7 +34,7 @@ export interface Project {
   descriptionHtml: string
 }
 
-const processor = unified().use(remarkParse).use(remarkGfm).use(remarkRehype).use(rehypeStringify)
+const processor = unified().use(remarkParse).use(remarkGfm).use(remarkAlerts).use(remarkRehype).use(rehypeStringify)
 
 // renders inline markdown, dropping the wrapping paragraph
 async function renderInline(markdown: string): Promise<string> {

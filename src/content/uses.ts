@@ -4,6 +4,7 @@ import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
+import { remarkAlerts } from './alerts'
 import rehypeStringify from 'rehype-stringify'
 
 const USES_DIR = `${process.cwd()}/content/uses`
@@ -40,7 +41,7 @@ function parseMetaYaml(src: string): { title?: string; order?: number; layout?: 
   }
 }
 
-const processor = unified().use(remarkParse).use(remarkGfm).use(remarkRehype).use(rehypeStringify)
+const processor = unified().use(remarkParse).use(remarkGfm).use(remarkAlerts).use(remarkRehype).use(rehypeStringify)
 
 async function parseItem(filePath: string): Promise<UsesItem> {
   const source = await Bun.file(filePath).text()

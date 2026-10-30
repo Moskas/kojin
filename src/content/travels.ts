@@ -4,6 +4,7 @@ import matter from 'gray-matter'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
+import { remarkAlerts } from './alerts'
 import rehypeStringify from 'rehype-stringify'
 import sharp from 'sharp'
 
@@ -11,7 +12,7 @@ const TRAVELS_DIR = `${process.cwd()}/content/travel`
 const CACHE_DIR = `${process.cwd()}/cache/travels`
 const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp'])
 
-const noteProcessor = unified().use(remarkParse).use(remarkRehype).use(rehypeStringify)
+const noteProcessor = unified().use(remarkParse).use(remarkAlerts).use(remarkRehype).use(rehypeStringify)
 
 export interface TravelPhoto {
   filename: string

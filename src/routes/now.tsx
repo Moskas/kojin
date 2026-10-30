@@ -4,6 +4,7 @@ import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
+import { remarkAlerts } from '../content/alerts'
 import rehypeStringify from 'rehype-stringify'
 import { getLastfmData } from '../content/lastfm'
 import { getAnilistData } from '../content/anilist'
@@ -14,6 +15,7 @@ const NOW_FILE = `${process.cwd()}/content/now.md`
 const processor = unified()
   .use(remarkParse)
   .use(remarkGfm)
+  .use(remarkAlerts)
   .use(remarkRehype)
   .use(rehypeStringify)
 
