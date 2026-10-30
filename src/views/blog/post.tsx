@@ -1,6 +1,7 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { ParsedContent, TocItem } from '../../content/parser'
+import { Sep, joinNodes } from '../text-sep'
 
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
 
@@ -19,13 +20,15 @@ function formatDate(iso: string): string {
 }
 
 const TocLinks: FC<{ items: TocItem[] }> = ({ items }) => (
-  <>
+  <ul>
     {items.map((item) => (
-      <a key={item.id} href={`#${item.id}`} data-depth={item.depth}>
-        {item.text}
-      </a>
+      <li key={item.id}>
+        <a href={`#${item.id}`} data-depth={item.depth}>
+          {item.text}
+        </a>
+      </li>
     ))}
-  </>
+  </ul>
 )
 
 export const BlogPost: FC<Props> = ({ post, prev, next }) => (
@@ -39,21 +42,24 @@ export const BlogPost: FC<Props> = ({ post, prev, next }) => (
     <article class="blog-post">
       <details class="toc-mobile">
         <summary>contents</summary>
-        <nav>
-          <h3>Table of Contents</h3>
-          <TocLinks items={post.headings} />
-        </nav>
       </details>
+      <nav class="toc-sidebar" aria-label="table of contents">
+        <h3>Table of Contents</h3>
+        <TocLinks items={post.headings} />
+      </nav>
       <header class="post-header">
         <h1>{post.frontmatter.title}</h1>
         <time dateTime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
         {post.frontmatter.tags && (
           <div class="tags">
-            {post.frontmatter.tags.map((tag) => (
-              <a key={tag} href={`/blog?tag=${tag}`} class="tag">
-                {tag}
-              </a>
-            ))}
+            <Sep text="tags: " />
+            {joinNodes(
+              post.frontmatter.tags.map((tag) => (
+                <a key={tag} href={`/blog?tag=${tag}`} class="tag">
+                  {tag}
+                </a>
+              ))
+            )}
           </div>
         )}
       </header>
@@ -64,6 +70,7 @@ export const BlogPost: FC<Props> = ({ post, prev, next }) => (
             ← {prev.title}
           </a>
         )}
+        {prev && next && <Sep text=" | " />}
         {next && (
           <a href={`/blog/${next.slug}`} class="post-nav-next">
             {next.title} →
@@ -71,10 +78,6 @@ export const BlogPost: FC<Props> = ({ post, prev, next }) => (
         )}
       </nav>
     </article>
-    <nav class="toc-sidebar">
-      <h3>Table of Contents</h3>
-      <TocLinks items={post.headings} />
-    </nav>
     <script src="/static/js/toc.js" defer></script>
   </Layout>
 )

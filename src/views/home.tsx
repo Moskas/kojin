@@ -2,6 +2,7 @@ import type { FC } from 'hono/jsx'
 import { Layout } from './layout'
 import type { ParsedContent } from '../content/parser'
 import type { Photo } from '../content/photos'
+import { Sep, joinNodes } from './text-sep'
 
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
 
@@ -45,15 +46,20 @@ export const Home: FC<Props> = ({ recentPosts, aboutHtml, recentPhotos }) => (
             {recentPosts.map((post) => (
               <li key={post.slug} class="post-item">
                 <time dateTime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
+                <Sep text=" - " />
                 <span class="post-item-body">
                   <a href={`/blog/${post.slug}`}>{post.frontmatter.title}</a>
                   {post.frontmatter.tags && post.frontmatter.tags.length > 0 && (
                     <span class="tags">
-                      {post.frontmatter.tags.map((tag) => (
-                        <a key={tag} href={`/blog?tag=${tag}`} class="tag">
-                          {tag}
-                        </a>
-                      ))}
+                      <Sep text=" (" />
+                      {joinNodes(
+                        post.frontmatter.tags.map((tag) => (
+                          <a key={tag} href={`/blog?tag=${tag}`} class="tag">
+                            {tag}
+                          </a>
+                        ))
+                      )}
+                      <Sep text=")" />
                     </span>
                   )}
                 </span>
@@ -74,11 +80,19 @@ export const Home: FC<Props> = ({ recentPosts, aboutHtml, recentPhotos }) => (
           <p class="empty">no photos yet</p>
         ) : (
           <div class="home-photo-strip">
-            {recentPhotos.map((photo) => (
-              <a key={photo.base} href={`/photos#${photo.date}`} class="home-photo">
-                <img src={photo.thumb} alt={photo.base} loading="lazy" decoding="async" />
-              </a>
-            ))}
+            {joinNodes(
+              recentPhotos.map((photo) => (
+                <a key={photo.base} href={`/photos#${photo.date}`} class="home-photo">
+                  <img
+                    src={photo.thumb}
+                    alt={photo.date ? `photo from ${formatDate(photo.date)}` : 'recent photo'}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              )),
+              ' | '
+            )}
           </div>
         )}
       </section>

@@ -1,6 +1,7 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { Project } from '../../routes/projects'
+import { Sep, joinNodes } from '../text-sep'
 
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
 
@@ -39,11 +40,13 @@ export const ProjectsIndex: FC<Props> = ({ projects }) => (
               .map((group) => (
                 <div key={group.status} class="uses-toc-section">
                   <span class="uses-toc-label">{STATUS_LABEL[group.status]}</span>
-                  {group.items.map((p) => (
-                    <a key={p.slug} href={`#${p.slug}`}>
-                      {p.meta.title}
-                    </a>
-                  ))}
+                  <ul class="contents-list">
+                    {group.items.map((p) => (
+                      <li key={p.slug}>
+                        <a href={`#${p.slug}`}>{p.meta.title}</a>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ))}
           </nav>
@@ -74,6 +77,7 @@ export const ProjectsIndex: FC<Props> = ({ projects }) => (
                     </h2>
                     <div class="project-meta">
                       {p.meta.year && <span class="project-year">{p.meta.year}</span>}
+                      {p.meta.year && <Sep />}
                       <span class={`status status--${p.meta.status}`}>
                         {STATUS_LABEL[p.meta.status] ?? p.meta.status}
                       </span>
@@ -86,34 +90,42 @@ export const ProjectsIndex: FC<Props> = ({ projects }) => (
                 </div>
                 <div class="project-footer">
                   <div class="tags">
-                    {(p.meta.tech ?? []).map((t) => (
-                      <span key={t} class="tag">
-                        {t}
-                      </span>
-                    ))}
+                    {(p.meta.tech ?? []).length > 0 && <Sep text="tech: " />}
+                    {joinNodes(
+                      (p.meta.tech ?? []).map((t) => (
+                        <span key={t} class="tag">
+                          {t}
+                        </span>
+                      ))
+                    )}
                   </div>
                   <div class="project-links">
-                    {p.meta.source && (
-                      <a
-                        href={p.meta.source}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="project-link"
-                      >
-                        source
-                      </a>
+                    {joinNodes(
+                      [
+                        p.meta.source && (
+                          <a
+                            href={p.meta.source}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="project-link"
+                          >
+                            source
+                          </a>
+                        ),
+                        ...(p.meta.links ?? []).map((link) => (
+                          <a
+                            key={link.href}
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="project-link"
+                          >
+                            {link.label}
+                          </a>
+                        )),
+                      ].filter(Boolean),
+                      ' | '
                     )}
-                    {(p.meta.links ?? []).map((link) => (
-                      <a
-                        key={link.href}
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="project-link"
-                      >
-                        {link.label}
-                      </a>
-                    ))}
                   </div>
                 </div>
               </div>

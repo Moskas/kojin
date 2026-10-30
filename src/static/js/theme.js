@@ -1,5 +1,11 @@
 ;(function () {
-  var btn = document.getElementById('theme-toggle')
+  // created here so the control does not exist without JS (text browsers, noscript)
+  var btn = document.createElement('button')
+  btn.id = 'theme-toggle'
+  btn.className = 'theme-toggle'
+  btn.type = 'button'
+  var navEnd = document.querySelector('.nav-end')
+  navEnd.appendChild(btn)
   var root = document.documentElement
 
   var ICONS = {

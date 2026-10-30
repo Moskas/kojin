@@ -2,6 +2,7 @@ import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import { NOTE_STATUS_LABEL as STATUS_LABEL } from '../../content/garden'
 import type { Note, NoteStatus, GardenQuery } from '../../content/garden'
+import { Sep, Selected, joinNodes } from '../text-sep'
 
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
 
@@ -43,6 +44,7 @@ const NoteRow: FC<{ note: Note; query: GardenQuery }> = ({ note, query }) => (
           [{STATUS_LABEL[note.status]}]
         </span>
       </span>
+      {note.tended && <Sep />}
       {note.tended && (
         <span>
           updated <time datetime={note.tended}>{fmt(note.tended)}</time>
@@ -53,17 +55,21 @@ const NoteRow: FC<{ note: Note; query: GardenQuery }> = ({ note, query }) => (
     <div class="garden-note-foot">
       {note.frontmatter.tags && (
         <span class="tags">
-          {note.frontmatter.tags.map((t) => (
-            <a
-              key={t}
-              href={buildUrl(query, { tag: query.tag === t ? undefined : t })}
-              class={`tag${query.tag === t ? ' active' : ''}`}
-            >
-              {t}
-            </a>
-          ))}
+          <Sep text="tags: " />
+          {joinNodes(
+            note.frontmatter.tags.map((t) => (
+              <a
+                key={t}
+                href={buildUrl(query, { tag: query.tag === t ? undefined : t })}
+                class={`tag${query.tag === t ? ' active' : ''}`}
+              >
+                {t}
+              </a>
+            ))
+          )}
         </span>
       )}
+      {note.frontmatter.tags && <Sep />}
       <span class="garden-links">
         ↩ {note.backlinks.length} {note.backlinks.length === 1 ? 'backlink' : 'backlinks'}
       </span>
@@ -86,51 +92,73 @@ export const GardenIndex: FC<Props> = ({ notes, allTags, query }) => (
     </section>
 
     <div class="garden-legend">
-      {STATUSES.map((s) => (
-        <span key={s}>
-          <span class={`garden-status garden-status--${s}`}>[{STATUS_LABEL[s]}]</span>
-          {STATUS_DESC[s]}
-        </span>
-      ))}
+      {joinNodes(
+        STATUSES.map((s) => (
+          <span key={s}>
+            <span class={`garden-status garden-status--${s}`}>[{STATUS_LABEL[s]}]</span>
+            <Sep text=" " />
+            {STATUS_DESC[s]}
+          </span>
+        )),
+        ' · '
+      )}
     </div>
 
     <div class="bookshelf-toolbar">
       <div class="bookshelf-ctl">
         <span class="bookshelf-lab">status</span>
-        {(['all', ...STATUSES] as const).map((s) => (
-          <a
-            key={s}
-            href={buildUrl(query, { status: s })}
-            class={`bookshelf-chip${query.status === s ? ' bookshelf-chip--active' : ''}`}
-          >
-            {s === 'all' ? 'all' : STATUS_LABEL[s]}
-          </a>
-        ))}
+        <Sep text=": " />
+        {joinNodes(
+          (['all', ...STATUSES] as const).map((s) => (
+            <a
+              key={s}
+              href={buildUrl(query, { status: s })}
+              class={`bookshelf-chip${query.status === s ? ' bookshelf-chip--active' : ''}`}
+              aria-current={query.status === s ? 'true' : undefined}
+            >
+              {s === 'all' ? 'all' : STATUS_LABEL[s]}
+              <Selected active={query.status === s} />
+            </a>
+          )),
+          ' | '
+        )}
       </div>
       <div class="bookshelf-ctl">
         <span class="bookshelf-lab">sort</span>
-        {(['updated', 'title'] as const).map((s) => (
-          <a
-            key={s}
-            href={buildUrl(query, { sort: s })}
-            class={`bookshelf-chip${query.sort === s ? ' bookshelf-chip--active' : ''}`}
-          >
-            {s}
-          </a>
-        ))}
+        <Sep text=": " />
+        {joinNodes(
+          (['updated', 'title'] as const).map((s) => (
+            <a
+              key={s}
+              href={buildUrl(query, { sort: s })}
+              class={`bookshelf-chip${query.sort === s ? ' bookshelf-chip--active' : ''}`}
+              aria-current={query.sort === s ? 'true' : undefined}
+            >
+              {s}
+              <Selected active={query.sort === s} />
+            </a>
+          )),
+          ' | '
+        )}
       </div>
       <div class="bookshelf-ctl">
         <span class="bookshelf-lab">tag</span>
+        <Sep text=": " />
         <span class="tags">
-          {allTags.map((t) => (
-            <a
-              key={t}
-              href={buildUrl(query, { tag: query.tag === t ? undefined : t })}
-              class={`tag${query.tag === t ? ' active' : ''}`}
-            >
-              {t}
-            </a>
-          ))}
+          {joinNodes(
+            allTags.map((t) => (
+              <a
+                key={t}
+                href={buildUrl(query, { tag: query.tag === t ? undefined : t })}
+                class={`tag${query.tag === t ? ' active' : ''}`}
+                aria-current={query.tag === t ? 'true' : undefined}
+              >
+                {t}
+                <Selected active={query.tag === t} />
+              </a>
+            )),
+            ' | '
+          )}
         </span>
       </div>
     </div>
@@ -140,6 +168,7 @@ export const GardenIndex: FC<Props> = ({ notes, allTags, query }) => (
         {notes.length} {notes.length === 1 ? 'note' : 'notes'}
         {query.tag && <> in #{query.tag}</>}
       </span>
+      {query.tag && <Sep />}
       {query.tag && <a href={buildUrl(query, { tag: undefined })}>clear tag</a>}
     </div>
 

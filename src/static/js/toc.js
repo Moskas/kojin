@@ -4,7 +4,7 @@
   )
   if (!headings.length) return
 
-  const tocLinks = Array.from(document.querySelectorAll('.toc-sidebar a, .toc-mobile a'))
+  const tocLinks = Array.from(document.querySelectorAll('.toc-sidebar a'))
   if (!tocLinks.length) return
 
   let activeId = null

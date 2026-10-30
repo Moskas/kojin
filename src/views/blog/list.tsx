@@ -1,6 +1,7 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { ParsedContent } from '../../content/parser'
+import { Sep, Selected, joinNodes } from '../text-sep'
 
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
 
@@ -44,19 +45,37 @@ export const BlogList: FC<Props> = ({
     <div class="blog-filters">
       <div class="blog-filters-tags">
         <span class="blog-filters-label">Filter posts by tag:</span>
-        {allTags.map((tag) => (
-          <a key={tag} href={`/blog?tag=${tag}`} class={`tag${activeTag === tag ? ' active' : ''}`}>
-            {tag} ({tagCounts[tag]})
-          </a>
-        ))}
+        <Sep text=" " />
+        {joinNodes(
+          allTags.map((tag) => (
+            <a
+              key={tag}
+              href={`/blog?tag=${tag}`}
+              class={`tag${activeTag === tag ? ' active' : ''}`}
+              aria-current={activeTag === tag ? 'true' : undefined}
+            >
+              {tag} ({tagCounts[tag]})
+              <Selected active={activeTag === tag} />
+            </a>
+          ))
+        )}
       </div>
       <div class="blog-filters-years">
         <span class="blog-filters-label">Filter posts by year:</span>
-        {allYears.map((y) => (
-          <a key={y} href={`/blog?year=${y}`} class={`tag${activeYear === y ? ' active' : ''}`}>
-            {y} ({yearCounts[y]})
-          </a>
-        ))}
+        <Sep text=" " />
+        {joinNodes(
+          allYears.map((y) => (
+            <a
+              key={y}
+              href={`/blog?year=${y}`}
+              class={`tag${activeYear === y ? ' active' : ''}`}
+              aria-current={activeYear === y ? 'true' : undefined}
+            >
+              {y} ({yearCounts[y]})
+              <Selected active={activeYear === y} />
+            </a>
+          ))
+        )}
       </div>
     </div>
 
@@ -79,21 +98,25 @@ export const BlogList: FC<Props> = ({
         {posts.map((post) => (
           <li key={post.slug} class="post-item">
             <time dateTime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
+            <Sep text=" - " />
             <a href={`/blog/${post.slug}`}>{post.frontmatter.title}</a>
             {post.frontmatter.description && (
               <p class="post-description">{post.frontmatter.description}</p>
             )}
             {post.frontmatter.tags && (
               <div class="tags">
-                {post.frontmatter.tags.map((tag) => (
-                  <a
-                    key={tag}
-                    href={`/blog?tag=${tag}`}
-                    class={`tag${activeTag === tag ? ' active' : ''}`}
-                  >
-                    {tag}
-                  </a>
-                ))}
+                <Sep text="tags: " />
+                {joinNodes(
+                  post.frontmatter.tags.map((tag) => (
+                    <a
+                      key={tag}
+                      href={`/blog?tag=${tag}`}
+                      class={`tag${activeTag === tag ? ' active' : ''}`}
+                    >
+                      {tag}
+                    </a>
+                  ))
+                )}
               </div>
             )}
           </li>

@@ -2,6 +2,7 @@ import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import { NOTE_STATUS_LABEL } from '../../content/garden'
 import type { Note, BacklinkEntry } from '../../content/garden'
+import { Sep, joinNodes } from '../text-sep'
 
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
 
@@ -34,7 +35,7 @@ export const GardenNote: FC<Props> = ({ note, backlinks, prev, next }) => {
 
         <header class="garden-note-head">
           <h1 class="garden-note-title">
-            <span class="hash">#</span>
+            <span class="hash" aria-hidden="true"></span>
             {title}
           </h1>
           <div class="garden-note-meta">
@@ -44,25 +45,31 @@ export const GardenNote: FC<Props> = ({ note, backlinks, prev, next }) => {
                 [{NOTE_STATUS_LABEL[note.status]}]
               </span>
             </span>
+            {frontmatter.created && <Sep />}
             {frontmatter.created && (
               <span>
                 created <time datetime={frontmatter.created}>{fmt(frontmatter.created)}</time>
               </span>
             )}
+            {frontmatter.updated && <Sep />}
             {frontmatter.updated && (
               <span>
                 updated <time datetime={frontmatter.updated}>{fmt(frontmatter.updated)}</time>
               </span>
             )}
+            <Sep />
             <span>{note.readingMinutes} min read</span>
           </div>
           {frontmatter.tags && (
             <div class="tags">
-              {frontmatter.tags.map((tag) => (
-                <a key={tag} href={`/garden?tag=${encodeURIComponent(tag)}`} class="tag">
-                  {tag}
-                </a>
-              ))}
+              <Sep text="tags: " />
+              {joinNodes(
+                frontmatter.tags.map((tag) => (
+                  <a key={tag} href={`/garden?tag=${encodeURIComponent(tag)}`} class="tag">
+                    {tag}
+                  </a>
+                ))
+              )}
             </div>
           )}
         </header>
@@ -98,6 +105,7 @@ export const GardenNote: FC<Props> = ({ note, backlinks, prev, next }) => {
                 ← {prev.title}
               </a>
             )}
+            {prev && next && <Sep text=" | " />}
             {next && (
               <a href={`/garden/${next.slug}`} class="post-nav-next">
                 {next.title} →

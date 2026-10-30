@@ -55,11 +55,13 @@ export const UsesPage: FC<Props> = ({ uses }) => (
             <a class="uses-toc-label" href={`#${section.id}`}>
               {section.title}
             </a>
-            {section.items.map((item) => (
-              <a key={item.id} href={`#${item.id}`}>
-                {item.name}
-              </a>
-            ))}
+            <ul class="contents-list">
+              {section.items.map((item) => (
+                <li key={item.id}>
+                  <a href={`#${item.id}`}>{item.name}</a>
+                </li>
+              ))}
+            </ul>
           </div>
         ))}
       </nav>

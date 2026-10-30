@@ -1,6 +1,7 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { DayEntry, PhotoExif } from '../../content/photos'
+import { joinNodes } from '../text-sep'
 
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
 
@@ -39,8 +40,7 @@ export const PhotoRoll: FC<Props> = ({ days }) => (
     <section class="page-header">
       <h1>photos</h1>
       <p>
-        {' '}
-        Photo feed:
+        Photo feed:{' '}
         <a href="/photos/feed.xml" class="feed-link" aria-label="Photos Atom feed">
           link
         </a>
@@ -59,17 +59,25 @@ export const PhotoRoll: FC<Props> = ({ days }) => (
 
             {day.photos.length > 0 && (
               <div class="roll-strip">
-                {day.photos.map((photo) => (
-                  <button
-                    key={photo.base}
-                    class="roll-photo"
-                    data-medium={photo.medium}
-                    data-alt={photo.base}
-                    data-exif={photo.exif ? exifString(photo.exif) : ''}
-                  >
-                    <img src={photo.thumb} alt={photo.base} loading="lazy" decoding="async" />
-                  </button>
-                ))}
+                {joinNodes(
+                  day.photos.map((photo, i) => (
+                    <a
+                      key={photo.base}
+                      href={photo.medium}
+                      class="roll-photo"
+                      data-alt={photo.base}
+                      data-exif={photo.exif ? exifString(photo.exif) : ''}
+                    >
+                      <img
+                        src={photo.thumb}
+                        alt={`photo ${i + 1} of ${day.photos.length}, ${formatDate(day.date)}`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  )),
+                  ' | '
+                )}
               </div>
             )}
 
@@ -80,23 +88,6 @@ export const PhotoRoll: FC<Props> = ({ days }) => (
         ))}
       </div>
     )}
-
-    <div class="lightbox" id="lightbox" aria-hidden="true">
-      <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
-      <div class="lightbox-content">
-        <button class="lightbox-close" id="lightbox-close" aria-label="close">
-          ✕
-        </button>
-        <button class="lightbox-prev" id="lightbox-prev" aria-label="previous photo">
-          ‹
-        </button>
-        <button class="lightbox-next" id="lightbox-next" aria-label="next photo">
-          ›
-        </button>
-        <img class="lightbox-img" id="lightbox-img" src="" alt="" />
-        <p class="lightbox-exif" id="lightbox-exif"></p>
-      </div>
-    </div>
 
     <script src="/static/js/lightbox.js"></script>
   </Layout>

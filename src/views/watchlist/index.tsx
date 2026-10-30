@@ -1,6 +1,7 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { WatchEntry, WatchSection, WatchQuery, WatchStatus } from '../../content/watchlist'
+import { Sep, Selected, joinNodes } from '../text-sep'
 
 type Props = {
   sections: WatchSection[]
@@ -40,23 +41,30 @@ const EntryRow: FC<{ entry: WatchEntry }> = ({ entry }) => {
         <div class="watchlist-stats">
           <span class="watchlist-stat">
             <span class="watchlist-stat-key">status</span>
+            <Sep text=": " />
             <span class={`watchlist-status watchlist-status--${entry.status}`}>
               {STATUS_LABEL[entry.status]}
             </span>
           </span>
+          <Sep />
           <span class="watchlist-stat">
             <span class="watchlist-stat-key">rating</span>
+            <Sep text=": " />
             <span>{entry.rating}/10</span>
           </span>
+          {entry.year && <Sep />}
           {entry.year && (
             <span class="watchlist-stat">
               <span class="watchlist-stat-key">year</span>
+              <Sep text=": " />
               <span>{entry.year}</span>
             </span>
           )}
+          {entry.seasons && <Sep />}
           {entry.seasons && (
             <span class="watchlist-stat">
               <span class="watchlist-stat-key">seasons</span>
+              <Sep text=": " />
               <span>{entry.seasons}</span>
             </span>
           )}
@@ -84,7 +92,7 @@ const EntryRow: FC<{ entry: WatchEntry }> = ({ entry }) => {
 const SectionBlock: FC<{ section: WatchSection }> = ({ section }) => (
   <section id={section.id} class="watchlist-section">
     <div class="watchlist-section-head">
-      <span class="hash">#</span>
+      <span class="hash" aria-hidden="true"></span>
       <h2>{section.title}</h2>
       <span class="watchlist-count">
         {section.entries.length} {section.entries.length === 1 ? 'entry' : 'entries'}
@@ -111,15 +119,21 @@ export const WatchlistPage: FC<Props> = ({ sections, query }) => {
       <div class="watchlist-toolbar">
         <div class="watchlist-ctl">
           <span class="watchlist-lab">filter</span>
-          {FILTERS.map((f) => (
-            <a
-              key={f}
-              href={buildUrl(query, { filter: f })}
-              class={`watchlist-chip${query.filter === f ? ' watchlist-chip--active' : ''}`}
-            >
-              {STATUS_LABEL[f]}
-            </a>
-          ))}
+          <Sep text=": " />
+          {joinNodes(
+            FILTERS.map((f) => (
+              <a
+                key={f}
+                href={buildUrl(query, { filter: f })}
+                class={`watchlist-chip${query.filter === f ? ' watchlist-chip--active' : ''}`}
+                aria-current={query.filter === f ? 'true' : undefined}
+              >
+                {STATUS_LABEL[f]}
+                <Selected active={query.filter === f} />
+              </a>
+            )),
+            ' | '
+          )}
         </div>
       </div>
 
@@ -137,11 +151,13 @@ export const WatchlistPage: FC<Props> = ({ sections, query }) => {
                     <a class="uses-toc-label" href={`#${section.id}`}>
                       {section.title}
                     </a>
-                    {section.entries.map((entry) => (
-                      <a key={entry.id} href={`#${entry.id}`}>
-                        {entry.title}
-                      </a>
-                    ))}
+                    <ul class="contents-list">
+                      {section.entries.map((entry) => (
+                        <li key={entry.id}>
+                          <a href={`#${entry.id}`}>{entry.title}</a>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 ))}
             </nav>

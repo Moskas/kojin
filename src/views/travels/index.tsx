@@ -1,6 +1,7 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { TravelCountry } from '../../content/travels'
+import { joinNodes } from '../text-sep'
 
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
 
@@ -68,23 +69,25 @@ export const TravelsIndex: FC<Props> = ({ countries }) => {
 
                       {entry.photos.length > 0 && (
                         <div class="travel-preview-strip">
-                          {entry.photos.map((photo, i) => (
-                            <button
-                              key={photo.base}
-                              class="roll-photo"
-                              aria-label={`Photo ${i + 1}`}
-                              data-medium={photo.medium}
-                              data-alt={`${cityData.city} ${entry.date}`}
-                              data-exif=""
-                            >
-                              <img
-                                src={photo.thumb}
-                                alt={`${cityData.city}`}
-                                loading="lazy"
-                                decoding="async"
-                              />
-                            </button>
-                          ))}
+                          {joinNodes(
+                            entry.photos.map((photo, i) => (
+                              <a
+                                key={photo.base}
+                                href={photo.medium}
+                                class="roll-photo"
+                                data-alt={`${cityData.city} ${entry.date}`}
+                                data-exif=""
+                              >
+                                <img
+                                  src={photo.thumb}
+                                  alt={`${cityData.city} photo ${i + 1} of ${entry.photos.length}`}
+                                  loading="lazy"
+                                  decoding="async"
+                                />
+                              </a>
+                            )),
+                            ' | '
+                          )}
                         </div>
                       )}
 
@@ -102,23 +105,6 @@ export const TravelsIndex: FC<Props> = ({ countries }) => {
           ))}
         </div>
       )}
-
-      <div class="lightbox" id="lightbox" aria-hidden="true">
-        <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
-        <div class="lightbox-content">
-          <button class="lightbox-close" id="lightbox-close" aria-label="close">
-            ✕
-          </button>
-          <button class="lightbox-prev" id="lightbox-prev" aria-label="previous photo">
-            ‹
-          </button>
-          <button class="lightbox-next" id="lightbox-next" aria-label="next photo">
-            ›
-          </button>
-          <img class="lightbox-img" id="lightbox-img" src="" alt="" />
-          <p class="lightbox-exif" id="lightbox-exif"></p>
-        </div>
-      </div>
 
       <script src="/static/js/lightbox.js"></script>
     </Layout>

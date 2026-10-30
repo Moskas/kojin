@@ -1,5 +1,6 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
+import { Sep } from '../text-sep'
 
 export interface SitemapLink {
   url: string
@@ -17,13 +18,14 @@ type Props = { sections: SitemapSection[] }
 const SitemapGroup: FC<{ section: SitemapSection }> = ({ section }) => (
   <section id={section.id} class="sitemap-section">
     <h2>
-      <span class="hash">#</span>
+      <span class="hash" aria-hidden="true"></span>
       {section.title}
     </h2>
     <ul class="sitemap-list">
       {section.links.map((link) => (
         <li key={link.url}>
           <a href={link.url}>{link.label}</a>
+          <Sep text=" - " />
           <span class="sitemap-url">{link.url}</span>
         </li>
       ))}

@@ -2,6 +2,7 @@ import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { LastfmData, Track } from '../../content/lastfm'
 import type { AnilistData, MediaEntry } from '../../content/anilist'
+import { Sep } from '../text-sep'
 
 type Props = {
   nowHtml: string
@@ -25,6 +26,7 @@ const TrackItem: FC<{ track: Track }> = ({ track }) => (
       {track.title}
     </a>
     <span class="now-track-meta"> — {track.artist}</span>
+    {track.ts && <Sep text=" - " />}
     {track.ts && <span class="now-timestamp">{timeAgo(track.ts)}</span>}
   </li>
 )
@@ -57,7 +59,7 @@ const MediaItem: FC<{ entry: MediaEntry; type: 'anime' | 'manga' }> = ({ entry, 
     <li class="now-media-item">
       {entry.coverImage && (
         <div class="now-media-cover">
-          <img src={entry.coverImage} alt="" loading="lazy" />
+          <img src={entry.coverImage} alt={`${entry.title} cover`} loading="lazy" />
         </div>
       )}
       <div class="now-media-info">
@@ -108,7 +110,7 @@ export const NowPage: FC<Props> = ({ nowHtml, updated, lastfm, anilist }) => (
         <a href="https://libre.fm/user/Moskas/">
           <img
             src="https://libre.fm/user/Moskas/now"
-            alt=""
+            alt="now playing on libre.fm"
             loading="lazy"
             style="width: 100%; max-width: 480px; height: auto; padding-bottom: 1rem;"
           ></img>

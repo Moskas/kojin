@@ -6,6 +6,7 @@ import type {
   BookshelfQuery,
   BookStatus,
 } from '../../content/bookshelf'
+import { Sep, Selected, joinNodes } from '../text-sep'
 
 type Props = {
   sections: BookshelfSection[]
@@ -42,12 +43,15 @@ const EntryRow: FC<{ entry: BookshelfEntry }> = ({ entry }) => (
       <div class="bookshelf-stats">
         <span class="bookshelf-stat">
           <span class="bookshelf-stat-key">status</span>
+          <Sep text=": " />
           <span class={`bookshelf-status bookshelf-status--${entry.status}`}>
             {STATUS_LABEL[entry.status]}
           </span>
         </span>
+        <Sep />
         <span class="bookshelf-stat">
           <span class="bookshelf-stat-key">rating</span>
+          <Sep text=": " />
           <span>{entry.rating}/10</span>
         </span>
       </div>
@@ -73,7 +77,7 @@ const EntryRow: FC<{ entry: BookshelfEntry }> = ({ entry }) => (
 const SectionBlock: FC<{ section: BookshelfSection }> = ({ section }) => (
   <section id={section.id} class="bookshelf-section">
     <div class="bookshelf-section-head">
-      <span class="hash">#</span>
+      <span class="hash" aria-hidden="true"></span>
       <h2>{section.title}</h2>
       <span class="bookshelf-count">
         {section.entries.length} {section.entries.length === 1 ? 'entry' : 'entries'}
@@ -114,25 +118,29 @@ export const BookshelfPage: FC<Props> = ({ sections, query }) => {
       <div class="bookshelf-toolbar">
         <div class="bookshelf-ctl">
           <span class="bookshelf-lab">filter</span>
-          {FILTERS.map((f) => (
-            <a
-              key={f}
-              href={buildUrl(query, { filter: f })}
-              class={`bookshelf-chip${query.filter === f ? ' bookshelf-chip--active' : ''}`}
-            >
-              {STATUS_LABEL[f]}
-            </a>
-          ))}
+          <Sep text=": " />
+          {joinNodes(
+            FILTERS.map((f) => (
+              <a
+                key={f}
+                href={buildUrl(query, { filter: f })}
+                class={`bookshelf-chip${query.filter === f ? ' bookshelf-chip--active' : ''}`}
+                aria-current={query.filter === f ? 'true' : undefined}
+              >
+                {STATUS_LABEL[f]}
+                <Selected active={query.filter === f} />
+              </a>
+            )),
+            ' | '
+          )}
         </div>
         <form action="/bookshelf" method="get" class="bookshelf-search">
           {query.filter !== 'all' && <input type="hidden" name="filter" value={query.filter} />}
-          <input
-            type="search"
-            name="q"
-            placeholder="search"
-            value={query.q}
-            aria-label="search bookshelf"
-          />
+          <label for="bookshelf-q" class="visually-hidden">
+            search bookshelf
+          </label>
+          <Sep text=": " />
+          <input type="search" id="bookshelf-q" name="q" placeholder="search" value={query.q} />
         </form>
       </div>
 
@@ -158,11 +166,13 @@ export const BookshelfPage: FC<Props> = ({ sections, query }) => {
                     <a class="uses-toc-label" href={`#${section.id}`}>
                       {section.title}
                     </a>
-                    {section.entries.map((entry) => (
-                      <a key={entry.id} href={`#${entry.id}`}>
-                        {entry.title}
-                      </a>
-                    ))}
+                    <ul class="contents-list">
+                      {section.entries.map((entry) => (
+                        <li key={entry.id}>
+                          <a href={`#${entry.id}`}>{entry.title}</a>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 ))}
             </nav>

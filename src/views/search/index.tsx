@@ -1,5 +1,6 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
+import { Sep } from '../text-sep'
 
 type Result = { slug: string; title: string; section: string }
 
@@ -20,14 +21,20 @@ export const SearchPage: FC<Props> = ({ query, results }) => (
     </section>
 
     <form action="/search" class="search-form">
+      <label for="search-q" class="visually-hidden">
+        search posts and notes
+      </label>
+      <Sep text=": " />
       <input
         type="search"
+        id="search-q"
         name="q"
         value={query}
         placeholder="search posts and notes..."
         autofocus
         class="search-input"
       />
+      <Sep text=" " />
       <button type="submit" class="search-submit">
         search
       </button>
@@ -42,6 +49,7 @@ export const SearchPage: FC<Props> = ({ query, results }) => (
             {results.map((r) => (
               <li key={`${r.section}/${r.slug}`} class="result-item">
                 <span class="result-section">{r.section}</span>
+                <Sep text=": " />
                 <a href={(SECTION_HREF[r.section] ?? ((s) => `/${r.section}/${s}`))(r.slug)}>
                   {r.title}
                 </a>

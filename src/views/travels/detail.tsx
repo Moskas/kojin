@@ -1,6 +1,7 @@
 import type { FC } from 'hono/jsx'
 import { Layout } from '../layout'
 import type { TravelEntry } from '../../content/travels'
+import { joinNodes } from '../text-sep'
 
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000'
 
@@ -45,42 +46,27 @@ export const TravelDetail: FC<Props> = ({ entry }) => (
 
     {entry.photos.length > 0 && (
       <div class="travel-detail-strip">
-        {entry.photos.map((photo, i) => (
-          <button
-            key={photo.base}
-            class="roll-photo"
-            aria-label={`Photo ${i + 1}`}
-            data-medium={photo.medium}
-            data-alt={`${entry.city} ${entry.date} — ${i + 1}`}
-            data-exif=""
-          >
-            <img
-              src={photo.thumb}
-              alt={entry.city}
-              loading={i < 6 ? 'eager' : 'lazy'}
-              decoding="async"
-            />
-          </button>
-        ))}
+        {joinNodes(
+          entry.photos.map((photo, i) => (
+            <a
+              key={photo.base}
+              href={photo.medium}
+              class="roll-photo"
+              data-alt={`${entry.city} ${entry.date} — ${i + 1}`}
+              data-exif=""
+            >
+              <img
+                src={photo.thumb}
+                alt={`${entry.city} photo ${i + 1} of ${entry.photos.length}`}
+                loading={i < 6 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            </a>
+          )),
+          ' | '
+        )}
       </div>
     )}
-
-    <div class="lightbox" id="lightbox" aria-hidden="true">
-      <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
-      <div class="lightbox-content">
-        <button class="lightbox-close" id="lightbox-close" aria-label="close">
-          ✕
-        </button>
-        <button class="lightbox-prev" id="lightbox-prev" aria-label="previous photo">
-          ‹
-        </button>
-        <button class="lightbox-next" id="lightbox-next" aria-label="next photo">
-          ›
-        </button>
-        <img class="lightbox-img" id="lightbox-img" src="" alt="" />
-        <p class="lightbox-exif" id="lightbox-exif"></p>
-      </div>
-    </div>
 
     <script src="/static/js/lightbox.js"></script>
   </Layout>
