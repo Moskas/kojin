@@ -284,17 +284,18 @@ nav {
 
 .nav-group-label {
   color: var(--fg-dim);
-  cursor: default;
+  cursor: pointer;
   user-select: none;
   text-decoration: underline;
   text-underline-offset: 2px;
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
+  list-style: none;
 }
 
-.nav-group.is-open .nav-group-label {
+.nav-group-label::-webkit-details-marker {
+  display: none;
+}
+
+.nav-group[open] .nav-group-label {
   color: var(--fg);
 }
 
@@ -323,7 +324,7 @@ nav {
   height: 0.6rem;
 }
 
-.nav-group.is-open .nav-dropdown {
+.nav-group[open] .nav-dropdown {
   display: flex;
 }
 
@@ -554,7 +555,6 @@ h3 {
 /* ── blog post ──────────────────────────────────────────────── */
 
 .post-header {
-  margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border);
 }
@@ -575,9 +575,6 @@ h3 {
 
 .prose {
   line-height: 1.7;
-}
-
-.prose p {
 }
 
 .prose h1 {
@@ -2584,6 +2581,12 @@ h3 {
     gap: 0.25rem;
   }
 
+  /* show group contents even when the details element is closed */
+  .nav-group::details-content {
+    content-visibility: visible;
+    display: contents;
+  }
+
   .nav-group-label {
     font-size: 14px;
     text-decoration: none;
@@ -2591,7 +2594,7 @@ h3 {
   }
 
   .nav-dropdown,
-  .nav-group.is-open .nav-dropdown {
+  .nav-group[open] .nav-dropdown {
     display: flex;
     position: static;
     flex-direction: column;

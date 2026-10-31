@@ -88,10 +88,8 @@ export const Layout: FC<Props> = ({
               <summary class="nav-hamburger">menu</summary>
             </details>
             <div class="nav-links">
-              <div class="nav-group">
-                <button class="nav-group-label" aria-haspopup="true">
-                  content
-                </button>
+              <details class="nav-group">
+                <summary class="nav-group-label">content</summary>
                 <Sep text=": " />
                 <span class="nav-dropdown">
                   <span class="nav-feed-row">
@@ -114,11 +112,9 @@ export const Layout: FC<Props> = ({
                   <Sep text=" | " />
                   <a href="/travels">travels</a>
                 </span>
-              </div>
-              <div class="nav-group">
-                <button class="nav-group-label" aria-haspopup="true">
-                  me
-                </button>
+              </details>
+              <details class="nav-group">
+                <summary class="nav-group-label">me</summary>
                 <Sep text=": " />
                 <span class="nav-dropdown">
                   <a href="/about">about</a>
@@ -129,7 +125,7 @@ export const Layout: FC<Props> = ({
                   <Sep text=" | " />
                   <a href="/now">now</a>
                 </span>
-              </div>
+              </details>
             </div>
             <div class="nav-end">
               <form action="/search" class="nav-search" role="search">
