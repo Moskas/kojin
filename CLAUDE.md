@@ -25,7 +25,7 @@ The flake `shellHook` sets `LD_LIBRARY_PATH` to expose `libstdc++.so.6` and `lib
 
 ## Architecture
 
-The server is a Hono app (`src/server.ts`) that:
+The server is a Hono app (`src/server.tsx`) that:
 1. Calls `buildIndexes()` at startup — clears and rebuilds the SQLite FTS5 search index and backlink table from all content on disk.
 2. Mounts route modules under their URL prefixes.
 3. Serves `src/static/` directly via `serveStatic`.
@@ -93,4 +93,4 @@ All views use Hono JSX (`jsxImportSource: "hono/jsx"` in `tsconfig.json`). HTML 
 
 ## Deployment
 
-`bun run build` produces a self-contained binary. Copy `kojin` + `content/` + `src/static/` to the server. `deploy/kojin.service` and `deploy/nginx.conf` are templates — replace `yourdomain.com` and fill env vars before use.
+`bun run build` produces a binary that still loads sharp from `node_modules/` at runtime. Copy `kojin` + `content/` + `src/static/` + `node_modules/` to the server, keeping `src/static/` at that relative path. On NixOS, `LD_LIBRARY_PATH` must also expose `libstdc++.so.6`. `deploy/kojin.service` and `deploy/nginx.conf` are templates — replace `yourdomain.com` and fill env vars before use.

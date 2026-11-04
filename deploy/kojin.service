@@ -13,6 +13,8 @@ RestartSec=5
 Environment=PORT=3000
 Environment=SITE_URL=https://yourdomain.com
 Environment=SITE_AUTHOR=Your Name
+# NixOS only: expose libstdc++.so.6 for sharp
+#Environment=LD_LIBRARY_PATH=/path/to/gcc-lib/lib
 
 [Install]
 WantedBy=multi-user.target
