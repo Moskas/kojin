@@ -1,18 +1,19 @@
 ---
 title: now
-updated: 2026-07-07
+updated: 2026-11-02
 ---
 
 ## doing
 
-Working on Old Computer Challenge project.
+Still polishing my Rust skills and NixOS config rewrite.
 
 ## projects
 
 - Kojin - this site
 - Shinbun - terminal RSS reader
+- Unnamed manga reader
 
 ## reading
 
 - No bears, None
-- Koibumi to 13-sai no Actress
+- Way too many manga at one time
