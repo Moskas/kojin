@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  schedule:
+    # Weekly, so new advisories against unchanged dependencies are caught
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+
+      - name: Install dependencies
+        run: nix develop -c bun install --frozen-lockfile
+
+      - name: Audit dependencies
+        run: nix develop -c bun audit --audit-level=high
+
+      - name: Typecheck
+        run: nix develop -c bun run lint
+
+      # Fresh runner has no cached kojin-deps, so a stale outputHash after a
+      # bun.lock change fails here with a hash mismatch instead of being reused.
+      - name: Build Nix package
+        run: nix build .#default --print-build-logs

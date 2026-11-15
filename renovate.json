@@ -1,0 +1,34 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":dependencyDashboard"],
+  "timezone": "Europe/Warsaw",
+  "schedule": ["before 6am on monday"],
+  "nix": {
+    "enabled": true
+  },
+  "lockFileMaintenance": {
+    "enabled": false
+  },
+  "packageRules": [
+    {
+      "description": "Weekly flake.lock refresh (nixpkgs, flake-utils). Does not touch bun.lock.",
+      "matchManagers": ["nix"],
+      "lockFileMaintenance": {
+        "enabled": true
+      }
+    },
+    {
+      "description": "One PR for all non-major npm updates, so the kojin-deps outputHash only needs bumping once a week",
+      "matchManagers": ["bun"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "npm non-major"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions"
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "schedule": ["at any time"]
+  }
+}
