@@ -61,7 +61,7 @@
           outputHashMode = "recursive";
           outputHashAlgo = "sha256";
           # Updated after the first build attempt prints the real hash.
-          outputHash = "sha256-Pm2/ZGx0v7vyL6j7nfmmnfkMCjEL3E+1EaNzO2WJdHw=";
+          outputHash = "sha256-YsHcRlRF2zaoIj8gjDVXZe1riwuESRGA1zLvXzGoXLE=";
         };
 
         kojin = pkgs.stdenv.mkDerivation {
