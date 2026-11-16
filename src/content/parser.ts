@@ -33,15 +33,18 @@ export interface ParsedContent {
   headings: TocItem[]
 }
 
+// Recurse so inline code, emphasis and links inside headings keep their text
+function nodeText(node: any): string {
+  if (node.type === 'text') return node.value
+  return (node.children ?? []).map(nodeText).join('')
+}
+
 function collectHeadings() {
   return (tree: any, file: any) => {
     const headings: TocItem[] = []
     visit(tree, 'element', (node: any) => {
       if (/^h[1-4]$/.test(node.tagName) && node.properties?.id) {
-        const text = (node.children as any[])
-          .filter((c) => c.type === 'text')
-          .map((c) => c.value)
-          .join('')
+        const text = nodeText(node).trim()
         headings.push({ depth: parseInt(node.tagName[1]), id: node.properties.id, text })
       }
     })

@@ -19,17 +19,23 @@ function formatDate(iso: string): string {
   })
 }
 
-const TocLinks: FC<{ items: TocItem[] }> = ({ items }) => (
-  <ul>
-    {items.map((item) => (
-      <li key={item.id}>
-        <a href={`#${item.id}`} data-depth={item.depth}>
-          {item.text}
-        </a>
-      </li>
-    ))}
-  </ul>
-)
+const TocLinks: FC<{ items: TocItem[] }> = ({ items }) => {
+  // Indent relative to the shallowest heading so posts starting at h2 stay flush
+  const minDepth = Math.min(...items.map((item) => item.depth))
+  return (
+    <div class="toc-list">
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>
+            <a href={`#${item.id}`} data-level={item.depth - minDepth}>
+              {item.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
 
 export const BlogPost: FC<Props> = ({ post, prev, next }) => (
   <Layout

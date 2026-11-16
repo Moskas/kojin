@@ -1536,11 +1536,41 @@ h3 {
 
 /* ── table of contents ──────────────────────────────────────── */
 
-.toc-sidebar,
-.toc-sidebar ul {
+.toc-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.75rem;
+  border: 1px solid var(--border);
+  padding: 1rem;
+}
+
+.toc-sidebar h3 {
+  margin: 0;
+  padding-bottom: 1ch;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Indicator (first layer) and track (second layer) are background stripes on the list itself.
+   JS sets background-position/size for the active range. As paint-only properties of the
+   list they don't get a separate layer, which in Firefox made a standalone 1px element
+   vanish until about a second after each animation ended. */
+.toc-list {
+  position: relative;
+  background-image:
+    linear-gradient(var(--fg), var(--fg)), linear-gradient(var(--border), var(--border));
+  background-repeat: no-repeat;
+  background-position:
+    0 0,
+    0 0;
+  background-size:
+    1px 0,
+    1px 100%;
+}
+
+.toc-sidebar.toc-ready .toc-list {
+  transition:
+    background-position 0.25s ease,
+    background-size 0.25s ease;
 }
 
 .toc-sidebar ul {
@@ -1549,43 +1579,54 @@ h3 {
   padding: 0;
 }
 
-.toc-sidebar {
-  border: 1px solid var(--border);
-  padding: 1rem;
-}
-
-.toc-sidebar h3 {
-  padding-bottom: 1ch;
-  border-bottom: 1px solid var(--border);
+/* vertical padding instead of gap so the indicator spans items without holes */
+.toc-sidebar li {
+  padding: 0.2rem 0;
 }
 
 .toc-sidebar a {
   display: block;
+  padding-left: calc(1.5ch + var(--toc-indent, 0ch));
   color: var(--fg-dim);
   text-decoration: none;
-  line-height: 1.4;
+  line-height: 1.35;
   font-size: 14px;
+  overflow-wrap: anywhere;
+  transition: color 0.2s ease;
 }
 
-.toc-sidebar a:hover {
-  color: var(--fg);
-}
-
+.toc-sidebar a:hover,
 .toc-sidebar a.active {
   color: var(--fg);
-  text-decoration: underline;
 }
 
-.toc-sidebar a[data-depth='2'] {
-  padding-left: 1ch;
+.toc-sidebar a[data-level='1'] {
+  --toc-indent: 2ch;
 }
 
-.toc-sidebar a[data-depth='3'] {
-  padding-left: 2ch;
+.toc-sidebar a[data-level='2'] {
+  --toc-indent: 4ch;
 }
 
-.toc-sidebar a[data-depth='4'] {
-  padding-left: 3ch;
+.toc-sidebar a[data-level='3'] {
+  --toc-indent: 6ch;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.toc-sidebar) {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toc-sidebar.toc-ready .toc-list,
+  .toc-sidebar a {
+    transition: none;
+  }
+}
+
+.prose :is(h1, h2, h3, h4) {
+  scroll-margin-top: 1.5rem;
 }
 
 .toc-mobile {
@@ -1611,15 +1652,17 @@ h3 {
 
 /* ── wide post layout (blog post with ToC sidebar) ──────────── */
 
-@media (min-width: 960px) {
+/* below this width the space beside the 80ch column is too narrow for readable titles */
+@media (min-width: 1200px) {
   .toc-sidebar {
     position: fixed;
     top: 3.5rem;
     /* anchor to the right edge of the centered var(--col) column */
     left: calc(50vw + var(--col) / 2 + 2rem);
-    width: min(18ch, calc(50vw - var(--col) / 2 - 3rem));
+    width: min(36ch, calc(50vw - var(--col) / 2 - 3rem));
     max-height: calc(100vh - 4.5rem);
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .toc-mobile {
@@ -1627,7 +1670,7 @@ h3 {
   }
 }
 
-@media (max-width: 959px) {
+@media (max-width: 1199px) {
   .toc-sidebar {
     display: none;
   }
